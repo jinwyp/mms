@@ -12,11 +12,10 @@
   height: 47px;
   line-height: 47px;
   background-color: #01696c;
-  border-radius: 5px;
   
 }
 .btn image{
-  width: 80px;
-  height: 80px;
-  margin: -35px;
+  width: 70px;
+  height: 70px;
+  margin: -30px;
 }

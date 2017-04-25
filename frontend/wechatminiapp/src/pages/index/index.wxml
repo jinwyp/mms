@@ -5,7 +5,7 @@
   </view>
  
  <view class="interestChoose">
-   <navigator url="url">
+   <navigator url="../collection/collection">
       <button class="btn">
           <image src="../../images/cart.png"></image>
       </button>

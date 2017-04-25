@@ -1,5 +1,7 @@
 {
   "pages":[
+    
+    "pages/collection/collection",
     "pages/index/index" 
    
   ],

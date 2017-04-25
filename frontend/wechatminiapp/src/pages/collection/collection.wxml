@@ -1,0 +1,13 @@
+<!--pages/collection/collection.wxml-->
+<view class="container">
+    <view class="items">
+        <text class="interestList" wx:for="{{interest}}">{{item}}</text>
+    </view>
+    <view class="collection">
+        <view class="collectCon"></view>
+        <navigator url="../collection/collection">
+            <button class="btn">分享我的经验
+            </button>
+        </navigator>
+    </view>
+</view>
