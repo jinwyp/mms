@@ -3,7 +3,9 @@
   <view class="interest">
    ssss
   </view>
-  <view class="interestChoose">
-    
-  </view>
+ 
+  <navigator class="interestChoose" url="../account/account">
+      
+  </navigator>
+  
 </view>
