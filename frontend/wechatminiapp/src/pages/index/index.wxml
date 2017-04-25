@@ -4,8 +4,12 @@
    ssss
   </view>
  
-  <navigator class="interestChoose" url="../account/account">
-      
-  </navigator>
+ <view class="interestChoose">
+   <navigator url="url">
+      <button class="btn">
+          <image src="../../images/cart.png"></image>
+      </button>
+    </navigator>
+  </view>
   
 </view>
