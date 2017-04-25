@@ -4,10 +4,12 @@
         <text class="interestList" wx:for="{{interest}}">{{item}}</text>
     </view>
     <view class="collection">
-        <view class="collectCon"></view>
+        <view class="collectCon">
+            <image src="../../images/collect_del.png"></image>
+            <view><text>暂未收藏</text></view>
+        </view>
         <navigator url="../collection/collection">
-            <button class="btn">分享我的经验
-            </button>
+            <button class="btn">分享我的经验</button>
         </navigator>
     </view>
 </view>
