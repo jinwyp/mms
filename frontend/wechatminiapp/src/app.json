@@ -1,7 +1,9 @@
 {
-  "pages":[  
-    "pages/index/index" ,
-    "pages/collection/collection"
+  "pages":[ 
+    "pages/collection/collection",     
+    "pages/index/index" 
+     
+    
    
   ],
   "window":{

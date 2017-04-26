@@ -1,8 +1,8 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
-    <view class="items">
+    <scroll-view class="items" scroll-y="false" scroll-x="true" >
         <text class="interestList" wx:for="{{interest}}">{{item}}</text>
-    </view>
+    </scroll-view>
     <view class="collection">
         <view class="collectCon">
             <image src="../../images/collect_del.png"></image>

@@ -1,7 +1,7 @@
 // pages/collection/collection.js
 Page({
   data:{
-    interest:['中文','中文','中文']
+    interest:['造型','美甲','服装搭配','茶艺','造型','美甲','服装搭配']
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
