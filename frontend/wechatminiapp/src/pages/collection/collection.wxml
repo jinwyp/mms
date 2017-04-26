@@ -1,15 +1,39 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
-    <scroll-view class="items" scroll-y="false" scroll-x="true" >
-        <text class="interestList" wx:for="{{interest}}">{{item}}</text>
+    <scroll-view class="items" scroll-x="true" >
+        <text class="interestList" wx:for="{{interest}}" wx:key="{{interest}}">{{item}}</text>
     </scroll-view>
+
     <view class="collection">
-        <view class="collectCon">
-            <image src="../../images/collect_del.png"></image>
-            <view><text>暂未收藏</text></view>
-        </view>
+
+        <swiper class="collectCon" bindchange="imgchange" indicatorDots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}'duration='{{duration}}' circular='{{circular}}'>
+            <block wx:if="{{experience.length != 0}}" >
+                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' >   
+                    <view class="collectItemList" >
+                        <view>
+                            <image src="{{item.img}}" class="avatar"></image>
+                            <text class="avatarName">{{item.name}}</text>
+                            <button class="collectP"><image class="plus" src="../../images/plus.png"></image>添加收藏</button>
+                        </view>
+                        <view class="shareImg">
+                            <image src="{{item.img}}" class='shareImgList'></image>
+                        </view>
+                        <view class="shareTxt"><text>{{item.text}}</text></view>
+                    </view>
+                </swiper-item>
+            </block>  
+            <swiper-item wx:else>
+                <view class="collectItemList_n" >
+                    <image class="collectImg_n" src="../../images/collect_del.png"></image>
+                    <view><text class="collectTxt_n">暂未收藏</text></view>
+                </view>
+            </swiper-item>         
+        </swiper>
+       
+
+
         <navigator url="../collection/collection">
             <button class="btn">分享我的经验</button>
-        </navigator>
+        </navigator>  
     </view>
 </view>

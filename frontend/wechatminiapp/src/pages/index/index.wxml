@@ -1,7 +1,15 @@
 <!--index.wxml-->
 <view class="container">
   <view class="interest">
-   ssss
+   <view class="title"><text>兴趣</text></view>
+   <view class="item">
+    <view wx:for="{{interest}}">
+     
+      <text class="itemList item-{{index}} chooseItem" >{{item}} </text>
+      <!--<switch  class="itemSwitch item-{{index}} " bindchange=""/>-->
+
+    </view>          
+   </view>
   </view>
  
  <view class="interestChoose">

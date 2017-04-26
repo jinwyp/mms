@@ -3,15 +3,9 @@
 var app = getApp()
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {}
+   interest:['造型','美甲','服装搭配','茶艺','造型','美甲'],
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
+  
   onLoad: function () {
     console.log('onLoad')
     var that = this
