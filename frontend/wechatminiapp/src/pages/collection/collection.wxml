@@ -1,7 +1,8 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
     <scroll-view class="items" scroll-x="true" >
-        <text class="interestList" wx:for="{{interest}}" wx:key="{{interest}}">{{item}}</text>
+       <text class="interestList" wx:for="{{interest}}" wx:key="{{interest}}">{{item.name}} ({{item.number}})</text>
+
     </scroll-view>
 
     <view class="collection">

@@ -1,8 +1,9 @@
 {
   "pages":[ 
-     
-    "pages/index/index" ,
-    "pages/collection/collection"
+    "pages/personInfo/personInfo",
+    "pages/collection/collection",
+    "pages/index/index" 
+   
      
     
    

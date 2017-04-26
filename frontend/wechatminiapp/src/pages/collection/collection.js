@@ -1,7 +1,30 @@
 // pages/collection/collection.js
 Page({
   data:{
-    interest:['造型','美甲','服装搭配','茶艺','造型','美甲','服装搭配'],
+    interest:[{
+      name:"造型",
+      number:2
+    },
+    {
+      name:"美甲",
+      number:0
+    },
+    {
+      name:"服装搭配",
+      number:0
+    },
+    {
+      name:"茶艺",
+      number:0
+    },
+    {
+      name:"造型",
+      number:0
+    },
+        {
+      name:"美甲",
+      number:0
+    }],
     experience: [
       {
         category:'造型',
