@@ -30,13 +30,14 @@
     border-radius: 5px; 
     display: inline-block;
 }
+
 .collectItemList_n{
     text-align: center;
 }
 .collectItemList .avatar{
     width: 100rpx;
     height: 100rpx;
-    margin: 20rpx;
+    margin:30rpx 0 20rpx 40rpx;
     vertical-align: middle;
     border-radius: 50%;
 }
@@ -44,7 +45,7 @@
     width: 200rpx;
     height: 60rpx;
     line-height: 60rpx;
-    margin: 40rpx 30rpx 0 0;
+    margin: 50rpx 30rpx 0 0;
     vertical-align: middle;
     font-size: 26rpx;
     color: #01696c;
@@ -56,14 +57,22 @@
     vertical-align: text-top;
     margin-right: 5rpx;
 }
+.collectItemList .shareImg{
+    padding-left: 40rpx;
+}
 .collectItemList .shareImg .shareImgList{
-    width: 580rpx;
-    height: 454rpx;
-    margin: 20rpx 30rpx;
+    width: 160rpx;
+    height: 160rpx;
+    margin: 20rpx 0 0 20rpx;
     background-color: yellow;
+    display: inline-block;
+}
+.shareVideo{
+    width: 560rpx;
+    height: 420rpx;
 }
 .collectItemList .shareTxt{
-    margin:0 30rpx; 
+    margin:30rpx 60rpx; 
     color: #666666;
     text-align:justify;
     line-height: 40rpx;
