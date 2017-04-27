@@ -37,7 +37,7 @@
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
         </view>-->
 
-        <navigator url="url">
+        <navigator url="../timeSetting/timeSetting">
             <view class="borderB borderT H100 marginB100">
                 <view class="form-title lineH48">工作时间：</view>
                 <image src="../../images/trigger-r.png" class="trigger-r"></image>

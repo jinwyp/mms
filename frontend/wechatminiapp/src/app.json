@@ -1,8 +1,9 @@
 {
   "pages":[ 
-     "pages/timeSetting/timeSetting",
+     "pages/index/index" ,
      "pages/personInfo/personInfo",
-    "pages/index/index" ,
+     "pages/timeSetting/timeSetting",
+    
     "pages/collection/collection"
    
       

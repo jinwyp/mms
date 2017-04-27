@@ -29,9 +29,9 @@
         <view class="week rest">星期日<view>休息</view></view>
 
     </view>
-    <!--<navigator url="url">-->
+    <navigator url="../personInfo/personInfo">
       <view class="btn-area">
             <button formType="submit" class="btn">确定</button>
         </view>
-    <!--</navigator>-->
+    </navigator>
 </view>
