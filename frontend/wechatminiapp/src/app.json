@@ -1,10 +1,12 @@
 {
   "pages":[ 
+    
+    "pages/collection/collection",
      "pages/index/index" ,
      "pages/personInfo/personInfo",
-     "pages/timeSetting/timeSetting",
+     "pages/timeSetting/timeSetting"
     
-    "pages/collection/collection"
+    
    
       
   ],
