@@ -1,0 +1,37 @@
+<!--pages/timeSetting/timeSetting.wxml-->
+<view class="container">
+    <view class="timer">
+        <view class="time">
+             <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
+                <view class="picker">
+                 {{time}}
+                </view>
+                <view class="timeTit">上班时间</view>
+            </picker>
+        </view>
+       
+        <view class="time">
+             <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
+                <view class="picker">
+                 {{time}}
+                </view>
+                <view class="timeTit">下班时间</view>
+            </picker>
+        </view>
+    </view>
+    <view class="chooseDay">
+        <view class="week duty">星期一 <view>上班</view></view>
+        <view class="week duty">星期二<view>上班</view></view>
+        <view class="week duty">星期三<view>上班</view></view>
+        <view class="week duty">星期四<view>上班</view></view>
+        <view class="week duty">星期五<view>上班</view></view>
+        <view class="week duty">星期六<view>上班</view></view>
+        <view class="week rest">星期日<view>休息</view></view>
+
+    </view>
+    <!--<navigator url="url">-->
+      <view class="btn-area">
+            <button formType="submit" class="btn">确定</button>
+        </view>
+    <!--</navigator>-->
+</view>

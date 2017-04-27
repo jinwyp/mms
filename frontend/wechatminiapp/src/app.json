@@ -1,12 +1,11 @@
 {
   "pages":[ 
-    "pages/personInfo/personInfo",
-    "pages/collection/collection",
-    "pages/index/index" 
+     "pages/timeSetting/timeSetting",
+     "pages/personInfo/personInfo",
+    "pages/index/index" ,
+    "pages/collection/collection"
    
-     
-    
-   
+      
   ],
   "window":{
     "backgroundTextStyle":"light",
