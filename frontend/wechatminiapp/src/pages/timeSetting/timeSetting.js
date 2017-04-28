@@ -3,9 +3,26 @@ Page({
   data:{
     date: '2016-09-01',
     time: '09:00',
-    timeDown: '18:00'
+    time2: '18:00',
+    timeDown: '18:00',
+    checked:'false'
   },
-
+  //星期选择
+  checkboxChange: function(e) {
+    // var data = {};
+    // var index = e.target.dataset.index;
+    console.log(e.target.dataset.checks)
+    if(e.target.dataset.checks === 'false'){
+      this.setData({
+        checked: 'true'
+      })
+    }else{
+      this.setData({
+        checked: 'false'
+      })
+    }
+  },
+  //时间选择
   bindTimeChange: function(e) {
     this.setData({
       time: e.detail.value
@@ -13,7 +30,20 @@ Page({
   },
   bindTimeChange2: function(e) {
     this.setData({
-      time: e.detail.value
+      time2: e.detail.value
+    })
+  },
+  //表单提交
+  formSubmit: function(e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value);
+    this.setData({
+      allValue:e.detail.value
+    })
+  },
+  formReset: function() {
+    console.log('form发生了reset事件');
+    this.setData({
+      allValue:''
     })
   },
   onLoad:function(options){

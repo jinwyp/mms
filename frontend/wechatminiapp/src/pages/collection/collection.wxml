@@ -1,9 +1,17 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
-    <scroll-view class="items" scroll-x="true" >
+    <scroll-view class="items" scroll-x="true">
        <text class="interestList" wx:for="{{interest}}" wx:key="{{interest}}">{{item.name}} ({{item.number}})</text>
 
     </scroll-view>
+    
+    <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
+    <view id="green" class="scroll-view-item_H bc_green"></view>
+    <view id="red"  class="scroll-view-item_H bc_red"></view>
+    <view id="yellow" class="scroll-view-item_H bc_yellow"></view>
+    <view id="blue" class="scroll-view-item_H bc_blue"></view>
+  </scroll-view>
+
 
     <view class="collection">
 

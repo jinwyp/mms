@@ -1,8 +1,9 @@
 <!--pages/timeSetting/timeSetting.wxml-->
 <view class="container">
+<form bindsubmit="formSubmit" bindreset="formReset">
     <view class="timer">
         <view class="time">
-             <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
+             <picker mode="time" value="{{time}}" name="timePicker1" start="09:00" end="23:00" bindchange="bindTimeChange">
                 <view class="picker">
                  {{time}}
                 </view>
@@ -11,15 +12,15 @@
         </view>
        
         <view class="time">
-             <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
+             <picker mode="time" value="{{time2}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
                 <view class="picker">
-                 {{time}}
+                 {{time2}}
                 </view>
                 <view class="timeTit">下班时间</view>
             </picker>
         </view>
     </view>
-    <view class="chooseDay">
+    <!--<view class="chooseDay">
         <view class="week duty">星期一 <view>上班</view></view>
         <view class="week duty">星期二<view>上班</view></view>
         <view class="week duty">星期三<view>上班</view></view>
@@ -27,11 +28,23 @@
         <view class="week duty">星期五<view>上班</view></view>
         <view class="week duty">星期六<view>上班</view></view>
         <view class="week rest">星期日<view>休息</view></view>
-
+    </view>-->
+    <view class="chooseDay">
+        <checkbox-group name="checkbox" >
+          
+            <label  class="week {{checked === 'true'?'duty':'reset'}}" bindtap="checkboxChange" data-checks='{{checked}}'><checkbox value="Mon" />星期一<view>{{checked === 'true'?'上班':'休息'}}</view></label>  
+            <label class="week"><checkbox value="Thur"/>星期二</label>
+            <label class="week"><checkbox value="Thur"/>星期三</label>
+            <label class="week"><checkbox value="Thur"/>星期四</label>
+            <label class="week"><checkbox value="Fri"/>星期五</label>
+            <label class="week"><checkbox value="Sat"/>星期六</label>
+            <label class="week"><checkbox value="Sun"/>星期日</label>
+        </checkbox-group>
     </view>
     <navigator url="../personInfo/personInfo">
       <view class="btn-area">
             <button formType="submit" class="btn">确定</button>
         </view>
     </navigator>
+</form>
 </view>
