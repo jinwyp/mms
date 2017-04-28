@@ -24,11 +24,11 @@
     <view class="chooseDay">
         <checkbox-group name="week" >
           <!--<block wx:for='{{checked}}'>-->
-            <label bindtap="checkboxChange1" data-mon='{{mon}}'  class="week {{mon === 'true'?'duty':'reset'}}"  ><checkbox value="Mon" />星期一<view  data-mon='{{mon}}'>{{mon === 'true'?'上班':'休息'}}</view></label>  
+            <label bindtap="checkboxChange1" data-mon='{{mon}}'  class="week {{mon === 'true'?'duty':'rest'}}"  ><checkbox value="Mon" />星期一<view  data-mon='{{mon}}'>{{mon === 'true'?'上班':'休息'}}</view></label>  
 
-            <label bindtap="checkboxChange2" data-tues='{{tues}}'  class="week {{tues === 'true'?'duty':'reset'}}"  ><checkbox value="Tues" />星期二<view  data-tues='{{tues}}'>{{tues === 'true'?'上班':'休息'}}</view></label>
+            <label bindtap="checkboxChange2" data-tues='{{tues}}'  class="week {{tues === 'true'?'duty':'rest'}}"  ><checkbox value="Tues" />星期二<view  data-tues='{{tues}}'>{{tues === 'true'?'上班':'休息'}}</view></label>
 
-            <label bindtap="checkboxChange3" data-wed='{{wed}}'  class="week {{wed === 'true'?'duty':'reset'}}"  ><checkbox value="Wed" />星期二<view  data-wed='{{wed}}'>{{wed === 'true'?'上班':'休息'}}</view></label>
+            <label bindtap="checkboxChange3" data-wed='{{wed}}'  class="week {{wed === 'true'?'duty':'rest'}}"  ><checkbox value="Wed" />星期二<view  data-wed='{{wed}}'>{{wed === 'true'?'上班':'休息'}}</view></label>
             
             <!--<label class="week"><checkbox value="Tues"/>星期二</label>
             <label class="week"><checkbox value="Wed"/>星期三</label>

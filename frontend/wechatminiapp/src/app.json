@@ -1,13 +1,22 @@
 {
   "pages":[
+<<<<<<< HEAD
     "pages/friendsExp/friendsList/friendsList",
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",
+=======
+>>>>>>> 454690ba9795a4e21a54a0f6175c9be259e6d6b6
     "pages/index/index" ,
+    "pages/timeSetting/timeSetting",
+    "pages/share/share" ,
     "pages/collection/collection",
+    "pages/personInfo/personInfo", 
     "pages/demo/demo",
-    "pages/index/index"
+
+
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    "pages/friendsExp/friendsList/friendsList"
   ],
   "window":{
     "backgroundTextStyle":"light",
