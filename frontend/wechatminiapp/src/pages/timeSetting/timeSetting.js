@@ -5,20 +5,46 @@ Page({
     time: '09:00',
     time2: '18:00',
     timeDown: '18:00',
-    checked:'false'
+    mon:'',
+    tues:'',
+    wed:'',
+    Thur:'',
+    Fri:'',
+    Sat:'',
+    Sun:''
+    
   },
   //星期选择
-  checkboxChange: function(e) {
-    // var data = {};
-    // var index = e.target.dataset.index;
-    console.log(e.target.dataset.checks)
-    if(e.target.dataset.checks === 'false'){
+  checkboxChange1: function(e) { 
+    if(e.target.dataset.mon === ''){
       this.setData({
-        checked: 'true'
+        mon: 'true'
       })
     }else{
       this.setData({
-        checked: 'false'
+        mon: ''
+      })
+    }
+  },
+  checkboxChange2: function(e) {    
+    if(e.target.dataset.tues === ''){
+      this.setData({
+        tues: 'true'
+      })
+    }else{
+      this.setData({
+        tues: ''
+      })
+    }
+  },
+  checkboxChange3: function(e) {    
+    if(e.target.dataset.wed === ''){
+      this.setData({
+        wed: 'true'
+      })
+    }else{
+      this.setData({
+        wed: ''
       })
     }
   },

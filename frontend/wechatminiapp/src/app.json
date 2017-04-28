@@ -1,13 +1,27 @@
 {
   "pages":[ 
 
+<<<<<<< HEAD
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     "pages/friendsExp/friendsList/friendsList",
     "pages/personInfo/personInfo",
+=======
+ 
+>>>>>>> 485c2d373c3c46c56011cebce2216095300d2c20
     "pages/timeSetting/timeSetting",
+    "pages/index/index" ,
+    "pages/personInfo/personInfo", 
     "pages/collection/collection",
     "pages/demo/demo",
+<<<<<<< HEAD
     "pages/index/index"
+=======
+
+   
+    "pages/friendsExp/friendsList/friendsList",
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail"
+
+>>>>>>> 485c2d373c3c46c56011cebce2216095300d2c20
            
   ],
   "window":{
