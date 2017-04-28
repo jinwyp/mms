@@ -1,5 +1,5 @@
 <swiper>
-    <block wx:for="{{expLists}}">
+    <block wx:for="{{expLists}}" wx:key="expLists">
         <swiper-item>
             <view class="swiperContain" catchtap="jumpToDetail">
                 <view class="manInfo">
@@ -11,7 +11,7 @@
                     <!--判断视频还是图片-->
                     <block wx:if="{{!item.ifvideo}}"> 
                         <view class="picLists">
-                            <block wx:for="{{item.imgs}}" wx:for-index="idx">
+                            <block wx:for="{{item.imgs}}" wx:key="imgs" wx:for-index="idx">
                                 <image src="{{item}}" data-id="{{idx}}" bindtap="show"></image>
                             </block>
                         </view>
@@ -25,7 +25,7 @@
                     <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
                         <view class="slideWrap">
                             <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
-                                <swiper-item wx:for="{{item.imgs}}">
+                                <swiper-item wx:for="{{item.imgs}}" wx:key="imgs">
                                     <image src="{{item}}" mode="widthFix" class="slide-image"/>
                                 </swiper-item>
                             </swiper>

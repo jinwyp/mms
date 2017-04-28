@@ -1,7 +1,7 @@
 {
   "pages":[
 
-    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    
     "pages/friendsExp/friendsList/friendsList",
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",

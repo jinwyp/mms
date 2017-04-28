@@ -1,6 +1,7 @@
 Page({
   data: {
     slideshow: false,
+    isClick:false,
     currentId:0,
     collectText:"+ 收藏",
     personName:"刘婕",
@@ -134,5 +135,11 @@ Page({
     this.setData({
         inputVal:input
     })
+  },
+  tapSwitch : function(){
+    console.log(this.data.isClick)
+    this.setData({
+        isClick: !this.data.isClick
+    });
   }
 })
