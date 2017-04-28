@@ -12,13 +12,13 @@
         <block wx:if="{{!expLists.ifvideo}}"> 
             <view class="picLists">
                 <block wx:for="{{expLists.imgs}}" wx:for-index="idx">
-                    <image src="{{expLists.imgs}}" data-id="{{idx}}" data-order="1" bindtap="show"></image>
+                    <image src="{{item}}" data-id="{{idx}}" data-order="1" bindtap="show"></image>
                 </block>
             </view>
         </block>
         <block wx:if="{{expLists.ifvideo}}">
             <view class="picLists" >
-                <video src="{{expLists.videoUrl}}" controls ></video>
+                <video src="{{item}}" controls ></video>
             </view>
         </block>
         <view class="leaveMessage">
@@ -96,9 +96,17 @@
 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
     <view class="slideWrap">
         <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
-            <swiper-item wx:for="{{order=='1' ? expLists.imgs : shopPics}}">
-                <image src="{{order=='1' ? expLists.imgs : shopPics}}" mode="widthFix" class="slide-image"/>
-            </swiper-item>
+                <!--<image src="{{order=='1' ? expLists.imgs : shopPics}}" mode="widthFix" class="slide-image"/>-->
+                <block wx:if="{{order=='1'}}" wx:for="{{expLists.imgs}}">
+                    <swiper-item>
+                        <image src="{{item}}" mode="widthFix" class="slide-image"/>
+                    </swiper-item>
+                </block>
+                <block wx:if="{{order=='2'}}" wx:for="{{shopPics}}">
+                    <swiper-item>
+                        <image src="{{item}}" mode="widthFix" class="slide-image"/>
+                    </swiper-item>
+                </block>
         </swiper>
     </view>
 </view>

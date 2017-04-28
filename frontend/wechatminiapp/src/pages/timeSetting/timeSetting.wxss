@@ -50,7 +50,7 @@
     
 }
 .week checkbox{
-   display: none;
+   /*display: none;*/
 }
 .duty{
     background-color: #fcf8d2;
@@ -59,6 +59,9 @@
 .rest{
     background-color: #dedede;
     color: #666666;
+}
+.status{
+    position: relative;
 }
 
 navigator,.btn-area{  

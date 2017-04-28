@@ -66,9 +66,7 @@ form{
     margin-top: 28rpx;
 }
 .btn-area{
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    
     width: 100%;    
 }
 .btn-area button{  
@@ -81,5 +79,5 @@ form{
 
 }
 .marginB100{
-    margin-bottom: 100px;
+    margin-bottom: 30rpx;
 }
