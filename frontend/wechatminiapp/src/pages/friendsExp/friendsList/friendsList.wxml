@@ -1,7 +1,7 @@
 <swiper>
     <block wx:for="{{expLists}}">
         <swiper-item>
-            <view class="swiperContain">
+            <view class="swiperContain" catchtap="jumpToDetail">
                 <view class="manInfo">
                     <image class="personPic" src="../../../images/meinv.jpg"></image>
                     <view class="personName">刘杰</view>
@@ -33,7 +33,7 @@
                     </view>
                     <!--判断是否是手艺人-->
                     <view class="leaveMessage" wx:if="{{!item.myself}}">
-                        {{item.message}}
+                         <navigator url="../../friendsExp/friendsExpDetail/friendsExpDetail">{{item.message}}</navigator>
                     </view>
                 </view>
                 <view class="storeInfo" wx:if="{{item.myself}}">
