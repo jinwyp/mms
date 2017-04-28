@@ -1,0 +1,21 @@
+/* pages/demo/demo.wxss */
+.bc_green{
+  background-color: green;
+  height: 100rpx;
+  width: 300rpx;
+}
+.bc_red{
+  background-color: red;
+  height: 100rpx;
+  width: 300rpx;
+}
+.bc_yellow{
+  background-color: yellow;
+  height: 100rpx;
+  width: 300rpx;
+}
+.bc_blue{
+  background-color: blue;
+  height: 100rpx;
+  width: 300rpx;
+}

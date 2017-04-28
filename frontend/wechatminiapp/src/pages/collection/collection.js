@@ -1,7 +1,52 @@
 // pages/collection/collection.js
 Page({
   data:{
-    interest:['造型','美甲','服装搭配','茶艺','造型','美甲','服装搭配']
+    interest:[{
+      name:"造型",
+      number:2
+    },
+    {
+      name:"美甲",
+      number:0
+    },
+    {
+      name:"服装搭配",
+      number:0
+    },
+    {
+      name:"茶艺",
+      number:0
+    },
+    {
+      name:"造型",
+      number:0
+    },
+        {
+      name:"美甲",
+      number:0
+    }],
+    experience: [
+      {
+        category:'造型',
+        name:'刘杰',
+        headImg:'../../images/star.png',
+        img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
+        text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      },
+      {
+        category:'造型',
+        name:'刘杰2',
+        headImg:'../../images/star.png',
+        video:'../../images/star.png',
+        text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      }
+      
+    ],
+    autoplay:false,//是否自动播放
+    indicatorDots: false,//指示点
+    interval: 2000,//图片切换间隔时间
+    duration: 500,//每个图片滑动速度,
+    circular:true,//是否采用衔接滑动
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数

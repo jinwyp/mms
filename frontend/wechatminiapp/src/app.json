@@ -1,10 +1,14 @@
 {
   "pages":[ 
-    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
-    "pages/friendsExp/friendsList/friendsList",
-    "pages/index/index" ,
-    "pages/collection/collection"
-   
+
+"pages/friendsExp/friendsExpDetail/friendsExpDetail",
+"pages/friendsExp/friendsList/friendsList",
+"pages/personInfo/personInfo",
+"pages/timeSetting/timeSetting",
+"pages/collection/collection",
+"pages/demo/demo",
+"pages/index/index" 
+           
   ],
   "window":{
     "backgroundTextStyle":"light",

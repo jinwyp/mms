@@ -1,15 +1,53 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
-    <scroll-view class="items" scroll-y="false" scroll-x="true" >
-        <text class="interestList" wx:for="{{interest}}">{{item}}</text>
+    <scroll-view class="items" scroll-x="true">
+       <text class="interestList" wx:for="{{interest}}" wx:key="{{interest}}">{{item.name}} ({{item.number}})</text>
+
     </scroll-view>
+    
+    <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
+    <view id="green" class="scroll-view-item_H bc_green"></view>
+    <view id="red"  class="scroll-view-item_H bc_red"></view>
+    <view id="yellow" class="scroll-view-item_H bc_yellow"></view>
+    <view id="blue" class="scroll-view-item_H bc_blue"></view>
+  </scroll-view>
+
+
     <view class="collection">
-        <view class="collectCon">
-            <image src="../../images/collect_del.png"></image>
-            <view><text>暂未收藏</text></view>
-        </view>
+
+        <swiper class="collectCon" bindchange="imgchange" indicatorDots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}'duration='{{duration}}' circular='{{circular}}'>
+            <block wx:if="{{experience.length != 0}}" >
+                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' >   
+                    <view class="collectItemList" >
+                        <view>
+                            <image src="{{item.headImg}}" class="avatar"></image>
+                            <text class="avatarName">{{item.name}}</text>
+                            <button class="collectP"><image class="plus" src="../../images/plus.png"></image>添加收藏</button>
+                        </view>
+                        <view class="shareImg">
+                            <block wx:if="{{item.img}}">
+                                <image wx:for="{{item.img}}" src="{{item}}"  class='shareImgList'></image>
+                            </block>
+                              <video wx:else class="shareVideo" id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"  ></video>
+
+                            <!--<video wx:else class="shareVideo"  src="{{item.video}}"></video>-->
+                        </view>
+                        <view class="shareTxt"><text>{{item.text}}</text></view>
+                    </view>
+                </swiper-item>
+            </block>  
+            <swiper-item wx:else>
+                <view class="collectItemList_n" >
+                    <image class="collectImg_n" src="../../images/collect_del.png"></image>
+                    <view><text class="collectTxt_n">暂未收藏</text></view>
+                </view>
+            </swiper-item>         
+        </swiper>
+       
+
+
         <navigator url="../collection/collection">
             <button class="btn">分享我的经验</button>
-        </navigator>
+        </navigator>  
     </view>
 </view>

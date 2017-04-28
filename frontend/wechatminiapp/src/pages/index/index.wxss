@@ -1,21 +1,84 @@
 /**index.wxss**/
 .interest{
   width: 100%;
-  height: 400px;
+  height: 742rpx;
   background-color: #ffffff;
+  border-bottom: 1px solid #dedede;
+}
+.title{
+  text-align: center;
+  font-size: 36rpx;
+  color: #666666;
+  line-height: 200rpx
+}
+.item{
+  position: relative;
+}
+.itemList{
+  
+  position: absolute;
+  color: #ffffff;
+  border-radius: 10rpx;
+}
+/*.itemSwitch{
+  position: absolute;
+}*/
+.chooseItem{
+  background-image: url(../../images/gou.png);
+  background-repeat: no-repeat;
+  background-size: 40rpx 40rpx;
+  background-position: 25rpx center;
+}
+.item-0{
+  padding: 18rpx 80rpx;
+  background-color: #a3b6fa;
+  top:0;
+  left: 30%;
+}
+.item-1{
+  padding: 20rpx 90rpx;
+  background-color: #8dccf7;
+  top:110rpx;
+  left: 8%;
+}
+.item-2{
+  padding: 30rpx 100rpx;
+  background-color: #f59181;
+  top:150rpx;
+  left: 34%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
+}
+.item-3{
+  padding: 20rpx 70rpx;
+  background-color: #8dcd6f;
+  top:90rpx;
+  left: 65%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
+}
+.item-4{
+  padding: 18rpx 80rpx;
+  background-color: #f2c085;
+  top:320rpx;
+  left: 20%;
+}
+.item-5{
+  padding: 16rpx 80rpx;
+  background-color: #70bfa2;
+  top:280rpx;
+  left: 55%;
 }
 .interestChoose{ 
-  padding: 30px 0;
+  padding: 120rpx 0;
 }
 .btn{
-  width: 210px;
-  height: 47px;
-  line-height: 47px;
+  width: 420rpx;
+  height: 100rpx;
+  line-height: 100rpx;
   background-color: #01696c;
   
 }
 .btn image{
-  width: 70px;
-  height: 70px;
-  margin: -30px;
+  width: 140rpx;
+  height: 140rpx;
+  margin: -60rpx;
 }

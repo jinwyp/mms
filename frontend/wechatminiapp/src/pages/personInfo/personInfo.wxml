@@ -1,0 +1,55 @@
+<!--pages/personInfo/personInfo.wxml-->
+<view class="container">
+    <form bindsubmit="formSubmit" bindreset="formReset">
+        <view class="borderB H150 marginB">
+            <view class="form-title lineH120">头像</view>
+            <image src="{{tempFilePaths}}" bindtap="chooseimage" mode="aspecFill" class="personImg"></image>
+        </view>
+        <view class="borderB borderT H100">
+            <view class="form-title">姓名：</view>
+            <input name="name"/>
+        </view>
+        <view class="borderB H100">
+            <view class="form-title">联系电话：</view>
+            <input name="tel"/>
+        </view>
+        <view class="borderB H100">
+            <view class="form-title">商号名称：</view>
+            <input name="shopName"/>
+        </view>
+        <view class="borderB H100" bindtap="getLocation">
+            <view class="form-title lineH48">工作地址：</view>
+            <!--<input name="address"/>-->
+            <image src="../../images/trigger-r.png" class="trigger-r"></image>
+            <text class="picker">未选择</text>
+        </view>
+        <view class="borderB H100">
+            <view class="form-title">个人微信号：</view>
+            <input name="wx"/>
+        </view>
+        <view class="borderB H150 marginB">
+            <view class="form-title lineH120">个人微信二维码：</view>
+            <image src="{{userInfoAvatar}}" bindtap="chooseWXcode" mode="aspecFill" class="WXcode"></image>
+        </view>
+        <!--<view class="borderB H48">
+            <view class="form-title lineH48">擅长工艺</view>
+            <picker class="picker lineH48" value="{{picker1Value}}" range="{{picker1Range}}" bindchange="normalPickerBindchange">
+                 {{picker1Range[picker1Value]}}
+            </picker>
+            <image src="../../images/trigger-r.png" class="trigger-r"></image>
+        </view>-->
+
+        <navigator url="../timeSetting/timeSetting">
+            <view class="borderB borderT H100 marginB100">
+                <view class="form-title lineH48">工作时间：</view>
+                <image src="../../images/trigger-r.png" class="trigger-r"></image>
+                <text class="picker">未选择</text>
+            </view>
+        </navigator>
+        
+
+         <view class="btn-area">
+            <button formType="submit">保存</button>
+        </view>
+    </form>
+</view>
