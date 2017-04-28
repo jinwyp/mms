@@ -20,25 +20,21 @@
             </picker>
         </view>
     </view>
-    <!--<view class="chooseDay">
-        <view class="week duty">星期一 <view>上班</view></view>
-        <view class="week duty">星期二<view>上班</view></view>
-        <view class="week duty">星期三<view>上班</view></view>
-        <view class="week duty">星期四<view>上班</view></view>
-        <view class="week duty">星期五<view>上班</view></view>
-        <view class="week duty">星期六<view>上班</view></view>
-        <view class="week rest">星期日<view>休息</view></view>
-    </view>-->
+    
     <view class="chooseDay">
-        <checkbox-group name="checkbox" >
-          
-            <label  class="week {{checked === 'true'?'duty':'reset'}}" bindtap="checkboxChange" data-checks='{{checked}}'><checkbox value="Mon" />星期一<view>{{checked === 'true'?'上班':'休息'}}</view></label>  
-            <label class="week"><checkbox value="Thur"/>星期二</label>
-            <label class="week"><checkbox value="Thur"/>星期三</label>
+        <checkbox-group name="week" >
+          <!--<block wx:for='{{checked}}'>-->
+            <label bindtap="checkboxChange1" data-mon='{{mon}}'  class="week {{mon === 'true'?'duty':'reset'}}"  ><checkbox value="Mon" />星期一<view  data-mon='{{mon}}'>{{mon === 'true'?'上班':'休息'}}</view></label>  
+
+            <label bindtap="checkboxChange2" data-tues='{{tues}}'  class="week {{tues === 'true'?'duty':'reset'}}"  ><checkbox value="Tues" />星期二<view  data-tues='{{tues}}'>{{tues === 'true'?'上班':'休息'}}</view></label>
+            
+            <!--<label class="week"><checkbox value="Tues"/>星期二</label>
+            <label class="week"><checkbox value="Wed"/>星期三</label>
             <label class="week"><checkbox value="Thur"/>星期四</label>
             <label class="week"><checkbox value="Fri"/>星期五</label>
             <label class="week"><checkbox value="Sat"/>星期六</label>
-            <label class="week"><checkbox value="Sun"/>星期日</label>
+            <label class="week"><checkbox value="Sun"/>星期日</label>-->
+           <!--</block>-->
         </checkbox-group>
     </view>
     <navigator url="../personInfo/personInfo">
