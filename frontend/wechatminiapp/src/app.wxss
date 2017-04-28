@@ -16,3 +16,6 @@ scroll-view{
   white-space: nowrap; 
   display: flex;
 }
+form{
+  width: 100%;
+}

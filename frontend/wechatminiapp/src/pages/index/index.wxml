@@ -13,9 +13,17 @@
   </view>
  
  <view class="interestChoose">
+ <!--有数据情况-->
    <navigator url="../collection/collection">
       <button class="btn">
           <image src="../../images/cart.png"></image>
+      </button>
+    </navigator>
+
+<!--无数据情况-->
+  <navigator url="../friendsExp/friendsList/friendsList">
+      <button class="btn">
+          有数据情况
       </button>
     </navigator>
   </view>

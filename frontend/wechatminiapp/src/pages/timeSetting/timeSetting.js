@@ -7,7 +7,7 @@ Page({
     timeDown: '18:00',
     mon:'',
     tues:'',
-    Wed:'',
+    wed:'',
     Thur:'',
     Fri:'',
     Sat:'',
@@ -15,9 +15,7 @@ Page({
     
   },
   //星期选择
-  checkboxChange1: function(e) {
-    
-    console.log(e.target.dataset.Mon)
+  checkboxChange1: function(e) { 
     if(e.target.dataset.mon === ''){
       this.setData({
         mon: 'true'
@@ -28,9 +26,7 @@ Page({
       })
     }
   },
-  checkboxChange2: function(e) {
-    
-    console.log(e.target.dataset.tues)
+  checkboxChange2: function(e) {    
     if(e.target.dataset.tues === ''){
       this.setData({
         tues: 'true'
@@ -38,6 +34,17 @@ Page({
     }else{
       this.setData({
         tues: ''
+      })
+    }
+  },
+  checkboxChange3: function(e) {    
+    if(e.target.dataset.wed === ''){
+      this.setData({
+        wed: 'true'
+      })
+    }else{
+      this.setData({
+        wed: ''
       })
     }
   },

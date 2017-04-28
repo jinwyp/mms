@@ -1,0 +1,55 @@
+<swiper>
+    <block wx:for="{{expLists}}">
+        <swiper-item>
+            <view class="swiperContain">
+                <view class="manInfo">
+                    <image class="personPic" src="../../../images/meinv.jpg"></image>
+                    <view class="personName">刘杰</view>
+                    <view class="personType">造型</view>
+                </view>
+                <view class="mesWrap">
+                    <!--判断视频还是图片-->
+                    <block wx:if="{{!item.ifvideo}}"> 
+                        <view class="picLists">
+                            <block wx:for="{{item.imgs}}" wx:for-index="idx">
+                                <image src="{{item}}" data-id="{{idx}}" bindtap="show"></image>
+                            </block>
+                        </view>
+                    </block>
+                    <block wx:if="{{item.ifvideo}}">
+                        <view class="picLists" >
+                            <video src="{{item.videoUrl}}" controls ></video>
+                        </view>
+                    </block>
+                    <!-- 轮播图 -->
+                    <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
+                        <view class="slideWrap">
+                            <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
+                                <swiper-item wx:for="{{item.imgs}}">
+                                    <image src="{{item}}" mode="widthFix" class="slide-image"/>
+                                </swiper-item>
+                            </swiper>
+                        </view>
+                    </view>
+                    <!--判断是否是手艺人-->
+                    <view class="leaveMessage" wx:if="{{!item.myself}}">
+                        {{item.message}}
+                    </view>
+                </view>
+                <view class="storeInfo" wx:if="{{item.myself}}">
+                    <view class="storePic">
+                        <image src="../../../images/meinv.jpg"></image>
+                    </view>
+                    <view class="storeMan">
+                        <view class="storeManName">王健林</view>
+                        <view class="storeName">阿玛尼徐汇店</view>
+                    </view>
+                    <button class="addDetail">补充详情</button>
+                </view>
+            </view>
+        </swiper-item>
+    </block>
+</swiper>
+<view class="collection">
+    <view class="collectionBtn">收藏</view>
+</view>
