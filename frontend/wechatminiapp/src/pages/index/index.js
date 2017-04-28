@@ -28,22 +28,22 @@ Page({
       success: function(res) {
         // success
       }
-    }),
-    wx.request({
-      url: 'https://wd.gongshijia.com', //仅为示例，并非真实的接口地址
-      data:{},
-      header: {
-          'content-type': 'application/json'
-      },
-      success: function(res) {
-        console.log(res.data.data);
-        that.setData({
-          array: res.data.data,
-          
-        })
-        
-        
-      }
     })
+    // wx.request({
+    //   url: 'https://wd.gongshijia.com', //仅为示例，并非真实的接口地址
+    //   data:{},
+    //   header: {
+    //       'content-type': 'application/json'
+    //   },
+    //   success: function(res) {
+    //     console.log(res.data.data);
+    //     that.setData({
+    //       array: res.data.data,
+          
+    //     })
+        
+        
+    //   }
+    // })
   }
 })

@@ -125,7 +125,7 @@ video{
 }
 .craftManInfo .craftManDetail{
     color:#ccc;
-    margin-top: 10rpx;
+    margin-top: 6rpx;
 }
 .tpList .title{
     border-left: 4rpx solid #ff4a4e;
@@ -294,12 +294,10 @@ video{
     display:flex;
     flex-direction:column;
     justify-content:center;
-    align-items:center;
 
 }
 .slideshow image{
     width: 100%;
-    vertical-align: middle;
 }
 .slideshow swiper {
     display:block;

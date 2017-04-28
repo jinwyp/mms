@@ -1,13 +1,13 @@
 {
   "pages":[ 
-"pages/index/index" ,
+
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     "pages/friendsExp/friendsList/friendsList",
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",
     "pages/collection/collection",
-    "pages/demo/demo"
-    
+    "pages/demo/demo",
+    "pages/index/index"
            
   ],
   "window":{
