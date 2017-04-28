@@ -1,14 +1,16 @@
 {
   "pages":[ 
-"pages/timeSetting/timeSetting",
-    "pages/friendsExp/friendsList/friendsList",
-    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
-    
-    "pages/personInfo/personInfo",
-    
+
+ 
+    "pages/timeSetting/timeSetting",
+    "pages/index/index" ,
+    "pages/personInfo/personInfo", 
     "pages/collection/collection",
     "pages/demo/demo",
-    "pages/index/index" 
+
+   
+    "pages/friendsExp/friendsList/friendsList",
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail"
 
            
   ],

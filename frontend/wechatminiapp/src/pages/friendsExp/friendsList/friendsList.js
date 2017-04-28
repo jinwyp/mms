@@ -48,5 +48,11 @@ Page({
     this.setData({
       slideshow:false
     })
+  },
+  jumpToDetail:function(){
+    // wx.navigateTo({
+    //   url: 'test?id=1'
+    // })
+    console.log("Asd")
   }
 })
