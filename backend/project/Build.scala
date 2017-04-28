@@ -128,7 +128,7 @@ object Dependencies {
 
 object BuildSettings {
 
-  val buildOrganization = "com.gong"
+  val buildOrganization = "com.gongshijia"
   val appName = "mms"
   val buildVersion = "0.0.5"
   val buildScalaVersion = "2.11.8"
