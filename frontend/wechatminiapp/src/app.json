@@ -1,8 +1,8 @@
 {
   "pages":[
-
+"pages/friendsExp/friendsList/friendsList",
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
-    "pages/friendsExp/friendsList/friendsList",
+    
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",
     "pages/index/index" ,

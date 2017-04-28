@@ -51,5 +51,9 @@
     </block>
 </swiper>
 <view class="collection">
-    <view class="collectionBtn">收藏</view>
+    <navigator url="../../collection/collection">
+        <view class="collectionBtn">
+            <image src="../../../images/collectIcon.png"></image>
+        </view>
+    </navigator>
 </view>

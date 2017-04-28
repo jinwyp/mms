@@ -70,8 +70,8 @@ video{
     z-index: 1;
 }
 .collection .collectionBtn{
-    width: 120rpx;
-    height: 120rpx;
+    width: 140rpx;
+    height: 140rpx;
     border:1px solid #ccc;
     border-radius: 50%;
     box-shadow: 0 0 10px #ccc;
@@ -81,6 +81,10 @@ video{
     display: flex;
     justify-content: center;
     margin-right: 30rpx;
+}
+.collection .collectionBtn image{
+    width: 60rpx;
+    height: 80rpx;
 }
 .storeInfo{
     border-top: 1px solid #ccc;
