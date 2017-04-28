@@ -4,6 +4,8 @@
     width: 100%;
     background-color: #ffffff;
     border-bottom: 1px solid #dedede;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 .interestList{
     padding: 14rpx 30rpx;
@@ -86,7 +88,7 @@
     color: #bfbfbf;
 }
 .btn{
-  margin: 80rpx 40rpx 40rpx 40rpx;
+  margin: 80rpx 60rpx 60rpx 60rpx;
   height: 82rpx;
   line-height: 82rpx;
   background-color: #01696c;

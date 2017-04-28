@@ -49,6 +49,9 @@
     line-height: 50rpx;
     
 }
+.week checkbox{
+   display: none;
+}
 .duty{
     background-color: #fcf8d2;
     color: #01696c;
@@ -56,6 +59,9 @@
 .rest{
     background-color: #dedede;
     color: #666666;
+}
+.status{
+    position: relative;
 }
 
 navigator,.btn-area{  

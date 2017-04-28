@@ -1,0 +1,149 @@
+swiper{
+    min-height: 100vh;
+}
+.swiperContain{
+    width: 85%;
+    background: #fff;
+    border:1px solid #ccc;
+    margin: 60rpx auto;
+    padding: 20rpx;
+    /*padding-bottom: 120rpx;1*/
+    border-radius: 5px;
+}
+.swiperContain .manInfo{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+.swiperContain .personPic{
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+}
+.swiperContain .personName{
+    display: flex;
+    align-items:center;
+    font-size: 28rpx;
+    flex-grow: 1;
+}
+.swiperContain .personType{
+    color:#999;
+    font-size: 28rpx;
+    display: flex;
+    align-items:center;
+    flex-grow: 0;
+}
+.swiperContain .picLists{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+}
+video{
+    width: 100%;
+    height:400rpx;
+}
+.swiperContain .picLists image{
+    width: 180rpx;
+    height: 180rpx;
+    margin-right: 10rpx;
+    margin-bottom: 10rpx;
+}
+.swiperContain .mesWrap{
+    margin: 20rpx auto;
+    width: 90%;
+    
+}
+.swiperContain  .leaveMessage{
+    font-size: 28rpx;
+    color:#999;
+    margin-top: 40rpx;
+    line-height: 1.5;
+    padding-bottom: 40rpx;
+}
+.collection{
+    height: 20vh;
+    position: fixed;
+    right: 20rpx;
+    bottom: 0;
+    z-index: 1;
+}
+.collection .collectionBtn{
+    width: 140rpx;
+    height: 140rpx;
+    border:1px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ccc;
+    text-align: center;
+    background:#fff;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-right: 30rpx;
+}
+.collection .collectionBtn image{
+    width: 60rpx;
+    height: 80rpx;
+}
+.storeInfo{
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding:40rpx 20rpx;
+    margin-top: 120rpx;
+}
+.storeInfo .storePic image{
+    width: 90rpx;
+    height: 90rpx;
+    border-radius: 5px;
+}
+.storeInfo .storeMan{
+    flex-grow: 1;
+    font-size: 28rpx;
+    padding-left: 20rpx;
+}
+.storeInfo .storeMan .storeManName{
+    color:#666;
+    font-size: 32rpx;
+    margin-bottom: 10rpx;
+}
+.storeInfo .storeMan .storeName{
+    color:#888;
+    font-size: 28rpx;
+}
+.storeInfo .addDetail{
+    background:#f999aa;
+    color:white;
+    border:none;
+    border-radius: 30rpx;
+    width: 200rpx;
+    height: 60rpx;
+    font-size: 24rpx;
+}
+.slideshow{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background:black;
+    z-index: 99;
+}
+.slideshow .slideWrap{
+    text-align: center;
+}
+.slideshow .slideWrap swiper-item{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+}
+.slideshow image{
+    width: 100%;
+    vertical-align: middle;
+}

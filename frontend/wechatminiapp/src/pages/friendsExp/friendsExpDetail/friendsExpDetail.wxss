@@ -1,0 +1,387 @@
+.contain{
+    background: #fff;
+    padding: 30rpx;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin-bottom: 20rpx;
+}
+.contain .manInfo{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items:center;
+}
+.contain .personPic{
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+}
+.contain .personInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-grow: 1;
+}
+.contain .personInfo .personName{
+    font-size: 28rpx;
+}
+.contain .personInfo .releaseDate{
+    font-size: 24rpx;
+    color:#999;
+    margin-top: 16rpx;
+}
+.contain .collectBtn{
+    color:#00696c;
+    font-size: 28rpx;
+    display: flex;
+    align-items:center;
+    border:1px solid #ccc;
+    border-radius: 2px;
+    min-width: 140rpx;
+    height: 50rpx;
+    text-align: center;
+    justify-content: center;
+}
+.contain .hasCollect{
+    color:#fff;
+    font-size: 28rpx;
+    display: flex;
+    align-items:center;
+    border:1px solid #00696c;
+    background: #00696c;
+    border-radius: 2px;
+    min-width: 140rpx;
+    height: 50rpx;
+    text-align: center;
+    justify-content: center;
+}
+
+.contain .picLists{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+}
+.contain .picLists{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+}
+video{
+    width: 100%;
+    height:400rpx;
+}
+.contain .picLists image{
+    width: 180rpx;
+    height: 180rpx;
+    margin-right: 10rpx;
+    margin-bottom: 10rpx;
+}
+.contain .mesWrap{
+    margin: 20rpx auto;
+    margin-left: 80rpx;
+    
+}
+.contain  .leaveMessage{
+    font-size: 28rpx;
+    color:#999;
+    margin: 20rpx 0;
+    line-height: 1.5;
+}
+.craftManWrap{
+    display: flex;
+    flex-direction: row;
+}
+.craftManWrap .craftManPic image{
+    width: 100rpx;
+    height: 100rpx;
+}
+.craftManWrap .craftManInfo{
+    display: flex;
+    flex-direction: column;
+    font-size: 28rpx;
+    margin-left: 20rpx;
+    width: 100%;
+}
+.craftManWrap .craftManInfo .nameWrap{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.craftManInfo .nameWrap .nameInfo{
+    color:#00696c;
+}
+.craftManInfo .nameWrap .nameDetail{
+    color:#666;
+    display: flex;
+    flex-grow: 1;
+}
+.craftManInfo .nameWrap .position{
+    color:#999;
+    display: flex;
+}
+.craftManInfo .craftManDetail{
+    color:#ccc;
+    margin-top: 16rpx;
+}
+.craftManControl{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+.craftManControl .wrap{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tpList .title{
+    border-left: 4rpx solid #ff4a4e;
+    padding-left: 20rpx;
+    color: #3b3b3b;
+    font-size: 28rpx;
+    margin-bottom: 20rpx;
+}
+.tpList scroll-view{
+    height: 180rpx;
+}
+.tpList .tpWrap{
+    display: inline-block
+}
+.tpList scroll-view image{
+    width: 180rpx;
+    height: 180rpx;
+    margin-right: 10rpx;
+}
+.tpList scroll-view{
+    white-space: nowrap;
+    display: flex;
+}
+.materialWrap .material{
+    display: flex;
+    flex-direction: column;
+    color:#666;
+    font-size: 28rpx;
+}
+.materialWrap{
+    padding:30rpx 0;
+}
+.materialWrap .title{
+    padding-left: 20rpx;
+    padding-bottom: 30rpx;
+    color: #3b3b3b;
+    font-size: 28rpx;
+    margin-bottom: 20rpx;
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+}
+.materialWrap .title .gytitle{
+    border-left: 4rpx solid #ff4a4e;
+    padding-left: 20rpx;
+}
+.materialWrap .material text{
+    border-bottom: 1px solid #ccc;
+    padding: 40rpx 0;
+    margin-left: 45rpx;
+}
+.materialWrap .gyprocessWrap{
+    margin-top: 30rpx;
+    display: flex;
+    flex-direction: row;
+}
+.materialWrap .costTime{
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+    padding-right: 30rpx;
+    color:#959595;
+    font-size: 24rpx;
+    align-items: center;
+}
+.materialWrap .costTime text{
+    color:#ff4f4f;
+    font-size: 32rpx;
+}
+.materialWrap .gyprocess{
+    padding:30rpx 30rpx 0 45rpx;
+    line-height: 1.5;
+    color:#666;
+    font-size: 28rpx;
+}
+.commentTit{
+    font-size: 28rpx;
+    padding-left: 30rpx;
+    padding-bottom: 20rpx;
+    padding-top: 30rpx;
+}
+.commentWrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+    border-top: none;
+    margin: 0;
+}
+.contain .commentPic image{
+    width:80rpx;
+    height:80rpx;
+    border-radius:50%;
+    margin-right:20rpx;
+}
+.contain .commentInfoWrap{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.contain .commentInfo{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 16rpx;
+}
+.contain .commentInfoWrap .name{
+    color:#3b3b3b;
+    font-size: 28rpx;
+    font-weight: bold;
+    display: flex;
+    flex-grow: 1;
+    
+}
+.contain .commentInfoWrap .time{
+    color:#cbcaca;
+    font-size: 24rpx;
+}
+.contain .commentInfoWrap .commentMessage{
+    font-size: 24rpx;
+    color:#666;
+    margin-top:10rpx;
+    line-height: 1.5;
+}
+.commentUl{
+    background: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80rpx;
+}
+.inputWrap{
+    border-top: 1px solid #cacaca;
+    padding:20rpx;
+    display: flex;
+    flex-direction: row;
+}
+.inputWrap input{
+    height: 60rpx;
+    border:1px solid #d6d6d6;
+    border-radius: 5px;
+    background: #fff;
+    padding-left:20rpx;
+    display: flex;
+    flex-grow: 1;
+    margin-right: 10rpx;
+}
+.inputWrap button{
+    width: 120rpx;
+    height: 64rpx;
+    line-height: 64rpx;
+    font-size: 28rpx;
+}
+.slideshow{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background:black;
+    z-index: 99;
+}
+.slideshow .slideWrap{
+    text-align: center;
+}
+.slideshow .slideWrap swiper-item{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+}
+.slideshow image{
+    width: 100%;
+}
+.slideshow swiper {
+    display:block;
+    height:100vh;
+}
+
+/*switch*/
+.confirmBtnWrap{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.switch {
+    position: relative;
+    overflow: hidden;
+	width: 62px;
+	height: 32px;
+	border-radius: 16px;
+    line-height: 32px;
+    color:#fff;
+    padding-left: 8px;
+    font-size: 30rpx;
+}
+
+.switch::before {
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    border-radius: 15px;
+    transition: all ease-out 0.3s;
+    -webkit-transition: all 0.3s;
+}
+
+.switch::after {
+	position: absolute;
+	display: inline-block;
+	content: "";
+	margin-top: 1px;
+	height: 30px;
+	width: 30px;
+	background: red;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: left 0.2s ease-out;
+	-webkit-transition: left ease-out 0.2s;
+}
+
+.toggle-off{
+	background-color: #ff9999;
+}
+.toggle-off::before {
+    width:68px;
+	height: 30px;
+    left: 1px;
+    top: 1px;
+}
+.toggle-off::after{
+	left: 1px;
+	box-shadow: 1px 2px 4px #aaa;
+}
+.toggle-on{
+	background-color: #ff9999;
+}
+
+.toggle-on::before {
+    width: 0px;
+	height: 0px;
+	left: 30px;
+	top: 15px;
+}
+.toggle-on:after{
+	left: 39px;
+}

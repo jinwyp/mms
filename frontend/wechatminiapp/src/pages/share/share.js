@@ -3,9 +3,29 @@
 var app = getApp() 
 Page({
   data: {
-   nickName:'',
-   userInfoAvatar:'',
-   tempFilePaths:'../../images/star.png',
+    interest:[{
+      name:"造型",
+      number:2
+    },
+    {
+      name:"美甲",
+      number:0
+    },
+    {
+      name:"服装搭配",
+      number:0
+    },
+    {
+      name:"茶艺",
+      number:0
+    }],
+    whoCanSee:['私密','好友','公开'],
+    ifChoose:'造型',
+    
+    index:0,
+    dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(),
+   
+   tempFilePaths:'../../images/upload.png',
    allValue:'',
    markers: [{
       latitude: 23.099994,
@@ -25,7 +45,18 @@ Page({
       rotate: 90
     }]
   }, 
-   
+  // 选择时间
+  datePickerBindchange:function(e){
+    this.setData({
+      dateValue:e.detail.value
+    })
+  },
+  bindPickerChange: function(e) {
+    this.setData({
+      index: e.detail.value
+    })
+  },
+  //  调用地图
   getLocation:function() {
     console.log('地图定位！')
     var that = this
@@ -74,38 +105,15 @@ Page({
     } 
     }) 
  } ,
- chooseWXcode: function () { 
-    var _this = this; 
-    wx.chooseImage({ 
-    count: 1, // 默认9 
-    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有 
-    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有 
-    success: function (res) { 
-      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片 
-      _this.setData({ 
-      userInfoAvatar:res.tempFilePaths
-      }) 
-      wx.uploadFile({
-        url: 'https://wd.gongshijia.com/upload',
-        filePath:userInfoAvatar[0],
-        name:'name',
-        // header: {}, // 设置请求的 header
-        // formData: {}, // HTTP 请求中其他额外的 form data
-        success: function(res){
-          // success
-        },
-        fail: function() {
-          // fail
-        },
-        complete: function() {
-          // complete
-        }
-      })
-
-    } 
-    }) 
- } ,
-
+ radioChange: function(e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    this.setData({
+      ifChoose:e.detail.value
+    })
+    
+  },
+  
+ 
  formSubmit: function(e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     this.setData({
@@ -119,29 +127,6 @@ Page({
   })
   },
   onLoad: function () {
-    var that=this;    
-    wx.getUserInfo({
-      success: function(res){
-        // success
-        that.setData({
-          nickName:res.userInfo.nickName,
-          userInfoAvatar:res.userInfo.avatarUrl
-        })
-        
-      },
-      fail: function() {
-        // fail
-        console.log("获取失败！")
-      },
-      complete: function() {
-        // complete
-        console.log("获取用户信息完成！")
-      }
-    }),
-    wx.setNavigationBarTitle({
-      title: '个人信息设定'
-    })
-    
        
   }
 })
