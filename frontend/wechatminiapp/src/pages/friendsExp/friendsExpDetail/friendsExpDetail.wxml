@@ -1,0 +1,104 @@
+<view class="contain">
+    <view class="manInfo">
+        <image class="personPic" src="../../../images/meinv.jpg"></image>
+        <view class="personInfo">
+            <view class="personName">{{personName}} 发布</view>
+            <view class="releaseDate">{{releaseDate}}</view>     
+        </view>
+        <view class="{{hasCollect ? 'hasCollect' : 'collectBtn'}}" bindtap="oncollect">{{collectText}}</view>
+    </view>
+    <view class="mesWrap">
+        <!--判断视频还是图片-->
+        <block wx:if="{{!expLists.ifvideo}}"> 
+            <view class="picLists">
+                <block wx:for="{{expLists.imgs}}" wx:for-index="idx">
+                    <image src="{{expLists.imgs}}" data-id="{{idx}}" data-order="1" bindtap="show"></image>
+                </block>
+            </view>
+        </block>
+        <block wx:if="{{expLists.ifvideo}}">
+            <view class="picLists" >
+                <video src="{{expLists.videoUrl}}" controls ></video>
+            </view>
+        </block>
+        <view class="leaveMessage">
+            {{expLists.message}}{{prder}}
+        </view>
+        
+    </view>
+</view>
+<view class="contain craftManWrap">
+    <view class="craftManPic">
+        <image src="../../../images/meinv.jpg"></image>
+    </view>
+    <view class="craftManInfo">
+        <view class="nameWrap">
+            <text class="nameInfo">手艺人：</text>
+            <text class="nameDetail">{{personName}}</text>
+            <text class="position">3km</text>
+        </view>
+        <view class="craftManDetail">{{shopName}}</view>
+        <view class="craftManDetail">{{shopAddress}}</view>
+    </view>
+</view>
+<view class="contain tpList">
+    <view class="title">店内实景</view>
+    <scroll-view scroll-x="true">
+        <block wx:for="{{shopPics}}" wx:for-index="idx">
+            <image src="{{item}}" data-id="{{idx}}" data-order="2" bindtap="show"></image>
+        </block>
+    </scroll-view>
+</view>
+<view class="contain materialWrap">
+    <view class="title">
+        <text class="gytitle">耗材</text>
+    </view>
+    <view class="material">
+        <block wx:for="{{material}}">
+            <text>{{item}}</text>
+        </block>
+    </view>
+    <view class="title gyprocessWrap">
+        <text class="gytitle">工艺流程</text>
+        <view class="costTime">
+            耗时<text>{{costTime}}</text>分钟
+        </view>
+    </view>
+    <view class="gyprocess">
+     {{gyprocess}}
+    </view>
+</view>
+<view class="commentTit">评论{{comments.length}}</view>
+<view class="commentUl">
+    <block wx:for="{{comments}}">
+        <view class="contain commentWrap">
+            <view class="commentPic">
+                <image src="../../../images/meinv.jpg"></image>
+            </view>
+            <view class="commentInfoWrap">
+                <view class="commentInfo">
+                    <text class="name">{{item.commentsName}}</text>
+                    <text class="time">{{item.time}}</text>
+                </view>
+                <view class="commentMessage">
+                    {{item.message}}
+                </view>
+            </view>
+        </view>
+    </block>
+</view>
+<view class="inputWrap">
+    <input type="text" bindblur="inputFun" placeholder="" value="{{inputVal}}" />
+    <button bindtap="submitMessage">发送</button>
+</view>
+
+<!-- 轮播图 -->
+<view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
+    <view class="slideWrap">
+        <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
+            <swiper-item wx:for="{{order=='1' ? expLists.imgs : shopPics}}">
+                <image src="{{order=='1' ? expLists.imgs : shopPics}}" mode="widthFix" class="slide-image"/>
+            </swiper-item>
+        </swiper>
+    </view>
+</view>

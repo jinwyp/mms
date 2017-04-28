@@ -1,9 +1,9 @@
 {
   "pages":[ 
-    "pages/collection/collection",     
-    "pages/index/index" 
-     
-    
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    "pages/friendsExp/friendsList/friendsList",
+    "pages/index/index" ,
+    "pages/collection/collection"
    
   ],
   "window":{
