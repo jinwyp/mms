@@ -72,7 +72,6 @@ swiper{
     width: 170rpx;
     height: 170rpx;
     margin: 20rpx 0 0 20rpx;
-    background-color: yellow;
     display: inline-block;
 }
 .shareVideo{
@@ -100,4 +99,28 @@ swiper{
   background-color: #01696c;
   color: #ffffff;
   font-size: 28rpx;
+}
+/*slider show*/
+.slideshow{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background:black;
+    z-index: 99;
+}
+.slideshow .slideWrap{
+    text-align: center;
+}
+.slideshow .slideWrap swiper-item{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+}
+.slideshow image{
+    width: 100%;
+    vertical-align: middle;
 }

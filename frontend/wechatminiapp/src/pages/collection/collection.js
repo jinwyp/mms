@@ -1,6 +1,8 @@
 // pages/collection/collection.js
 Page({
   data:{
+    slideshow: false,
+    currentId:0,
     interest:[{
       name:"造型",
       number:2
@@ -26,20 +28,20 @@ Page({
       number:0
     }],
     experience: [
-      // {
-      //   category:'造型',
-      //   name:'刘杰',
-      //   headImg:'../../images/star.png',
-      //   img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
-      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
-      // },
-      // {
-      //   category:'造型',
-      //   name:'刘杰2',
-      //   headImg:'../../images/star.png',
-      //   video:'../../images/star.png',
-      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
-      // }
+      {
+        category:'造型',
+        name:'刘杰',
+        headImg:'../../images/star.png',
+        img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
+        text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      },
+      {
+        category:'造型',
+        name:'刘杰2',
+        headImg:'../../images/star.png',
+        video:'../../images/star.png',
+        text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      }
       
     ],
     autoplay:false,//是否自动播放
@@ -47,6 +49,21 @@ Page({
     interval: 2000,//图片切换间隔时间
     duration: 500,//每个图片滑动速度,
     circular:true,//是否采用衔接滑动
+  },
+  show: function (e) {
+    var that = this;
+    var id = e.target.dataset.id;
+    if (that.data.interest.length) {
+      that.setData({
+        slideshow: true,
+        currentId:id
+      })
+    }
+  },
+  hide:function(){
+    this.setData({
+      slideshow:false
+    })
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
