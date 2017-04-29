@@ -1,11 +1,12 @@
 {
   "pages":[
-   
+    "pages/index/index" ,
+    "pages/share/share" ,
     "pages/collection/collection",
     "pages/timeSetting/timeSetting",
     "pages/personInfo/personInfo",
-    "pages/share/share" ,
-     "pages/index/index" ,
+    "pages/shareSubmit/shareSubmit" ,
+     
     
     
 

@@ -59,7 +59,9 @@
         
 
          <view class="btn-area">
+         <navigator url="../shareSubmit/shareSubmit">
             <button formType="submit">保存</button>
+            </navigator>
         </view>
     </form>
 </view>
