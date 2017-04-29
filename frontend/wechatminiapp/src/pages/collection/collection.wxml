@@ -41,7 +41,7 @@
                 
                 
                 <!-- 轮播图 -->
-                <view class="slideshow" hidden="{{slideshow}}" bindtap="hide">
+                <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
                     <view class="slideWrap">
                         <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
                             <swiper-item wx:for="{{item.img}}">
