@@ -1,8 +1,18 @@
 {
   "pages":[
+<<<<<<< HEAD
     
     "pages/collection/collection",
     "pages/demo/demo",
+=======
+<<<<<<< HEAD
+    "pages/friendsExp/friendsList/friendsList",
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    "pages/personInfo/personInfo",
+    "pages/timeSetting/timeSetting",
+=======
+>>>>>>> 454690ba9795a4e21a54a0f6175c9be259e6d6b6
+>>>>>>> 4d4a9e7fce0f9c2feb4a9137734fed27724bfd81
     "pages/index/index" ,
     "pages/timeSetting/timeSetting",
     "pages/share/share" ,
