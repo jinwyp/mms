@@ -3,6 +3,7 @@ Page({
   data:{
     slideshow: false,
     currentId:0,
+    peopleid:'',
     interest:[{
       name:"造型",
       number:2
@@ -29,6 +30,7 @@ Page({
     }],
     experience: [
       {
+        id:'111',
         category:'造型',
         name:'刘杰',
         headImg:'../../images/star.png',
@@ -36,6 +38,7 @@ Page({
         text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
       },
       {
+        id:'222',
         category:'造型',
         name:'刘杰2',
         headImg:'../../images/star.png',
@@ -53,13 +56,16 @@ Page({
   show: function (e) {
     var that = this;
     var id = e.target.dataset.id;
+     
     if (that.data.interest.length) {
       that.setData({
         slideshow: true,
-        currentId:id
+        currentId:id,
+        peopleid:e.target.dataset.peopleid
       })
-    }
+    }    
   },
+  
   hide:function(){
     this.setData({
       slideshow:false
