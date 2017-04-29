@@ -19,7 +19,7 @@
  inherit: 继承
 -->
 <!--水平滚动-->
-<scroll-view scroll-x="true" style="width: 100%;" >
+<scroll-view scroll-x="true" >
 <!-- display: inline-block-->
  <view style="background: red; width: 200px; height: 100px; display: inline-block" ></view>
  <view style="background: green; width: 200px; height: 100px; display: inline-block"></view>

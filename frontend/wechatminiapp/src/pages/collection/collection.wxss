@@ -4,8 +4,7 @@
     width: 100%;
     background-color: #ffffff;
     border-bottom: 1px solid #dedede;
-    overflow: hidden;
-    box-sizing: border-box;
+    
 }
 .interestList{
     padding: 14rpx 30rpx;

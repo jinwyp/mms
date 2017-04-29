@@ -21,7 +21,7 @@ Page({
     }],
     whoCanSee:['私密','好友','公开'],
     ifChoose:'造型',
-    
+    isClick:false,
     index:0,
     dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(),
    
@@ -111,6 +111,12 @@ Page({
       ifChoose:e.detail.value
     })
     
+  },
+  tapSwitch : function(){
+    console.log(this.data.isClick)
+    this.setData({
+        isClick: !this.data.isClick
+    });
   },
   
  
