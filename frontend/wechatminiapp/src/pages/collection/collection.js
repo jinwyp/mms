@@ -30,8 +30,8 @@ Page({
       //   category:'造型',
       //   name:'刘杰',
       //   headImg:'../../images/star.png',
-      //   img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
-      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      //   img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
+      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
       // },
       // {
       //   category:'造型',
