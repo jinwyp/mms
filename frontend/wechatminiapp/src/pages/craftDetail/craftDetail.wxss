@@ -3,7 +3,7 @@
     flex-direction: row;
     padding: 20rpx;
     padding-left: 30rpx;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #dedede;
     background: #fff
 }
 .craftWrap .craftPic image{
@@ -35,8 +35,8 @@
 }
 
 .craftTypeDetail{
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
     margin-top: 20rpx;
     display: flex;
     flex-direction: column;
@@ -46,7 +46,7 @@
 }
 .craftTypeDetail .crafrList{
     padding:23rpx 8rpx;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #dedede;
 }
 .craftTypeDetail image{
     width:38rpx;
