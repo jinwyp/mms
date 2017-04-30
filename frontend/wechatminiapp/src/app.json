@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/craftDetail/craftDetail",
     "pages/craft/craftTitle",
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",
