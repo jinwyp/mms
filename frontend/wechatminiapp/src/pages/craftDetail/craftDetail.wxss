@@ -13,9 +13,13 @@
 .craftWrap .craftInfo{
     padding-left: 20rpx;
 }
+.craftWrap .craftInfo view{
+    margin-bottom: 8rpx;
+}
 .craftWrap .craftInfo .name{
-    color:3b3b3b;
+    color:#3b3b3b;
     font-size: 28rpx;
+    margin:0;
 }
 .craftWrap .craftInfo .type{
     color:#fff;
@@ -29,9 +33,7 @@
     color:#959595;
     font-size: 24rpx;
 }
-.craftWrap .craftInfo view{
-    margin-bottom: 8rpx;
-}
+
 .craftTypeDetail{
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;

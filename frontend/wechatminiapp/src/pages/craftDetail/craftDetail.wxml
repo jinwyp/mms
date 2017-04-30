@@ -1,6 +1,6 @@
 <view class="craftWrap">
     <view class="craftPic">
-        <image src="../../../images/meinv.jpg"></image>
+        <image src="../../images/meinv.jpg"></image>
     </view>
     <view class="craftInfo">
         <view class="name">刘杰</view>
