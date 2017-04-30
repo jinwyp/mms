@@ -19,3 +19,7 @@ scroll-view{
 form{
   width: 100%;
 }
+.placeholderStyle{
+  color: #ccc;
+  font-size: 24rpx;
+}
