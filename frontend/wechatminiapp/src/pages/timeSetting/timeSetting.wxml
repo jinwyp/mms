@@ -23,20 +23,20 @@
     
     <view class="chooseDay">
         <checkbox-group name="week" >
-          <!--<block wx:for='{{checked}}'>-->
-            <label bindtap="checkboxChange1" data-mon='{{mon}}'  class="week {{mon === 'true'?'duty':'rest'}}"  ><checkbox value="Mon" />星期一<view  data-mon='{{mon}}'>{{mon === 'true'?'上班':'休息'}}</view></label>  
+            <label bindtap="checkboxChange1" data-mon='{{mon}}'  class="week {{mon === true?'duty':'rest'}}"  ><checkbox value="mon" />星期一<view  data-mon='{{mon}}'>{{mon === true?'上班':'休息'}}</view></label>  
 
-            <label bindtap="checkboxChange2" data-tues='{{tues}}'  class="week {{tues === 'true'?'duty':'rest'}}"  ><checkbox value="Tues" />星期二<view  data-tues='{{tues}}'>{{tues === 'true'?'上班':'休息'}}</view></label>
+            <label bindtap="checkboxChange2" data-tues='{{tues}}'  class="week {{tues === true?'duty':'rest'}}"  ><checkbox value="tues" />星期二<view  data-tues='{{tues}}'>{{tues === true?'上班':'休息'}}</view></label>
 
-            <label bindtap="checkboxChange3" data-wed='{{wed}}'  class="week {{wed === 'true'?'duty':'rest'}}"  ><checkbox value="Wed" />星期二<view  data-wed='{{wed}}'>{{wed === 'true'?'上班':'休息'}}</view></label>
-            
-            <!--<label class="week"><checkbox value="Tues"/>星期二</label>
-            <label class="week"><checkbox value="Wed"/>星期三</label>
-            <label class="week"><checkbox value="Thur"/>星期四</label>
-            <label class="week"><checkbox value="Fri"/>星期五</label>
-            <label class="week"><checkbox value="Sat"/>星期六</label>
-            <label class="week"><checkbox value="Sun"/>星期日</label>-->
-           <!--</block>-->
+            <label bindtap="checkboxChange3" data-wed='{{wed}}'  class="week {{wed === true?'duty':'rest'}}"  ><checkbox value="wed" />星期三<view  data-wed='{{wed}}'>{{wed === true?'上班':'休息'}}</view></label>
+
+             <label bindtap="checkboxChange4" data-thur='{{thur}}'  class="week {{thur === true?'duty':'rest'}}"  ><checkbox value="thur" />星期四<view  data-thur='{{thur}}'>{{thur === true?'上班':'休息'}}</view></label>
+
+             <label bindtap="checkboxChange5" data-fri='{{fri}}'  class="week {{fri === true?'duty':'rest'}}"  ><checkbox value="fri" />星期五<view  data-fri='{{fri}}'>{{fri === true?'上班':'休息'}}</view></label>
+
+             <label bindtap="checkboxChange6" data-sat='{{sat}}'  class="week {{sat === true?'duty':'rest'}}"  ><checkbox value="sat" />星期六<view  data-sat='{{sat}}'>{{sat === true?'上班':'休息'}}</view></label>
+
+             <label bindtap="checkboxChange7" data-sun='{{sun}}'  class="week {{sun === true?'duty':'rest'}}"  ><checkbox value="sun" />星期日<view  data-sun='{{sun}}'>{{sun === true?'上班':'休息'}}</view></label>
+           
         </checkbox-group>
     </view>
     <navigator url="../personInfo/personInfo">

@@ -1,15 +1,14 @@
 {
   "pages":[
     "pages/craft/craftTitle",
-    "pages/friendsExp/friendsList/friendsList",
-    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",
-
     "pages/index/index" ,
     "pages/share/share" ,
     "pages/collection/collection",
-    "pages/demo/demo"
+    "pages/shareSubmit/shareSubmit" ,
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    "pages/friendsExp/friendsList/friendsList"
   ],
   "window":{
     "backgroundTextStyle":"light",

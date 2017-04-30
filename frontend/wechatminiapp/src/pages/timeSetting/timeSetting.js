@@ -5,48 +5,50 @@ Page({
     time: '09:00',
     time2: '18:00',
     timeDown: '18:00',
-    mon:'',
-    tues:'',
-    wed:'',
-    Thur:'',
-    Fri:'',
-    Sat:'',
-    Sun:''
+    mon:false,
+    tues:false,
+    wed:false,
+    thur:false,
+    fri:false,
+    sat:false,
+    sun:false
     
   },
   //星期选择
   checkboxChange1: function(e) { 
-    if(e.target.dataset.mon === ''){
-      this.setData({
-        mon: 'true'
-      })
-    }else{
-      this.setData({
-        mon: ''
-      })
-    }
+    this.setData({
+      mon: !e.target.dataset.mon
+    })
   },
   checkboxChange2: function(e) {    
-    if(e.target.dataset.tues === ''){
-      this.setData({
-        tues: 'true'
-      })
-    }else{
-      this.setData({
-        tues: ''
-      })
-    }
+    this.setData({
+      tues: !e.target.dataset.tues
+    })
   },
   checkboxChange3: function(e) {    
-    if(e.target.dataset.wed === ''){
-      this.setData({
-        wed: 'true'
-      })
-    }else{
-      this.setData({
-        wed: ''
-      })
-    }
+    this.setData({
+      wed: !e.target.dataset.wed
+    })
+  },
+  checkboxChange4: function(e) {    
+    this.setData({
+      thur: !e.target.dataset.thur
+    })
+  },
+  checkboxChange5: function(e) {    
+    this.setData({
+      fri: !e.target.dataset.fri
+    })
+  },
+  checkboxChange6: function(e) {    
+    this.setData({
+      sat: !e.target.dataset.sat
+    })
+  },
+  checkboxChange7: function(e) {    
+    this.setData({
+      sun: !e.target.dataset.sun
+    })
   },
   //时间选择
   bindTimeChange: function(e) {

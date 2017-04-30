@@ -1,49 +1,64 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
     <scroll-view class="items" scroll-x="true">
-       <text class="interestList" wx:for="{{interest}}" wx:key="{{interest}}">{{item.name}}</text>
-
+        <block wx:for="{{interest}}" wx:key="{{interest}}">
+            <text class="interestList chooseN" >{{item.name}}</text>
+        </block>
     </scroll-view>
-    
 
     <view class="collection">
-
+    
         <swiper class="collectCon" bindchange="imgchange" indicatorDots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}'duration='{{duration}}' circular='{{circular}}'>
         <!--判断是否有体验手册（有）-->
             <block wx:if="{{experience.length != 0}}" >
-                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' >   
+                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' wx:for-item="exName" >                  <scroll-view scroll-y="true" style="height: 68vh;">
                     <view class="collectItemList" >
                         <view>
-                            <image src="{{item.headImg}}" class="avatar"></image>
-                            <text class="avatarName">{{item.name}}</text>
+                            <image src="{{exName.headImg}}" class="avatar" mode="aspectFill"></image>
+                            <text class="avatarName">{{exName.name}}</text>
                             <button class="collectP"><image class="plus" src="../../images/plus.png"></image>添加收藏</button>
                         </view>
-                        <view class="shareImg">
-                        <!--判断图片或者video-->
-                            <block wx:if="{{item.img}}">
-                                <image wx:for="{{item.img}}" src="{{item}}"  class='shareImgList'></image>
-                            </block>
-                            <video wx:else class="shareVideo" id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"  ></video>
+                        <view class="shareImg" >
+                            <!--判断图片-->
+                            <view wx:if="{{exName.img}}">
+                                <block wx:for="{{exName.img}}" wx:key="img" wx:for-index="idx">
+                                <image  src="{{item}}"  class='shareImgList' mode="aspectFill" data-id="{{idx}}" bindtap="show" data-peopleid="{{exName.id}}"></image>
+                                </block>
 
-                            <!--<video wx:else class="shareVideo"  src="{{item.video}}"></video>-->
-
-                            <!-- 轮播图 -->
-                            <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
-                                <view class="slideWrap">
-                                    <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
-                                        <swiper-item wx:for="{{item.imgs}}">
-                                            <image src="{{item}}" mode="widthFix" class="slide-image"/>
-                                        </swiper-item>
-                                    </swiper>
-                                </view>
+                            </view>
+                            <!--判断video-->
+                            <view wx:else>
+                                <video  class="shareVideo" id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"  ></video>
                             </view>
 
-
-
+                            <!--<video wx:else class="shareVideo"  src="{{item.video}}"></video>-->
+                            
                         </view>
-                        <view class="shareTxt"><text>{{item.text}}</text></view>
+                        
+                        <view class="shareTxt"><text>{{exName.text}}</text></view>
                     </view>
+                    </scroll-view>
+                
+                
+                
                 </swiper-item>
+                <!-- 轮播图 -->
+                <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
+                    <view class="slideWrap" wx:if="{{peopleid}}">
+                        <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
+                        <block wx:for="{{experience}}" wx:key="experience">
+                           <block wx:if="{{item.id === peopleid}}">
+                            <swiper-item  wx:for="{{item.img}}" wx:key="img">
+                                <image  src="{{item}}" mode="widthFix" class="slide-image"/>
+                            </swiper-item>
+                           </block> 
+                        </block>
+                        </swiper>
+                    </view>
+                </view>
+                
+                
+
             </block>  
              <!--判断是否有体验手册（无）-->
             <swiper-item wx:else>
@@ -53,11 +68,15 @@
                 </view>
             </swiper-item>         
         </swiper>
+        
        
 
 
         <navigator url="../share/share">
             <button class="btn">分享我的经验</button>
-        </navigator>  
+        </navigator> 
+
     </view>
 </view>
+
+
