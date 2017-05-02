@@ -23,3 +23,8 @@ addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")
 
 addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.6.0")
 
+
+// Scala Protocol Buffers Compiler
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.3")
+
+libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "0.5.47"
