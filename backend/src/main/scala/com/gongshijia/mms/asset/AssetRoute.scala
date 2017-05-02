@@ -16,7 +16,6 @@ import akka.stream.scaladsl.{FileIO, Keep, Source}
 import akka.util.ByteString
 import com.gongshijia.mms.Core
 import org.apache.commons.io.FileUtils
-
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.ContentTypes._
 import akka.http.scaladsl.model._
@@ -84,7 +83,39 @@ trait AssetRoute extends Core with SprayJsonSupport {
     }
   }
 
-  def assetRoute = assetUploadPolicy
+
+  val fileField = "key"
+
+  // POST /asset/upload
+  def assetUploadFile: Route = path("upload") {
+    post {
+      extractRequestContext { ctx =>
+        implicit val materializer = ctx.materializer
+
+          fileUpload(fileField) {
+            case (meta: FileInfo, source: Source[ByteString, Any]) =>
+
+              println("asset id is " + meta.fileName)
+              val gdir = fileRoot + File.separator
+              FileUtils.forceMkdir(new File(gdir))
+
+              val sink = FileIO.toPath(Paths.get(gdir + File.separator + meta.fileName), Set(CREATE, WRITE))
+
+              val ff: Future[IOResult] = for {
+                result <- source.toMat(sink)(Keep.right).run
+              } yield result
+
+              onSuccess(ff) {
+                case result =>
+                  log.info(s"upload file[${meta.fileName}] size[${result.count}] status[${result.status}]")
+                  complete("success")
+              }
+          }
+        }
+      }
+    }
+
+  def assetRoute = assetUploadPolicy ~ assetUploadFile
 
 }
 
