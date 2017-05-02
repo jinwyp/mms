@@ -1,0 +1,260 @@
+/* pages/craft/craftTitle.wxss */
+
+.intergal{
+    padding-bottom: 60rpx;
+}
+.craftTitlePic{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    padding: 20rpx 0;
+    
+}
+.craftTitlePic image{
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+}
+.ulWrap{
+    background:#fff;
+    border-bottom:1px solid #e4e2e3;
+    margin-bottom:20rpx;
+}
+.ulWrap .liWrap{
+    border-top: 1px solid #e4e2e3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 28rpx;
+    align-content: center;
+    font-size: 28rpx;
+}
+.ulWrap .liWrap .grey{
+    color:#999;
+    display:flex;
+    align-items:center;
+
+}
+.contentWrap .title{
+    padding: 20rpx 20rpx 20rpx 28rpx;
+}
+.bb{
+    border-bottom: 1px solid #e4e2e3;
+    border-top: 1px solid #e4e2e3;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.contentWrap .title .contit{
+    color:#333;
+    font-size: 28rpx;
+    padding-left: 28rpx;
+    border-left: 4rpx solid #ff4a4e;
+    flex-grow: 1;
+}
+.contentWrap .title .addBtn{
+    width:45rpx;
+    height:45rpx;
+    text-align:center;
+    background: url('../../../images/minplusIcon.png') no-repeat center center;
+    background-size: contain;
+}
+.contentWrap .uploadWrap{
+    padding:0 28rpx 32rpx 28rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.contentWrap .uploadWrap .imgWrap{
+    position: relative;
+    margin-right: 5rpx;
+    margin-bottom: 5rpx;
+}
+.uploadWrap .imgWrap text{
+    width: 40rpx;
+    height: 40rpx;
+    opacity: .8;
+    color:#fff;
+    font-size: 24rpx;
+    text-align: center;
+    line-height: 32rpx;
+    background: #000;
+    position: absolute;
+    right: 2rpx;
+    top: 2rpx;
+}
+.contentWrap .uploadWrap .uploadPic{
+    width: 160rpx;
+    height: 160rpx;
+    border:1px solid transparent;
+    
+}
+.contentWrap .uploadWrap .uploadBlock{
+    width: 160rpx;
+    height: 160rpx;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 160rpx;
+    background: url('../../../images/plusIcon.png') no-repeat center center;
+}
+.ulWrap .ulCostLists{
+    padding-left: 56rpx;
+}
+.ulWrap .ulCostLists .liCostLists{
+    border-bottom: 1px solid #e4e2e3;
+    padding: 28rpx 0;
+    font-size: 24rpx;
+    color:#666;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 20rpx;
+
+}
+.liCostLists .costsName{
+    flex-grow: 1;
+    margin-right: 90rpx;
+}
+
+.liCostLists .subtractBtn{
+    width:40rpx;
+    height:40rpx;
+    text-align:center;
+    background: url('../../../images/subIcon.png') no-repeat center center;
+    background-size:cover;
+}
+.ulWrap .ulCostLists .liCostLists:last-child{
+    border: none;
+}
+.progressWrap{
+    display: flex;
+    flex-direction: row;
+    padding: 0 20rpx;
+    border-bottom: 1px solid #e4e2e3;
+}
+.progressWrap:last-child{
+    border:none;
+}
+.progressWrap .progressInfo{
+    flex-grow: 1;
+    padding:10rpx 0;
+    margin:10rpx;
+    padding-right: 20rpx;
+    font-size: 24rpx;
+    border-right: 1px solid  #e4e2e3;
+}
+.progressWrap .pregressTime{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    font-size: 24rpx;
+    color:#999;
+}
+.progressWrap .pregressTime .costTimeInfo{
+    display: flex;
+    flex-direction: column;
+    padding:0 20rpx;
+}
+.pregressTime .costTimeInfo text{
+    margin-bottom: 10rpx;
+    width: 100%;
+    text-align: center;
+}
+.pregressTime .costTimeInfo .time{
+    color:#ff0000;
+    font-size: 36rpx;
+    text-align: center
+}
+.progressWrap .pregressTime .control{
+    width: 40rpx;
+    height: 40rpx;
+    background: url('../../../images/subIcon.png') no-repeat center center;
+    background-size:cover;
+}
+.ulWrap .gyInfo{
+    padding: 28rpx;
+}
+.uploadBtn{
+    background: #00696c;
+    width: 80%;
+    color:#fff;
+    border-radius:0;
+    font-size: 32rpx;
+    margin: 80rpx auto;
+}
+textarea{
+    width: 100%;
+    height: 200rpx;
+    font-size: 24rpx;
+}
+/*上传图片轮播*/
+.slideshow{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background:black;
+    z-index: 99999999;
+}
+.slideshow .slideWrap{
+    text-align: center;
+}
+.slideshow .slideWrap swiper-item{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+}
+.slideshow image{
+    width: 100%;
+}
+.slideshow swiper {
+    display:block;
+    height:100vh;
+}
+.backgroundModal{
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    opacity: 0.6;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+.content{
+    background: #fff;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 5px;
+    position: fixed;
+    top:50%;
+    margin-top: -500rpx;
+    z-index: 100;
+    left: 50%;
+    margin-left: -40%;
+}
+.content .contentInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:80rpx;
+}
+.content .contentInfo icon{
+    margin-bottom: 40rpx;
+}
+.content .contentInfo text{
+    color:#00696c;
+    font-size: 36rpx;
+    margin-bottom: 60rpx;
+}
+.content .contentInfo button{
+    width: 100%;
+    background: #fff;
+}

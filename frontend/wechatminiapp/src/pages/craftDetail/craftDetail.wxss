@@ -1,0 +1,93 @@
+.craftWrap{
+    display: flex;
+    flex-direction: row;
+    padding: 20rpx;
+    padding-left: 30rpx;
+    border-bottom: 1px solid #dedede;
+    background: #fff
+}
+.craftWrap .craftPic image{
+    width: 110rpx;
+    height: 110rpx;
+}
+.craftWrap .craftInfo{
+    padding-left: 20rpx;
+}
+.craftWrap .craftInfo view{
+    margin-bottom: 8rpx;
+}
+.craftWrap .craftInfo .name{
+    color:#3b3b3b;
+    font-size: 28rpx;
+    margin:0;
+}
+.craftWrap .craftInfo .type{
+    color:#fff;
+    background:#ff9999;
+    display: inline-block;
+    font-size: 24rpx;
+    padding: 10rpx 20rpx;
+    border-radius: 20rpx;
+}
+.craftWrap .craftInfo .wxnum{
+    color:#959595;
+    font-size: 24rpx;
+}
+
+.craftTypeDetail{
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    margin-top: 20rpx;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25rpx;
+    background: #fff;
+    padding-bottom: 160rpx;
+}
+.craftTypeDetail .crafrList{
+    padding:23rpx 8rpx;
+    border-bottom: 1px solid #dedede;
+}
+.craftTypeDetail image{
+    width:38rpx;
+    height: 38rpx;
+    margin-right: 45rpx;
+}
+.craftTypeDetail image.location{
+    height: 42rpx;
+}
+.craftTypeDetail .crafrList {
+    font-size: 28rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.craftTypeDetail .crafrList .name{
+    color:#3b3b3b;
+}
+.craftTypeDetail .crafrList .normal{
+    color:#959595;
+}
+.craftTypeDetail .weekInfo{
+    padding:23rpx 0;
+    font-size: 28rpx;
+    padding-left: 83rpx;
+
+}
+.craftTypeDetail .weekInfo text{
+    padding:20rpx 40rpx;
+    color:#fff;
+    background: #b2d6d0;
+    display: inline-block;
+    margin-right:20rpx;
+    margin-bottom:20rpx;
+}
+.craftTypeDetail .weekInfo text.disable{
+    background: #cacaca;
+}
+.editBtn{
+    background: #00696c;
+    color:#fff;
+    width: 80%;
+    margin-top: 110rpx;
+}

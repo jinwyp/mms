@@ -1,0 +1,101 @@
+<!--pages/craft/craftTitle.wxml-->
+<view class="intergal">
+    <view class="craftTitlePic">
+        <image src="../../images/meinv.jpg" bindtap="aa"></image>
+    </view>
+    <view class="ulWrap">
+        <view class="liWrap">
+            <view class="grey">姓名：</view>
+            <view class="anonymous">{{name}}</view>
+        </view>
+        <view class="liWrap">
+            <view class="grey">手机号码：</view>
+            <view class="anonymous">{{mobile}}</view>
+        </view>
+        <view class="liWrap">
+            <view class="grey">所在门店：</view>
+            <view class="anonymous">{{shopAddress}}</view>
+        </view>
+    </view>
+    <view class="ulWrap contentWrap">
+        <view class="title">
+            <text class="contit">店内实景</text>        
+        </view>
+        <view class="uploadWrap">
+            <block wx:for="{{uploadImg}}" wx:for-index="index" wx:key="{{uploadImg}}">
+                <view class="imgWrap">
+                    <image src="{{item}}" data-id="{{index}}" class="uploadPic" catchtap="show"></image>
+                    <text data-id="{{index}}" catchtap="delImg">x</text>
+                </view>
+            </block>   
+            <view class="uploadBlock" bindtap="uploadImg"></view>
+            <!-- 轮播图 -->
+            <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
+                <view class="slideWrap">
+                    <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
+                            <block wx:for="{{uploadImg}}"  wx:key="uploadImg">
+                                <swiper-item>
+                                    <image src="{{item}}" mode="widthFix" class="slide-image"/>
+                                </swiper-item>
+                            </block>
+                    </swiper>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="ulWrap contentWrap"  hidden="{{!modalHidden}}">
+        <view class="title bb">
+            <text class="contit">耗材</text>
+            <view class="addBtn" catchtap="addCost"></view>        
+        </view>
+        <view class="ulCostLists">
+            <block wx:for="{{costList}}" wx:key="{{costList}}" wx:for-index="idx">
+                <view class="liCostLists">
+                    <input type="text" data-idx="{{idx}}" class="costsName" bindblur="bindblurFun" value="{{item.costname}}" placeholder="此处输入耗材信息" placeholder-class="placeholderStyle"/>
+                    <text class="subtractBtn" data-idx="{{idx}}" catchtap="subCost"></text>    
+                </view>
+            </block>
+        </view>
+    </view>
+    <view class="ulWrap contentWrap" hidden="{{!modalHidden}}">
+        <view class="title bb">
+            <text class="contit">工艺流程</text>
+            <view class="addBtn" catchtap="addgy"></view>         
+        </view>
+        <block wx:for="{{gyprocessList}}" wx:key="{{gyprocessList}}" wx:for-index="idx">
+            <view class="progressWrap">
+                <view class="progressInfo">
+                    <textarea placeholder="此处输入流程信息" placeholder-class="placeholderStyle" />
+                </view>
+                <view class="pregressTime">
+                    <view class="costTimeInfo">
+                        <text>耗时</text>
+                        <picker mode="selector" class="time" data-idx="{{idx}}" range="{{range}}" bindchange="costTimeChange">{{item.costTime}}</picker>
+                        <text>分钟</text>
+                    </view>
+                    <view class="control">
+                        <view class="subtractBtn" data-idx="{{idx}}" catchtap="subgy"></view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </view>
+    <view class="ulWrap contentWrap" hidden="{{!modalHidden}}">
+        <view class="gyInfo">
+            <textarea placeholder="工艺说明：" placeholder-class="placeholderStyle" />       
+        </view>
+    </view>
+    <button class="uploadBtn" bindtap="uploadBtn">上传</button>
+</view>
+<!--遮罩-->
+<view class="backgroundModal" hidden="{{modalHidden}}"></view>
+<!--上传成功弹窗-->
+<view class="content" hidden="{{modalHidden}}">
+    <view class="contentInfo">
+        <icon type="success" size="60" color="green"/>
+        <text>上传成功</text>
+        <text>可分享给体验好友确认信息</text>
+        <button>立即分享</button>
+    </view>
+</view>
+    

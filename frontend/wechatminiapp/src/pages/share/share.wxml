@@ -14,10 +14,37 @@
             </radio-group>
 
         </scroll-view>
-        <view class="borderB borderT marginB upLoadImg">
+        <!--<view class="borderB borderT marginB upLoadImg">
              <image src="{{tempFilePaths}}" bindtap="chooseimage" mode="aspecFill" class="shareImg"></image>
              
+        </view>-->
+        
+
+        <view class="ulWrap contentWrap borderT marginB">
+            <view class="uploadWrap">
+                <block wx:for="{{uploadImg}}" wx:for-index="index" wx:key="{{uploadImg}}">
+                    <view class="imgWrap">
+                        <image src="{{item}}" data-id="{{index}}" class="uploadPic" catchtap="show"></image>
+                        <text data-id="{{index}}" catchtap="delImg">x</text>
+                    </view>
+                </block>   
+                <view class="uploadBlock" bindtap="uploadImg"></view>
+            <!-- 轮播图 -->
+                <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
+                    <view class="slideWrap">
+                        <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
+                                <block wx:for="{{uploadImg}}"  wx:key="uploadImg">
+                                    <swiper-item>
+                                        <image src="{{item}}" mode="widthFix" class="slide-image"/>
+                                    </swiper-item>
+                                </block>
+                        </swiper>
+                    </view>
+                 </view>
+
+            </view>
         </view>
+
 
          <view class="borderB borderT">
             <textarea name="feeling" placeholder="个人体验感受" placeholder-style="color:#999999;"  />
@@ -41,7 +68,13 @@
         </view>
         <view class="borderB H100">
             <view class="form-title">体验价格：</view>
-            <input name="price"/>
+            <view class="price">
+                <image src="../../images/rmb.png"></image>
+                <input name="price" class=""/>
+            </view>
+            <view class="confirmBtnWrap">
+                <view class="switch {{isClick ? 'toggle-on' : 'toggle-off'}}" bindtap="tapSwitch">转发可见</view>
+            </view>
         </view>
         <view class="borderB H100">
             <view class="form-title lineH48">谁可以看：</view> 
@@ -53,7 +86,9 @@
         
 
          <view class="btn-area">
+         <navigator url="../shareSubmit/shareSubmit">
             <button formType="submit">保存</button>
+            </navigator>
         </view>
     </form>
 </view>

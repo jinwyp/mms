@@ -79,7 +79,48 @@ textarea{
 .lineH48{
     line-height: 48px;
 }
-.upLoadImg{
+/*上传*/
+.uploadWrap{
+    padding:32rpx 28rpx 32rpx 28rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-bottom: 1px solid #e4e4e4;
+}
+.uploadWrap .imgWrap{
+    position: relative;
+    margin-right: 5rpx;
+    margin-bottom: 5rpx;
+}
+.uploadWrap .imgWrap text{
+    width: 40rpx;
+    height: 40rpx;
+    opacity: .8;
+    color:#fff;
+    font-size: 24rpx;
+    text-align: center;
+    line-height: 32rpx;
+    background: #000;
+    position: absolute;
+    right: 2rpx;
+    top: 2rpx;
+}
+.uploadWrap .uploadPic{
+    width: 160rpx;
+    height: 160rpx;
+    border:1px solid transparent;
+    
+}
+.uploadWrap .uploadBlock{
+    width: 160rpx;
+    height: 160rpx;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 160rpx;
+    background: url('../../../images/plusIcon.png') no-repeat center center;
+}
+/*.upLoadImg{
     padding: 30rpx 30rpx;
 }
 .upLoadImg .shareImg{
@@ -87,7 +128,7 @@ textarea{
     height: 152rpx;
     border: 1px solid #e4e4e4;
     margin-right: 30rpx;
-}
+}*/
 
 .trigger-r{
     width: 20px;
@@ -110,4 +151,116 @@ textarea{
 }
 .marginB100{
     margin-bottom: 30rpx;
+}
+.price{
+    width:150rpx;
+	height: 60rpx;
+    border-radius: 5px;
+    border: 1px solid #e4e4e4;
+    margin: 17rpx 0 0 50rpx;
+    display: inline-block;
+    
+   
+}
+.price image{
+    width: 32rpx;
+    height: 32rpx;
+    margin: 15rpx 8rpx 0 8rpx;
+}
+.price input{
+    width: 100rpx;
+    height: 55rpx;
+    vertical-align: middle;
+}
+/*switch*/
+.confirmBtnWrap{
+    float: right;
+    margin-top: 18rpx;
+}
+.switch {
+    position: relative;
+    overflow: hidden;
+	width:90px;
+	height: 32px;
+	border-radius: 16px;
+    line-height: 32px;
+    color:#fff;
+    padding-left: 8px;
+    font-size: 30rpx;
+}
+
+.switch::before {
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    border-radius: 15px;
+    transition: all ease-out 0.3s;
+    -webkit-transition: all 0.3s;
+}
+
+.switch::after {
+	position: absolute;
+	display: inline-block;
+	content: "";
+	margin-top: 1px;
+	height: 30px;
+	width: 30px;
+	background: red;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: left 0.2s ease-out;
+	-webkit-transition: left ease-out 0.2s;
+}
+
+.toggle-off{
+	background-color: #ff9999;
+}
+.toggle-off::before {
+    width:96px;
+	height: 30px;
+    left: 1px;
+    top: 1px;
+}
+.toggle-off::after{
+	left: 1px;
+	box-shadow: 1px 2px 4px #aaa;
+}
+.toggle-on{
+	background-color: #ff9999;
+}
+
+.toggle-on::before {
+    width: 0px;
+	height: 0px;
+	left: 30px;
+	top: 15px;
+}
+.toggle-on:after{
+	left: 67px;
+}
+/*上传图片轮播*/
+.slideshow{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background:black;
+    z-index: 99999999;
+}
+.slideshow .slideWrap{
+    text-align: center;
+}
+.slideshow .slideWrap swiper-item{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+}
+.slideshow image{
+    width: 100%;
+}
+.slideshow swiper {
+    display:block;
+    height:100vh;
 }

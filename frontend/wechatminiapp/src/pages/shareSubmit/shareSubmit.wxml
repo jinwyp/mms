@@ -1,0 +1,20 @@
+<!--pages/shareSubmit/shareSubmit.wxml-->
+<view class="con">
+    <view class="submit">
+        <icon type="success" size="70"/>
+        <view class="tip"><text>已存入我们的收藏</text></view>
+        <navigator url="../collection/collection">
+            <view class="toCollection">进入收藏</view>
+        </navigator>
+        <image src="../../images/shareTip.png" class="shareTip"></image>
+    </view>
+    <view class="imgs">
+        <view class="tip">
+            <icon type="success" size="30" color="orange"/>
+            <text>指定手艺人补充下述工艺说明</text>
+        </view>
+        <view class="tipsImg">
+            <image src="../../images/tipsImg.png" mode="aspectFit"></image>
+        </view>
+    </view>
+</view>r
