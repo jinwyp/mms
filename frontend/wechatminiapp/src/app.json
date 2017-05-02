@@ -1,14 +1,17 @@
 {
   "pages":[
-    "pages/craftDetail/craftDetail",
+    "pages/expDetail/expDetail",
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     "pages/craft/craftTitle",
+    "pages/craftDetail/craftDetail",
+    
     "pages/personInfo/personInfo",
     "pages/timeSetting/timeSetting",
     "pages/index/index" ,
     "pages/share/share" ,
     "pages/collection/collection",
     "pages/shareSubmit/shareSubmit" ,
-    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    
     "pages/friendsExp/friendsList/friendsList"
   ],
   "window":{
