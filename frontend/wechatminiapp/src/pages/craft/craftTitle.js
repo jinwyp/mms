@@ -32,7 +32,22 @@ Page({
           }
         })
     }else{
-      var that=this;
+      var that=this,policy,callback,signature,OssAccessKeyId
+      wx.request({
+        url: 'http://zxy.gongshijia.com/getOssPolicy',
+        method:'GET',
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
+          policy=res.data.policy;
+          callback=res.data.callback;
+          signature=res.data.signature;
+          OssAccessKeyId=res.data.accessid;
+          console.log(res)
+        }
+      })
+
       wx.chooseImage({
         count: 9, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -42,29 +57,78 @@ Page({
           that.setData({
             uploadImg:tempFilePaths.concat(that.data.uploadImg)
           })
+
         },
-        complete:function(){
-          if(that.data.uploadImg.length>9){
-              wx.showModal({
-              title: '提示',
-              content: '店内实景最多上传9张',
-              showCancel:false,
-              success: function(res) {
-                if (res.confirm) {
-                  that.data.uploadImg.length=9;
-                    that.setData({
-                        uploadImg:that.data.uploadImg
-                      })
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
+        complete:function(res){
+           var tempFilePaths = res.tempFilePaths;
+           wx.uploadFile({
+                url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                header: {
+                  'content-type': 'multipart/form-data'
+                },
+                filePath:tempFilePaths[0],
+                name: 'file',
+                formData: {
+                  key:'${filename}',
+                  policy: policy ,
+                  success_action_status:200,
+                  callback: callback,
+                  signature:signature,
+                  OSSAccessKeyId:OssAccessKeyId,
+                  file:that.data.uploadImg
+                },
+                success: function(res) {
+                  // console.log(res)
+                },
+                complete:function(res){
+                  console.log(res)
                 }
-              }
-            })
-          }
+              })
+          // if(that.data.uploadImg.length>9){
+          //     wx.showModal({
+          //     title: '提示',
+          //     content: '店内实景最多上传9张',
+          //     showCancel:false,
+          //     success: function(res) {
+          //       if (res.confirm) {
+          //         that.data.uploadImg.length=9;
+          //           that.setData({
+          //               uploadImg:that.data.uploadImg
+          //             })
+
+                  
+
+          //       } else if (res.cancel) {
+          //         console.log('用户点击取消')
+          //       }
+          //     }
+          //   })
+          // }else{
+          //   wx.uploadFile({
+          //     url: 'http://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+          //     method:'POST',
+          //     header: {
+          //       'content-type': 'multipart/form-data'
+          //     },
+          //     filePath:that.data.uploadImg,
+          //     name: 'file',
+          //     formData: {
+          //       key:'${filename}',
+          //       policy: policy ,
+          //       success_action_status:200,
+          //       callback: callback,
+          //       signature:signature,
+          //       OssAccessKeyId:OssAccessKeyId,
+          //       file:that.data.uploadImg
+          //     },
+          //     success: function(res) {
+          //       console.log(res)
+          //     }
+          //   })
+          // }
         }
       })
     }
-    console.log(this.data.uploadImg)
   },
   show: function (e) {
     var id = e.target.dataset.id,
@@ -86,6 +150,13 @@ Page({
         this.setData({
           ['costList['+idx+'].costname']:e.detail.value
         })
+  },
+  textareaVal:function(e){
+    var idx = e.target.dataset.idx,
+            obj = this.data.gyprocessList
+            this.setData({
+              ['gyprocessList['+idx+'].gyInfo']:e.detail.value
+            })
   },
   addCost:function(){
     if(this.data.costList.length>9){
@@ -179,6 +250,7 @@ Page({
         this.setData({
             gyprocessList:this.data.gyprocessList
         });
+        console.log(this.data.gyprocessList)
     }
   },
   delImg:function(e){
@@ -204,5 +276,17 @@ Page({
     this.setData({
         modalHidden:false
     });
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '自定义分享标题',
+      path: '/page/craft/craftTitle',
+      success: function(res) {
+        console.log(res)
+      },
+      fail: function(res) {
+        // 分享失败
+      }
+    }
   }
 })

@@ -65,7 +65,7 @@
         <block wx:for="{{gyprocessList}}" wx:key="{{gyprocessList}}" wx:for-index="idx">
             <view class="progressWrap">
                 <view class="progressInfo">
-                    <textarea placeholder="此处输入流程信息" placeholder-class="placeholderStyle" />
+                    <textarea data-idx="{{idx}}" bindblur="textareaVal"  value="{{item.gyInfo}}" placeholder="此处输入流程信息" placeholder-class="placeholderStyle" />
                 </view>
                 <view class="pregressTime">
                     <view class="costTimeInfo">
@@ -73,8 +73,8 @@
                         <picker mode="selector" class="time" data-idx="{{idx}}" range="{{range}}" bindchange="costTimeChange">{{item.costTime}}</picker>
                         <text>分钟</text>
                     </view>
-                    <view class="control">
-                        <view class="subtractBtn" data-idx="{{idx}}" catchtap="subgy"></view>
+                    <view class="control" data-idx="{{idx}}" catchtap="subgy">
+                        <view class="subtractBtn"></view>
                     </view>
                 </view>
             </view>
@@ -95,7 +95,7 @@
         <icon type="success" size="60" color="green"/>
         <text>上传成功</text>
         <text>可分享给体验好友确认信息</text>
-        <button>立即分享</button>
+        <button bindtap="share">立即分享</button>
     </view>
 </view>
     
