@@ -74,7 +74,8 @@ Page({
                   success_action_status:200,
                   callback: callback,
                   signature:signature,
-                  OSSAccessKeyId:OssAccessKeyId
+                  OSSAccessKeyId:OssAccessKeyId,
+                  file:that.data.uploadImg
                 },
                 success: function(res) {
                   // console.log(res)
@@ -149,6 +150,13 @@ Page({
         this.setData({
           ['costList['+idx+'].costname']:e.detail.value
         })
+  },
+  textareaVal:function(e){
+    var idx = e.target.dataset.idx,
+            obj = this.data.gyprocessList
+            this.setData({
+              ['gyprocessList['+idx+'].gyInfo']:e.detail.value
+            })
   },
   addCost:function(){
     if(this.data.costList.length>9){
@@ -242,6 +250,7 @@ Page({
         this.setData({
             gyprocessList:this.data.gyprocessList
         });
+        console.log(this.data.gyprocessList)
     }
   },
   delImg:function(e){
@@ -267,5 +276,17 @@ Page({
     this.setData({
         modalHidden:false
     });
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '自定义分享标题',
+      path: '/page/craft/craftTitle',
+      success: function(res) {
+        console.log(res)
+      },
+      fail: function(res) {
+        // 分享失败
+      }
+    }
   }
 })
