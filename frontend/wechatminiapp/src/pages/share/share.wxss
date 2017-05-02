@@ -79,7 +79,48 @@ textarea{
 .lineH48{
     line-height: 48px;
 }
-.upLoadImg{
+/*上传*/
+.uploadWrap{
+    padding:32rpx 28rpx 32rpx 28rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-bottom: 1px solid #e4e4e4;
+}
+.uploadWrap .imgWrap{
+    position: relative;
+    margin-right: 5rpx;
+    margin-bottom: 5rpx;
+}
+.uploadWrap .imgWrap text{
+    width: 40rpx;
+    height: 40rpx;
+    opacity: .8;
+    color:#fff;
+    font-size: 24rpx;
+    text-align: center;
+    line-height: 32rpx;
+    background: #000;
+    position: absolute;
+    right: 2rpx;
+    top: 2rpx;
+}
+.uploadWrap .uploadPic{
+    width: 160rpx;
+    height: 160rpx;
+    border:1px solid transparent;
+    
+}
+.uploadWrap .uploadBlock{
+    width: 160rpx;
+    height: 160rpx;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 160rpx;
+    background: url('../../../images/plusIcon.png') no-repeat center center;
+}
+/*.upLoadImg{
     padding: 30rpx 30rpx;
 }
 .upLoadImg .shareImg{
@@ -87,7 +128,7 @@ textarea{
     height: 152rpx;
     border: 1px solid #e4e4e4;
     margin-right: 30rpx;
-}
+}*/
 
 .trigger-r{
     width: 20px;
@@ -196,4 +237,30 @@ textarea{
 }
 .toggle-on:after{
 	left: 67px;
+}
+/*上传图片轮播*/
+.slideshow{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background:black;
+    z-index: 99999999;
+}
+.slideshow .slideWrap{
+    text-align: center;
+}
+.slideshow .slideWrap swiper-item{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+}
+.slideshow image{
+    width: 100%;
+}
+.slideshow swiper {
+    display:block;
+    height:100vh;
 }

@@ -26,6 +26,8 @@ Page({
     dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(),
    
    tempFilePaths:'../../images/upload.png',
+   uploadImg:[],
+   slideshow: false,
    allValue:'',
    markers: [{
       latitude: 23.099994,
@@ -45,6 +47,93 @@ Page({
       rotate: 90
     }]
   }, 
+  
+  // 上传图片
+  uploadImg:function(){
+    if(this.data.uploadImg.length>=9){
+        wx.showModal({
+          title: '提示',
+          content: '店内实景最多上传9张',
+          showCancel:false,
+          success: function(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+    }else{
+      var that=this;
+      wx.chooseImage({
+        count: 9, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function (res) {
+          var tempFilePaths = res.tempFilePaths;
+          that.setData({
+            uploadImg:tempFilePaths.concat(that.data.uploadImg)
+          })
+        },
+        complete:function(){
+          if(that.data.uploadImg.length>9){
+              wx.showModal({
+              title: '提示',
+              content: '店内实景最多上传9张',
+              showCancel:false,
+              success: function(res) {
+                if (res.confirm) {
+                  that.data.uploadImg.length=9;
+                    that.setData({
+                        uploadImg:that.data.uploadImg
+                      })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          }
+        }
+      })
+    }
+    console.log(this.data.uploadImg)
+  },
+  // 图片放大查看
+  show: function (e) {
+    var id = e.target.dataset.id,
+        order=e.target.dataset.order;
+        this.setData({
+          slideshow: true,
+          currentId:id,
+          order:order
+        })
+  },
+  hide:function(){
+    this.setData({
+      slideshow:false
+    })
+  },
+  
+  
+  delImg:function(e){
+    var that=this;
+     wx.showModal({
+          title: '提示',
+          content: '您确认删除该张照片吗',
+          showCancel:true,
+          success: function(res) {
+            if (res.confirm) {
+              var index=e.target.dataset.id;
+              that.data.uploadImg.splice(index,1)
+              that.setData({
+                  uploadImg:that.data.uploadImg
+              });
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+  },
   // 选择时间
   datePickerBindchange:function(e){
     this.setData({
@@ -74,37 +163,37 @@ Page({
         }
     });
   },
-  chooseimage: function () { 
-    var _this = this; 
-    wx.chooseImage({ 
-    count: 1, // 默认9 
-    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有 
-    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有 
-    success: function (res) { 
-      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片 
-      _this.setData({ 
-      tempFilePaths:res.tempFilePaths
-      }) 
-      wx.uploadFile({
-        url: 'https://wd.gongshijia.com/upload',
-        filePath:tempFilePaths[0],
-        name:'name',
-        // header: {}, // 设置请求的 header
-        // formData: {}, // HTTP 请求中其他额外的 form data
-        success: function(res){
-          // success
-        },
-        fail: function() {
-          // fail
-        },
-        complete: function() {
-          // complete
-        }
-      })
+//   chooseimage: function () { 
+//     var _this = this; 
+//     wx.chooseImage({ 
+//     count: 1, // 默认9 
+//     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有 
+//     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有 
+//     success: function (res) { 
+//       // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片 
+//       _this.setData({ 
+//       tempFilePaths:res.tempFilePaths
+//       }) 
+//       wx.uploadFile({
+//         url: 'https://wd.gongshijia.com/upload',
+//         filePath:tempFilePaths[0],
+//         name:'name',
+//         // header: {}, // 设置请求的 header
+//         // formData: {}, // HTTP 请求中其他额外的 form data
+//         success: function(res){
+//           // success
+//         },
+//         fail: function() {
+//           // fail
+//         },
+//         complete: function() {
+//           // complete
+//         }
+//       })
 
-    } 
-    }) 
- } ,
+//     } 
+//     }) 
+//  } ,
  radioChange: function(e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.setData({

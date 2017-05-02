@@ -14,10 +14,37 @@
             </radio-group>
 
         </scroll-view>
-        <view class="borderB borderT marginB upLoadImg">
+        <!--<view class="borderB borderT marginB upLoadImg">
              <image src="{{tempFilePaths}}" bindtap="chooseimage" mode="aspecFill" class="shareImg"></image>
              
+        </view>-->
+        
+
+        <view class="ulWrap contentWrap borderT marginB">
+            <view class="uploadWrap">
+                <block wx:for="{{uploadImg}}" wx:for-index="index" wx:key="{{uploadImg}}">
+                    <view class="imgWrap">
+                        <image src="{{item}}" data-id="{{index}}" class="uploadPic" catchtap="show"></image>
+                        <text data-id="{{index}}" catchtap="delImg">x</text>
+                    </view>
+                </block>   
+                <view class="uploadBlock" bindtap="uploadImg"></view>
+            <!-- 轮播图 -->
+                <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
+                    <view class="slideWrap">
+                        <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
+                                <block wx:for="{{uploadImg}}"  wx:key="uploadImg">
+                                    <swiper-item>
+                                        <image src="{{item}}" mode="widthFix" class="slide-image"/>
+                                    </swiper-item>
+                                </block>
+                        </swiper>
+                    </view>
+                 </view>
+
+            </view>
         </view>
+
 
          <view class="borderB borderT">
             <textarea name="feeling" placeholder="个人体验感受" placeholder-style="color:#999999;"  />
