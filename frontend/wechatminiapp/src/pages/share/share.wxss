@@ -118,7 +118,11 @@ textarea{
     border: 1px solid #ccc;
     text-align: center;
     line-height: 160rpx;
-    background: url('../../../images/plusIcon.png') no-repeat center center;
+}
+.uploadWrap .uploadBlock image{
+    width: 100rpx;
+    height: 100rpx;
+    margin-top: 30rpx;
 }
 /*.upLoadImg{
     padding: 30rpx 30rpx;

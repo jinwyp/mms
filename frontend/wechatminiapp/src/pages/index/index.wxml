@@ -1,31 +1,42 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="interest">
-   <view class="title"><text>兴趣</text></view>
-   <view class="item">
-    <view wx:for="{{interest}}" wx:key="{{interest}}">
-     
-      <text class="itemList item-{{index}} {{currentItemIndex === index?'chooseItem':''}} " data-interest="{{index}}" bindtap="chooseItem" >{{item}} </text>
-      <!--<switch  class="itemSwitch item-{{index}} " bindchange=""/>-->
-
-    </view>          
-   </view>
-  </view>
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="interest">
+      <view class="title"><text>兴趣</text></view>
+      <view class="item">
+        
+        
+          <!--<text class="itemList item-{{index}} {{currentItemIndex === index?'chooseItem':''}} " data-interest="{{index}}" bindtap="chooseItem" >{{item}} </text>-->
+        <checkbox-group name="interestChoose" bindchange="checkboxChange">
+          <block wx:for="{{interest}}" wx:key="{{interest}}">
+            <label data-value='{{item.value}}' bindtap="checkItem"  class="itemList item-{{index}}" >
+              
+              <image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked?'':'chooseN'}}" data-value='{{item.value}}'></image>
+             
+              <checkbox value="{{item.value}}" checked="{{item.checked}}">{{item.name}} </checkbox>
+              
+            </label>  
+            
+          </block> 
+        </checkbox-group>
+                
+      </view>
+    </view>
  
  <view class="interestChoose">
  <!--有数据情况-->
    <navigator url="../collection/collection">
-      <button class="btn">
+      <button class="btn" formType="submit">
           <image src="../../images/cart.png"></image>
       </button>
     </navigator>
 
 <!--无数据情况-->
   <navigator url="../friendsExp/friendsList/friendsList">
-      <button class="btn">
+      <button class="btn" >
           有数据情况
       </button>
     </navigator>
   </view>
-  
+  </form>
 </view>

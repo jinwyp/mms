@@ -28,7 +28,9 @@
                         <text data-id="{{index}}" catchtap="delImg">x</text>
                     </view>
                 </block>   
-                <view class="uploadBlock" bindtap="uploadImg"></view>
+                <view class="uploadBlock" bindtap="uploadImg">
+                    <image src="../../images/plusIcon.png"></image>
+                </view>
             <!-- 轮播图 -->
                 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
                     <view class="slideWrap">

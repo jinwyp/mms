@@ -23,46 +23,53 @@
 /*.itemSwitch{
   position: absolute;
 }*/
-.chooseItem{
-  background-image: url(../../images/gou.png);
-  background-repeat: no-repeat;
-  background-size: 40rpx 40rpx;
-  background-position: 25rpx center;
+.chooseImg{
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  left: 20rpx;
+  width: 48rpx;
+  height: 48rpx;
 }
+.chooseN{
+  display: none;
+}
+
+
 .item-0{
-  padding: 18rpx 80rpx;
+  padding: 15rpx 70rpx;
   background-color: #a3b6fa;
   top:0;
   left: 30%;
 }
 .item-1{
-  padding: 20rpx 90rpx;
+  padding: 17rpx 70rpx;
   background-color: #8dccf7;
   top:110rpx;
   left: 8%;
 }
 .item-2{
-  padding: 30rpx 100rpx;
+  padding: 25rpx 80rpx;
   background-color: #f59181;
   top:150rpx;
   left: 34%;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
 }
 .item-3{
-  padding: 20rpx 70rpx;
+  padding: 17rpx 60rpx;
   background-color: #8dcd6f;
   top:90rpx;
-  left: 65%;
+  left: 61%;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
 }
 .item-4{
-  padding: 18rpx 80rpx;
+  padding: 15rpx 70rpx;
   background-color: #f2c085;
   top:320rpx;
   left: 20%;
 }
 .item-5{
-  padding: 16rpx 80rpx;
+  padding: 13rpx 70rpx;
   background-color: #70bfa2;
   top:280rpx;
   left: 55%;
