@@ -20,23 +20,23 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.FileInfo
 
 import scala.concurrent.Future
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import java.io.IOException
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
 
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import org.apache.commons.codec.binary.Base64;
-import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1;
+import org.apache.commons.codec.binary.Base64
+import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import com.gongshijia.mms.Core
+import com.gongshijia.mms.service.ServiceActors
 
 /**
   * Created by hary on 2017/5/3.
   */
-trait LoginRoute extends Core with SprayJsonSupport {
+trait LoginRoute extends Core with SprayJsonSupport with ServiceActors {
 
   // 用户登录
   def login = path("login") {

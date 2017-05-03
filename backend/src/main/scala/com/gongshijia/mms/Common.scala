@@ -11,6 +11,8 @@ import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives.{complete, extractUri}
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
+import com.gongshijia.mms.mmsApp.coreSystem
+import com.gongshijia.mms.service.UserMaster
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
 import scala.util.control.NonFatal
@@ -23,6 +25,9 @@ trait Core {
   implicit val coreMaterializer = ActorMaterializer()
   val coreConfig = coreSystem.settings.config
   val log = Logging(coreSystem, this.getClass)
+
+  // 准备服务
+  val userMaster = coreSystem.actorOf(UserMaster.props)
 
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")
 }
