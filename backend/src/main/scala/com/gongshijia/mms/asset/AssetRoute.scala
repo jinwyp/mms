@@ -3,6 +3,8 @@ package com.gongshijia.mms.asset
 import java.io.File
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption.{CREATE, WRITE}
+import java.text.SimpleDateFormat
+import java.util.{Locale, TimeZone}
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
@@ -30,8 +32,8 @@ trait AssetRoute extends Core with SprayJsonSupport {
 
   implicit val assetRouteExecutionContext = coreSystem.dispatcher
 
-  val accessId = coreSystem.settings.config.getString("aliyun.accessKeyId")
-  val accessKey = coreSystem.settings.config.getString("aliyun.accessKeySecret")
+  val accessKeyId = coreSystem.settings.config.getString("aliyun.accessKeyId")
+  val accessKeySecret = coreSystem.settings.config.getString("aliyun.accessKeySecret")
   val ossBucket = coreSystem.settings.config.getString("aliyun.ossBucket")
   val ossHost = coreSystem.settings.config.getString("aliyun.ossHost")
   val domain = coreSystem.settings.config.getString("mms.domain")
@@ -118,27 +120,40 @@ trait AssetRoute extends Core with SprayJsonSupport {
     path("policy") {
       complete({
         val policy = base64Encode(getPolicy.getBytes());
-        PolicyResponse(callback, getSignature(policy.getBytes(), accessKey.getBytes()), policy, accessId, ossHost)
+        PolicyResponse(callback, getSignature(policy.getBytes(), accessKeySecret.getBytes()), policy, accessKeyId, ossHost)
       })
     }
   }
 
 
-  // 阿里云上传回调
+  // 阿里云上传成功回调
   def assetOssCallback: Route = path("callback") {
-    formFields("filename", "mimeType", "width", "height") { (filename, mimeType, width, height) =>
+    formFields("filename", "mimeType") { (filename, mimeType) =>
       val resultStr =
         s"""
            |{
-           |"filename": "$filename"
+           |"filename": "$filename",
            |"mimeType": "$mimeType"
-           |"width":  "$width"
-           |"height": "$height"
            |}
                    """.stripMargin
       complete(resultStr);
     }
   }
+
+
+  // 阿里云获取下载资源签名
+  def assetOssDownload: Route = path("assetDownload") {
+    formFields("filename") { (filename) =>
+//      val format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+//      format.setTimeZone(TimeZone.getTimeZone("GMT"));
+      //      val dateStr = format.format(new Date());
+      val sb = "GET"+"\n"+"Wed, 03 May 2017 20:12:41 GMT"+"\n"+filename;
+      println(sb);
+      val signature = getSignature(sb.getBytes(), accessKeySecret.getBytes());
+      complete("OSS " + accessKeyId + ":" + signature)
+    }
+  }
+
 
 
   val fileField = "key"
@@ -172,7 +187,7 @@ trait AssetRoute extends Core with SprayJsonSupport {
     }
   }
 
-  def assetRoute = assetUploadPolicy ~ assetUploadFile ~ assetOssCallback
+  def assetRoute = assetUploadPolicy ~ assetOssCallback ~ assetOssDownload
 
 }
 
