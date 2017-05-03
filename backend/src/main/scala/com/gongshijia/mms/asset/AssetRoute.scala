@@ -3,12 +3,12 @@ package com.gongshijia.mms.asset
 import java.io.File
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption.{CREATE, WRITE}
-import java.util.UUID
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
 
-import akka.http.scaladsl.model.ContentTypes.`application/octet-stream`
-import akka.http.scaladsl.model.{HttpEntity, HttpResponse, StatusCodes}
-import akka.http.scaladsl.model.headers.{ContentDispositionTypes, `Content-Disposition`}
-import akka.http.scaladsl.server.Directives.{complete, extractRequestContext, fileUpload, get, onSuccess, parameter, path, post}
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import akka.http.scaladsl.server.Directives.{complete, extractRequestContext, fileUpload, get, onSuccess, path, post, _}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.FileInfo
 import akka.stream.IOResult
@@ -16,24 +16,8 @@ import akka.stream.scaladsl.{FileIO, Keep, Source}
 import akka.util.ByteString
 import com.gongshijia.mms.Core
 import org.apache.commons.io.FileUtils
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import akka.http.scaladsl.model.ContentTypes._
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.{ContentDispositionTypes, `Content-Disposition`}
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.directives.FileInfo
 
-import scala.concurrent.Future
-
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import org.apache.commons.codec.binary.Base64;
-import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1;
+import scala.concurrent.Future;
 
 
 /**
@@ -46,8 +30,8 @@ trait AssetRoute extends Core with SprayJsonSupport {
 
   implicit val assetRouteExecutionContext = coreSystem.dispatcher
 
-  val accessId = coreSystem.settings.config.getString("aliyun.accessId")
-  val accessKey = coreSystem.settings.config.getString("aliyun.accessKey")
+  val accessId = coreSystem.settings.config.getString("aliyun.accessKeyId")
+  val accessKey = coreSystem.settings.config.getString("aliyun.accessKeySecret")
   val ossBucket = coreSystem.settings.config.getString("aliyun.ossBucket")
   val ossHost = coreSystem.settings.config.getString("aliyun.ossHost")
   val domain = coreSystem.settings.config.getString("mms.domain")
@@ -94,15 +78,14 @@ trait AssetRoute extends Core with SprayJsonSupport {
     val mac = Mac.getInstance("HmacSHA1");
     mac.init(signingKey);
     val rawHmac = mac.doFinal(data);
-    Base64.encodeBase64String(rawHmac);
+    base64Encode(rawHmac);
   }
 
-  val callbackBody = "callbackBody":
-  "filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}"
+  val callbackBody = "filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}";
   val callback = base64Encode(
     s"""
        |{
-       |"callbackUrl":"http://$domain/ossSuccessCallback",
+       |"callbackUrl":"http://$domain/asset/callback",
        |"callbackBody":"$callbackBody",
        |"callbackBodyType":"application/x-www-form-urlencoded"
        |}
@@ -134,8 +117,8 @@ trait AssetRoute extends Core with SprayJsonSupport {
   def assetUploadPolicy = get {
     path("policy") {
       complete({
-        val policyBytes = getPolicy.getBytes()
-        PolicyResponse(callback, getSignature(policyBytes, accessKey.getBytes()), base64Encode(policyBytes), accessId, ossHost)
+        val policy = base64Encode(getPolicy.getBytes());
+        PolicyResponse(callback, getSignature(policy.getBytes(), accessKey.getBytes()), policy, accessId, ossHost)
       })
     }
   }
@@ -143,11 +126,17 @@ trait AssetRoute extends Core with SprayJsonSupport {
 
   // 阿里云上传回调
   def assetOssCallback: Route = path("callback") {
-    post {
-      parameterMap { (paramMap: Map[String, String]) =>
-        println("get ossCallback: " + paramMap)
-        complete("ok")
-      }
+    formFields("filename", "mimeType", "width", "height") { (filename, mimeType, width, height) =>
+      val resultStr =
+        s"""
+           |{
+           |"filename": "$filename"
+           |"mimeType": "$mimeType"
+           |"width":  "$width"
+           |"height": "$height"
+           |}
+                   """.stripMargin
+      complete(resultStr);
     }
   }
 

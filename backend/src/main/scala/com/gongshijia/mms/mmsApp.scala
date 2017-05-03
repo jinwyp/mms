@@ -23,7 +23,6 @@ object mmsApp extends App
   with LoginRoute
   with TestRoute
   with Core
-
 {
 
   val config = coreSystem.settings.config

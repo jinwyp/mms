@@ -20,7 +20,7 @@ object UserActor {
   // 用户状态
   case class UserState(){
     def update(event: UserEvent): UserState = {
-
+      null
     }
   }
 
