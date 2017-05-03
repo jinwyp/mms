@@ -11,7 +11,7 @@
         <swiper class="collectCon" bindchange="imgchange" indicatorDots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}'duration='{{duration}}' circular='{{circular}}'>
         <!--判断是否有体验手册（有）-->
             <block wx:if="{{experience.length != 0}}" >
-                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' wx:for-item="exName" >                  <scroll-view scroll-y="true" style="height: 68vh;">
+                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' wx:for-item="exName" >                                         <scroll-view scroll-y="true" class="scrollView">
                     <view class="collectItemList" >
                         <view>
                             <image src="{{exName.headImg}}" class="avatar" mode="aspectFill"></image>
