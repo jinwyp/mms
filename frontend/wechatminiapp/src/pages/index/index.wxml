@@ -4,12 +4,10 @@
     <view class="interest">
       <view class="title"><text>兴趣</text></view>
       <view class="item">
-        
-        
-          <!--<text class="itemList item-{{index}} {{currentItemIndex === index?'chooseItem':''}} " data-interest="{{index}}" bindtap="chooseItem" >{{item}} </text>-->
         <checkbox-group name="interestChoose" bindchange="checkboxChange">
           <block wx:for="{{interest}}" wx:key="{{interest}}" wx:for-index="index">
-            <label data-value='{{item.value}}' bindtap="checkItem" data-index="{{index}}" class="itemList item-{{index}}" ><image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked ? '':'chooseN'}}" data-value='{{item.value}}'></image>
+            <label data-value='{{item.value}}' bindtap="checkItem" data-index="{{index}}" class="itemList item-{{index}}" >
+            <image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked ? '':'chooseN'}}" data-value='{{item.value}}'></image>
             <checkbox value="{{item.value}}">{{item.name}} </checkbox>
               {{item.name}}
             </label>  

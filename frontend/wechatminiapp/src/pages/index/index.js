@@ -11,26 +11,16 @@ Page({
      {name:'美容',value:'美容',checked: false},
      {name:'美发',value:'美发',checked: false} 
     ]
-  //  checkItems:[],
-  //  currentInterest:{},
+  
   },
 
   checkboxChange: function(e) {  
-    console.log('checkbox发生change事件，携带value值为：', e.detail.value) 
-     
-    // this.setData({
-    //   checkItems: e.detail.value
-    // }) 
-
-    // console.log('checkbox发生change事件，携带checkItems值为：', this.data.checkItems)  
-    
+    console.log('checkbox发生change事件，携带value值为：', e.detail.value)    
   }, 
   checkItem: function(e) {
-    // console.log('checkbox发生checkItem事件，携带value值为：', e.target.dataset.value) 
-    // interest["checked"] = "true";  
-     var index=e.target.dataset.index;
+    var index=e.target.dataset.index;
     var a = !this.data.interest[index].checked
-    console.log(a)
+    // console.log(a)
     this.setData({
       ['interest['+index+'].checked']:a
     })
