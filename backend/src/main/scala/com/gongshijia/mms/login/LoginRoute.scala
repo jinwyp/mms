@@ -31,12 +31,12 @@ import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import com.gongshijia.mms.Core
-import com.gongshijia.mms.service.ServiceActors
+import com.gongshijia.mms.service.UserService
 
 /**
   * Created by hary on 2017/5/3.
   */
-trait LoginRoute extends Core with SprayJsonSupport with ServiceActors {
+trait LoginRoute extends Core with SprayJsonSupport with UserService {
 
   // 用户登录
   def login = path("login") {

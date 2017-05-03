@@ -12,7 +12,7 @@ import akka.http.scaladsl.server.Directives.{complete, extractUri}
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
 import com.gongshijia.mms.mmsApp.coreSystem
-import com.gongshijia.mms.service.UserMaster
+import com.gongshijia.mms.service.{MMSService, UserMaster}
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
 import scala.util.control.NonFatal
@@ -20,14 +20,12 @@ import scala.util.control.NonFatal
 /**
   * Created by hary on 17/1/9.
   */
-trait Core {
+trait Core extends MMSService {
   implicit val coreSystem: ActorSystem = mkSystem
   implicit val coreMaterializer = ActorMaterializer()
   val coreConfig = coreSystem.settings.config
   val log = Logging(coreSystem, this.getClass)
 
-  // 准备服务
-  val userMaster = coreSystem.actorOf(UserMaster.props)
 
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")
 }
