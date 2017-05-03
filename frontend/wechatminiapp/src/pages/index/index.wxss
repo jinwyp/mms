@@ -27,23 +27,25 @@
   position: absolute;
   top:50%;
   transform: translateY(-50%);
-  left: 20rpx;
-  width: 48rpx;
-  height: 48rpx;
+  left: 30rpx;
+  width: 41rpx;
+  height: 41rpx;
 }
 .chooseN{
   display: none;
 }
-
+checkbox{
+  display: none;
+}
 
 .item-0{
-  padding: 15rpx 70rpx;
+  padding: 18rpx 80rpx;
   background-color: #a3b6fa;
   top:0;
   left: 30%;
 }
 .item-1{
-  padding: 17rpx 70rpx;
+  padding: 19rpx 80rpx;
   background-color: #8dccf7;
   top:110rpx;
   left: 8%;
@@ -56,20 +58,20 @@
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
 }
 .item-3{
-  padding: 17rpx 60rpx;
+  padding: 17rpx 80rpx;
   background-color: #8dcd6f;
   top:90rpx;
   left: 61%;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
 }
 .item-4{
-  padding: 15rpx 70rpx;
+  padding: 18rpx 80rpx;
   background-color: #f2c085;
   top:320rpx;
   left: 20%;
 }
 .item-5{
-  padding: 13rpx 70rpx;
+  padding: 18rpx 80rpx;
   background-color: #70bfa2;
   top:280rpx;
   left: 55%;
