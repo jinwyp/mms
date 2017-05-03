@@ -180,6 +180,7 @@ textarea{
     width: 100rpx;
     height: 55rpx;
     vertical-align: middle;
+    margin-top: -5rpx;
 }
 /*switch*/
 .confirmBtnWrap{
