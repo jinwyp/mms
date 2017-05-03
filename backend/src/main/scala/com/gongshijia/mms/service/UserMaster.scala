@@ -22,7 +22,7 @@ class UserMaster extends Actor with ActorLogging {
 
   override def receive: Receive = {
     case cmd: UserCommand =>
-      val child = context.child(cmd.userId).fold(create(cmd.userId))(identity)
+      val child = context.child(cmd.openid).fold(create(cmd.openid))(identity)
       child forward cmd
     case Terminated(child) =>
       log.info("{} terminated", child)

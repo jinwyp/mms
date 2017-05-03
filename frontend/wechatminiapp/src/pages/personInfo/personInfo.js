@@ -4,28 +4,32 @@ var app = getApp()
 Page({
   data: {
    nickName:'',
-   userInfoAvatar:'',
+   WXcode:'../../images/upload.png',
    tempFilePaths:'../../images/star.png',
    allValue:'',
    time: '09:00',
    time2: '18:00',
-   markers: [{
-      latitude: 23.099994,
-      longitude: 113.324520,
-      name: 'T.I.T 创意园',
-      desc: '我现在的位置'
-    }],
-    covers: [{
-      latitude: 23.099794,
-      longitude: 113.324520,
-      iconPath: '../../images/wechart.png',
-      rotate: 10
-    }, {
-      latitude: 23.099298,
-      longitude: 113.324129,
-      iconPath: '../../images/wechart.png',
-      rotate: 90
-    }]
+   latitude:'',
+   longitude:'',
+   tel:'',
+   address:'请选择'
+  //  markers: [{
+  //     latitude: 23.099994,
+  //     longitude: 113.324520,
+  //     name: 'T.I.T 创意园',
+  //     desc: '我现在的位置'
+  //   }],
+  //   covers: [{
+  //     latitude: 23.099794,
+  //     longitude: 113.324520,
+  //     iconPath: '../../images/wechart.png',
+  //     rotate: 10
+  //   }, {
+  //     latitude: 23.099298,
+  //     longitude: 113.324129,
+  //     iconPath: '../../images/wechart.png',
+  //     rotate: 90
+  //   }]
   }, 
   //  时间选择
   //时间选择
@@ -50,13 +54,18 @@ Page({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
         success: function (res) {
           console.log(res)
-            var latitude = res.latitude; 
-            var longitude = res.longitude; 
-            wx.openLocation({
-              latitude:latitude,
-              longitude:longitude,
-              scale:1
-            })
+          that.setData({
+            latitude : res.latitude,
+            longitude : res.longitude,
+            address : res.address
+          })
+            // var latitude = res.latitude; 
+            // var longitude = res.longitude; 
+            // wx.openLocation({
+            //   latitude:latitude,
+            //   longitude:longitude,
+            //   scale:1
+            // })
         }
     });
   },
@@ -100,11 +109,11 @@ Page({
     success: function (res) { 
       // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片 
       _this.setData({ 
-      userInfoAvatar:res.tempFilePaths
+      WXcode:res.tempFilePaths
       }) 
       wx.uploadFile({
         url: 'https://wd.gongshijia.com/upload',
-        filePath:userInfoAvatar[0],
+        filePath:WXcode[0],
         name:'name',
         // header: {}, // 设置请求的 header
         // formData: {}, // HTTP 请求中其他额外的 form data
@@ -122,7 +131,24 @@ Page({
     } 
     }) 
  } ,
-
+checkTel:function(e) {
+  var tel = e.detail.value;
+  console.log(tel)
+  var mobile = /^0?(13[0-9]|17[0-9]|15[0-9]|18[0-9]|14[57])[0-9]{8}$/;
+  if(!mobile.test(tel)){
+    wx.showModal({
+      title: '提示',
+      content: '请正确填写您的电话号码',
+      success: function(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  }
+},
  formSubmit: function(e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
     this.setData({
@@ -136,28 +162,25 @@ Page({
   })
   },
   onLoad: function () {
-    var that=this;    
-    wx.getUserInfo({
-      success: function(res){
-        // success
-        that.setData({
-          nickName:res.userInfo.nickName,
-          userInfoAvatar:res.userInfo.avatarUrl
-        })
+    // var that=this;    
+    // wx.getUserInfo({
+    //   success: function(res){
+    //     // success
+    //     that.setData({
+    //       nickName:res.userInfo.nickName,
+    //       userInfoAvatar:res.userInfo.avatarUrl
+    //     })
         
-      },
-      fail: function() {
-        // fail
-        console.log("获取失败！")
-      },
-      complete: function() {
-        // complete
-        console.log("获取用户信息完成！")
-      }
-    }),
-    wx.setNavigationBarTitle({
-      title: '个人信息设定'
-    })
+    //   },
+    //   fail: function() {
+    //     // fail
+    //     console.log("获取失败！")
+    //   },
+    //   complete: function() {
+    //     // complete
+    //     console.log("获取用户信息完成！")
+    //   }
+    // })
     
        
   }

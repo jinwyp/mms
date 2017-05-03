@@ -11,7 +11,7 @@
         </view>
         <view class="borderB row H100">
             <view class="form-title">联系电话：</view>
-            <input name="tel"/>
+            <input name="tel" type="number" value="{{tel}}" bindblur="checkTel"/>
         </view>
         <view class="borderB row H100">
             <view class="form-title">商号名称：</view>
@@ -21,7 +21,7 @@
             <view class="form-title lineH48">工作地址：</view>
             <!--<input name="address"/>-->
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <text class="address">未选择</text>
+            <input class="address" value="{{address}}" name="address" />
         </view>
         <view class="borderB row H100">
             <view class="form-title">个人微信号：</view>
@@ -29,7 +29,7 @@
         </view>
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">个人微信二维码：</view>
-            <image src="{{userInfoAvatar}}" bindtap="chooseWXcode" mode="aspecFill" class="WXcode"></image>
+            <image src="{{WXcode}}" bindtap="chooseWXcode" mode="aspecFill" class="WXcode"></image>
         </view>
         <view class="borderT row">
             <view class="form-title H150" >工作日：</view>

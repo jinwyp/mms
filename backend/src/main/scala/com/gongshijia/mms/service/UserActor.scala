@@ -11,11 +11,13 @@ object UserActor {
 
   // 命令
   trait UserCommand {
-    def userId: String
+    def openid: String
   }
+  case class UserLoginCommand(openid: String) extends  UserCommand
 
   // 用户事件
   trait UserEvent
+  case class UserLoginEvent() extends UserEvent
 
   // 用户状态
   case class UserState(){

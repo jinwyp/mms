@@ -56,8 +56,10 @@ textarea{
 }
 .map{
     float: right;
-    font-size: 16px;
-    margin-top: 30rpx;
+    font-size: 14px;
+    /*margin-top: 30rpx;*/
+    width: 400rpx;
+    text-align: right;
 }
 .H150{
      height: 150rpx;
@@ -178,6 +180,7 @@ textarea{
     width: 100rpx;
     height: 55rpx;
     vertical-align: middle;
+    margin-top: -5rpx;
 }
 /*switch*/
 .confirmBtnWrap{

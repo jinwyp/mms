@@ -4,6 +4,7 @@ Page({
     slideshow: false,
     currentId:0,
     peopleid:'',
+    type:'造型',
     interest:[{
       name:"造型",
       number:2
@@ -18,14 +19,6 @@ Page({
     },
     {
       name:"茶艺",
-      number:0
-    },
-    {
-      name:"造型",
-      number:0
-    },
-        {
-      name:"美甲",
       number:0
     }],
     experience: [
@@ -69,6 +62,29 @@ Page({
   hide:function(){
     this.setData({
       slideshow:false
+    })
+  },
+  getList:function(e) {
+    var val = e.target.dataset.value
+    console.log(val)
+    wx.request({
+      url: 'https://baz.ngrok.io/api/shops', //仅为示例，并非真实的接口地址
+      data:{
+        val:val
+      },
+      header: {
+          'content-type': 'application/json'
+      },
+      success: function(res) {
+        console.log(res.data);
+        that.setData({
+          type:res.data.type,
+          interest: res.data.data,
+          
+        })
+        
+        
+      }
     })
   },
   onLoad:function(options){
