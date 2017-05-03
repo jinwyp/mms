@@ -10,6 +10,7 @@ import akka.http.scaladsl.server.directives.LogEntry
 import akka.util.Timeout
 import com.gongshijia.mms.asset.AssetRoute
 import com.gongshijia.mms.login.LoginRoute
+import com.gongshijia.mms.test.TestRoute
 
 /**
   * Created by hary on 2017/5/2.
@@ -18,7 +19,9 @@ object mmsApp extends App
   with MmsExceptionHandler
   with MmsRejectionHandler
   with AssetRoute
-  with LoginRoute {
+  with LoginRoute
+  with TestRoute
+{
 
   val config = coreSystem.settings.config
 
@@ -30,12 +33,14 @@ object mmsApp extends App
   val route: Route = logRequestResult(extractLogEntry _) {
     pathPrefix("asset") {
       assetRoute
-    }
+    } ~
     pathPrefix("login") {
       loginRoute
+    } ~
+    pathPrefix("test") {
+      testRoute
     }
   }
-
 
   // start http server
   implicit val httpExecutionContext = coreSystem.dispatcher

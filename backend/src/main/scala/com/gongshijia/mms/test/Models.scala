@@ -1,4 +1,4 @@
-package com.gongshijia.mms.login
+package com.gongshijia.mms.test
 
 import spray.json.DefaultJsonProtocol
 
