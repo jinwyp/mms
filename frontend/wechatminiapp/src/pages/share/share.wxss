@@ -88,12 +88,13 @@ textarea{
     background: #ffffff;
     border-bottom: 1px solid #e4e4e4;
 }
-.uploadWrap .imgWrap{
+.uploadWrap .files{
     position: relative;
     margin-right: 5rpx;
     margin-bottom: 5rpx;
+    display: inline-block;
 }
-.uploadWrap .imgWrap text{
+.uploadWrap .files text{
     width: 40rpx;
     height: 40rpx;
     opacity: .8;
@@ -105,6 +106,7 @@ textarea{
     position: absolute;
     right: 2rpx;
     top: 2rpx;
+    z-index: 99;
 }
 .uploadWrap .uploadPic{
     width: 160rpx;
@@ -124,6 +126,7 @@ textarea{
     height: 100rpx;
     margin-top: 30rpx;
 }
+
 /*.upLoadImg{
     padding: 30rpx 30rpx;
 }

@@ -22,14 +22,39 @@
 
         <view class="ulWrap contentWrap borderT marginB">
             <view class="uploadWrap">
-                <block wx:for="{{uploadImg}}" wx:for-index="index" wx:key="{{uploadImg}}">
-                    <view class="imgWrap">
+                <view class="uploadImg" wx:if="{{uploadImg.length !=0 && uploadVideo.length ===0}}">
+                  
+                    <view class="files imgWrap" wx:for="{{uploadImg}}" wx:for-index="index" wx:key="{{uploadImg}}">
                         <image src="{{item}}" data-id="{{index}}" class="uploadPic" catchtap="show"></image>
                         <text data-id="{{index}}" catchtap="delImg">x</text>
                     </view>
-                </block>   
-                <view class="uploadBlock" bindtap="uploadImg">
+                    
+                </view>
+                <view class="uploadVideo" wx:if="{{uploadImg.length ===0 && uploadVideo.length !=0}}">
+                    
+                    <view class="files videoWrap">
+                        <video src="{{uploadVideo}}" data-id="{{index}}" class="video"></video>
+                        <text data-id="{{index}}" catchtap="delVideo">x</text>
+                    </view>
+                   
+                </view>
+                
+                <!--上传-->
+                <view  wx:if="{{uploadImg.length ===0 && uploadVideo.length ===0}}">
+                    <view class="uploadBlock" bindtap="uploadfiles">
+                        <image src="../../images/plusIcon.png"></image>
+                    </view>
+                </view>
+                <view  wx:elif="{{uploadImg.length >=1}}">
+                    <view class="uploadBlock" bindtap="uploadImg">
                     <image src="../../images/plusIcon.png"></image>
+                        <!--<image src="../../images/uploadImg.png"></image>-->
+                    </view>
+                </view>
+                <view wx:elif="{{uploadVideo.length ===1}}">
+                    <!--<view class="uploadBlock" bindtap="uploadVideo">
+                        <video src="../../images/plusIcon.png"></video>
+                    </view>-->
                 </view>
             <!-- 轮播图 -->
                 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
