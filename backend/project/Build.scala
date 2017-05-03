@@ -136,7 +136,8 @@ object Dependencies {
     "com.trueaccord.scalapb" %% "scalapb-runtime" % scalapbRuntime % "protobuf",
 
     // redis client
-  "net.debasishg" %% "redisclient" % "3.4"
+    // "net.debasishg" %% "redisclient" % "3.4"
+    "com.github.etaty" %% "rediscala" % "1.8.0"
 
   )
 }

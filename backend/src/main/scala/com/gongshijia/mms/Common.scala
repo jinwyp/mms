@@ -11,10 +11,14 @@ import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives.{complete, extractUri}
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
+import akka.util.ByteString
+import com.gongshijia.mms.login.Models.WxSession
 import com.gongshijia.mms.mmsApp.coreSystem
 import com.gongshijia.mms.service.{MMSService, UserMaster}
+import redis.RedisClient
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
+import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 /**
@@ -23,11 +27,20 @@ import scala.util.control.NonFatal
 trait Core extends MMSService {
   implicit val coreSystem: ActorSystem = mkSystem
   implicit val coreMaterializer = ActorMaterializer()
+
   val coreConfig = coreSystem.settings.config
   val log = Logging(coreSystem, this.getClass)
 
+  val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
 
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")
+
+  import akka.http.scaladsl.server.Directives._
+
+  val wxSession: Directive1[Future[Option[WxSession]]] = optionalHeaderValueByName("X-SID") flatMap {
+    case Some(sid) => provide(redis.get[WxSession](sid))
+    case None =>  provide(Future.successful(None))
+  }
 }
 
 
@@ -53,6 +66,8 @@ object HttpResult extends DefaultJsonProtocol {
 case class DatabaseException(message:String) extends Exception
 case class ParameterException(message: String) extends Exception
 case class BusinessException(message: String) extends Exception
+
+
 
 
 /**
