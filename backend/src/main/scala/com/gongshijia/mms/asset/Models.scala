@@ -7,7 +7,7 @@ import spray.json.DefaultJsonProtocol
   */
 object Models extends DefaultJsonProtocol {
 
-  case class PolicyResponse(callback: String, signature: String, policy: String, ossAccessId: String)
-  implicit val PolicyResponseFormat = jsonFormat4(PolicyResponse)
+  case class PolicyResponse(callback: String, signature: String, policy: String, ossAccessId: String, host: String)
+  implicit val PolicyResponseFormat = jsonFormat5(PolicyResponse)
 
 }

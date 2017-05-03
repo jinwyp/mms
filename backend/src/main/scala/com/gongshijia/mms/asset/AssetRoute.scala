@@ -26,6 +26,16 @@ import akka.http.scaladsl.server.directives.FileInfo
 
 import scala.concurrent.Future
 
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import org.apache.commons.codec.binary.Base64;
+import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1;
+
+
 /**
   * Created by hary on 2017/5/2.
   */
@@ -38,6 +48,9 @@ trait AssetRoute extends Core with SprayJsonSupport {
 
   val accessId = coreSystem.settings.config.getString("aliyun.accessId")
   val accessKey = coreSystem.settings.config.getString("aliyun.accessKey")
+  val ossBucket = coreSystem.settings.config.getString("aliyun.ossBucket")
+  val ossHost = coreSystem.settings.config.getString("aliyun.ossHost")
+  val domain = coreSystem.settings.config.getString("mms.domain")
 
   val fileRoot = "/tmp" // coreSystem.settings.config.getString("file.root")
 
@@ -59,27 +72,82 @@ trait AssetRoute extends Core with SprayJsonSupport {
     * GET asset/:asset_id  -- 下载asset_id资源
     */
 
-//  private def downloadFile: Route = get {
-//    path("download" / Segment) { id =>
-//      onSuccess(getAssetInfo(id)) {
-//        case (_, name, source) =>
-//          complete(
-//            HttpResponse(
-//              status = StatusCodes.OK,
-//              headers = List(`Content-Disposition`(ContentDispositionTypes.attachment, Map("filename" -> name))),
-//              entity = HttpEntity(`application/octet-stream`, source)
-//            )
-//          )
-//      }
-//    }
-//  }
+  //  private def downloadFile: Route = get {
+  //    path("download" / Segment) { id =>
+  //      onSuccess(getAssetInfo(id)) {
+  //        case (_, name, source) =>
+  //          complete(
+  //            HttpResponse(
+  //              status = StatusCodes.OK,
+  //              headers = List(`Content-Disposition`(ContentDispositionTypes.attachment, Map("filename" -> name))),
+  //              entity = HttpEntity(`application/octet-stream`, source)
+  //            )
+  //          )
+  //      }
+  //    }
+  //  }
+
+
+  // 获取签名
+  private def getSignature(data: Array[Byte], key: Array[Byte]): String = {
+    val signingKey: SecretKeySpec = new SecretKeySpec(key, HMAC_SHA1);
+    val mac = Mac.getInstance("HmacSHA1");
+    mac.init(signingKey);
+    val rawHmac = mac.doFinal(data);
+    Base64.encodeBase64String(rawHmac);
+  }
+
+  val callbackBody = "callbackBody":
+  "filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}"
+  val callback = base64Encode(
+    s"""
+       |{
+       |"callbackUrl":"http://$domain/ossSuccessCallback",
+       |"callbackBody":"$callbackBody",
+       |"callbackBodyType":"application/x-www-form-urlencoded"
+       |}
+    """.stripMargin.getBytes()
+  )
+
+  private def getPolicy: String = {
+    val expire = "2120-01-01T12:00:00.000Z" // todo: should be now + 10 minutes
+
+    s"""
+       |{
+       |"expiration": "$expire",
+       |"conditions": [
+       |  ["content-length-range", 0, 1073741824]
+       |]
+       |}
+    """.stripMargin
+  }
+
+  private def base64Encode(origin: Array[Byte]): String = {
+    if (null == origin) {
+      return null;
+    }
+    new sun.misc.BASE64Encoder().encode(origin).replace("\n", "").replace("\r", "");
+  }
 
 
   // GET /asset/policy
   def assetUploadPolicy = get {
     path("policy") {
-      complete(PolicyResponse("callback", "signature", "policy", accessId))
-      // complete("ok")
+      complete({
+        val policyBytes = getPolicy.getBytes()
+        PolicyResponse(callback, getSignature(policyBytes, accessKey.getBytes()), base64Encode(policyBytes), accessId, ossHost)
+      })
+    }
+  }
+
+
+  // 阿里云上传回调
+  def assetOssCallback: Route = path("callback") {
+    post {
+      parameterMap { (paramMap: Map[String, String]) =>
+        println("get ossCallback: " + paramMap)
+        complete("ok")
+      }
     }
   }
 
@@ -92,30 +160,30 @@ trait AssetRoute extends Core with SprayJsonSupport {
       extractRequestContext { ctx =>
         implicit val materializer = ctx.materializer
 
-          fileUpload(fileField) {
-            case (meta: FileInfo, source: Source[ByteString, Any]) =>
+        fileUpload(fileField) {
+          case (meta: FileInfo, source: Source[ByteString, Any]) =>
 
-              println("asset id is " + meta.fileName)
-              val gdir = fileRoot + File.separator
-              FileUtils.forceMkdir(new File(gdir))
+            println("asset id is " + meta.fileName)
+            val gdir = fileRoot + File.separator
+            FileUtils.forceMkdir(new File(gdir))
 
-              val sink = FileIO.toPath(Paths.get(gdir + File.separator + meta.fileName), Set(CREATE, WRITE))
+            val sink = FileIO.toPath(Paths.get(gdir + File.separator + meta.fileName), Set(CREATE, WRITE))
 
-              val ff: Future[IOResult] = for {
-                result <- source.toMat(sink)(Keep.right).run
-              } yield result
+            val ff: Future[IOResult] = for {
+              result <- source.toMat(sink)(Keep.right).run
+            } yield result
 
-              onSuccess(ff) {
-                case result =>
-                  log.info(s"upload file[${meta.fileName}] size[${result.count}] status[${result.status}]")
-                  complete("success")
-              }
-          }
+            onSuccess(ff) {
+              case result =>
+                log.info(s"upload file[${meta.fileName}] size[${result.count}] status[${result.status}]")
+                complete("success")
+            }
         }
       }
     }
+  }
 
-  def assetRoute = assetUploadPolicy ~ assetUploadFile
+  def assetRoute = assetUploadPolicy ~ assetUploadFile ~ assetOssCallback
 
 }
 
