@@ -10,8 +10,8 @@ import spray.json.DefaultJsonProtocol
 object Models extends DefaultJsonProtocol {
   import spray.json._
 
-  case class WxSession(openid: String, session_key: String)
-  implicit val WxSessionFormat = jsonFormat2(WxSession)
+  case class WxSession(openid: String, session_key: String, expires_in: Long)
+  implicit val WxSessionFormat = jsonFormat3(WxSession)
 
   // for redis
   implicit val byteStringFormatter = new ByteStringFormatter[WxSession] {
