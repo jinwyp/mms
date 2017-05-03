@@ -35,6 +35,7 @@ object mmsApp extends App
     case RouteResult.Complete(res) => Some(LogEntry(req.method.name + " " + req.uri + " => " + res.status, Logging.InfoLevel))
     case _ => None // no log entries for rejections
   }
+
   val route: Route = logRequestResult(extractLogEntry _) {
     pathPrefix("asset") {
       assetRoute
