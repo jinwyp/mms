@@ -29,24 +29,28 @@ Page({
    uploadImg:[],
    uploadVideo:'',
    slideshow: false,
-   allValue:'',
-   markers: [{
-      latitude: 23.099994,
-      longitude: 113.324520,
-      name: 'T.I.T 创意园',
-      desc: '我现在的位置'
-    }],
-    covers: [{
-      latitude: 23.099794,
-      longitude: 113.324520,
-      iconPath: '../../images/wechart.png',
-      rotate: 10
-    }, {
-      latitude: 23.099298,
-      longitude: 113.324129,
-      iconPath: '../../images/wechart.png',
-      rotate: 90
-    }]
+  //  allValue:'',
+   address:'未选择',
+   latitude:'',
+   longitude:'',
+   price:''
+  //  markers: [{
+  //     latitude: 23.099994,
+  //     longitude: 113.324520,
+  //     name: 'T.I.T 创意园',
+  //     desc: '未选择'
+  //   }],
+  //   covers: [{
+  //     latitude: 23.099794,
+  //     longitude: 113.324520,
+  //     iconPath: '../../images/wechart.png',
+  //     rotate: 10
+  //   }, {
+  //     latitude: 23.099298,
+  //     longitude: 113.324129,
+  //     iconPath: '../../images/wechart.png',
+  //     rotate: 90
+  //   }]
   }, 
   
   // 上传
@@ -168,8 +172,7 @@ Page({
       slideshow:false
     })
   },
-  
-  
+  // 删除图片
   delImg:function(e){
     var that=this;
      wx.showModal({
@@ -189,6 +192,7 @@ Page({
         }
       })
   },
+  // 删除视频
   delVideo:function(){
     var that=this;
      wx.showModal({
@@ -221,25 +225,29 @@ Page({
   },
   //  调用地图
   getLocation:function() {
-    console.log('地图定位！')
+    // console.log('地图定位！')
     var that = this
     wx.chooseLocation({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
         success: function (res) {
-          console.log(res)
-            var latitude = res.latitude; 
-            var longitude = res.longitude; 
-            wx.openLocation({
-              latitude:latitude,
-              longitude:longitude,
-              scale:1
+          // console.log(res) 
+            that.setData({
+              // address : res.address.slice(0,13)+'...',
+              address : res.address,
+              latitude : res.latitude,
+              longitude : res.longitude
             })
+            // wx.openLocation({
+            //   latitude:latitude,
+            //   longitude:longitude,
+            //   scale:1
+            // })
         }
     });
   },
 
  radioChange: function(e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    // console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.setData({
       ifChoose:e.detail.value
     })
@@ -255,15 +263,49 @@ Page({
  
  formSubmit: function(e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value);
-    this.setData({
-      allValue:e.detail.value
-      })
+    // this.setData({
+    //   allValue:e.detail.value
+    //   })
   },
   formReset: function() {
     console.log('form发生了reset事件');
     this.setData({
    allValue:''
   })
+  },
+  // input价格校验
+  inputReg:function(e) {
+    var price = e.detail.value
+    var sign = ''
+    var cents=''
+    price = price.toString().replace(/\$|\,/g,'');  
+    if(isNaN(price)){ 
+      price = "0"; 
+      wx.showModal({
+        title: '提示',
+        content: '请输入金额',
+        success: function(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    } 
+    sign = (price == (price = Math.abs(price)));  
+    price = Math.floor(price*100+0.50000000001);  
+    cents = price%100;  
+    price = Math.floor(price/100).toString();  
+    if(cents<10)  
+    cents = "0" + cents;  
+    for (var i = 0; i < Math.floor((price.length-(1+i))/3); i++)  
+    price = price.substring(0,price.length-(4*i+3))+','+  
+    price.substring(price.length-(4*i+3)); 
+    console.log(((sign)?'':'-') + price + '.' + cents)
+    this.setData({
+      price:(((sign)?'':'-') + price + '.' + cents)
+    })
   },
   onLoad: function () {
        

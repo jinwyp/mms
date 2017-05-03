@@ -5,7 +5,7 @@
  <!--类别-->
         
         <scroll-view class="items marginB " scroll-x="true">
-            <radio-group class="radio-group" bindchange="radioChange">
+            <radio-group class="radio-group" name="item" bindchange="radioChange">
                 <block wx:for="{{interest}}" wx:key="{{interest}}">
                 <label data-lv="{{item.name}}" class="radio interestList {{item.name === ifChoose?'chooseY':'chooseN'}}" >
                     <radio value="{{item.name}}" checked="{{item.checked}}" />{{item.name}}
@@ -76,15 +76,15 @@
          <view class="borderB borderT">
             <textarea name="feeling" placeholder="个人体验感受" placeholder-style="color:#999999;"  />
         </view>
-        <view class="borderB H100 " bindtap="getLocation">
+        <view class="borderB H100 " >
             <view class="form-title lineH48">体验区域：</view>
             <!--<input name="address"/>-->
-            <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <text class="map">未选择</text>
+            <image src="../../images/trigger-r.png" class="trigger-r" bindtap="getLocation"></image>
+            <input class="map" name="address" value="{{address}}"/>
         </view>
         <view class="borderB H100">
             <view class="form-title">体验门店(店铺)：</view>
-            <input name="name"/>
+            <input name="name" type="text"/>
         </view>
         <view class="borderB H100">
             <view class="form-title lineH48">体验时间：</view> 
@@ -97,7 +97,7 @@
             <view class="form-title">体验价格：</view>
             <view class="price">
                 <image src="../../images/rmb.png"></image>
-                <input name="price" class=""/>
+                <input name="price" class="" value="{{price}}" type="digit" bindblur="inputReg"/>
             </view>
             <view class="confirmBtnWrap">
                 <view class="switch {{isClick ? 'toggle-on' : 'toggle-off'}}" bindtap="tapSwitch">转发可见</view>
@@ -113,9 +113,9 @@
         
 
          <view class="btn-area">
-         <navigator url="../shareSubmit/shareSubmit">
+         <!--<navigator url="../shareSubmit/shareSubmit">-->
             <button formType="submit">保存</button>
-            </navigator>
+            <!--</navigator>-->
         </view>
     </form>
 </view>
