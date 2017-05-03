@@ -80,11 +80,11 @@
             <view class="form-title lineH48">体验区域：</view>
             <!--<input name="address"/>-->
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <text class="map">未选择</text>
+            <text class="map">{{address}}</text>
         </view>
         <view class="borderB H100">
             <view class="form-title">体验门店(店铺)：</view>
-            <input name="name"/>
+            <input name="name" type="text"/>
         </view>
         <view class="borderB H100">
             <view class="form-title lineH48">体验时间：</view> 
@@ -97,7 +97,7 @@
             <view class="form-title">体验价格：</view>
             <view class="price">
                 <image src="../../images/rmb.png"></image>
-                <input name="price" class=""/>
+                <input name="price" class="" value="{{price}}" type="digit" bindblur="inputReg"/>
             </view>
             <view class="confirmBtnWrap">
                 <view class="switch {{isClick ? 'toggle-on' : 'toggle-off'}}" bindtap="tapSwitch">转发可见</view>
@@ -113,9 +113,9 @@
         
 
          <view class="btn-area">
-         <navigator url="../shareSubmit/shareSubmit">
+         <!--<navigator url="../shareSubmit/shareSubmit">-->
             <button formType="submit">保存</button>
-            </navigator>
+            <!--</navigator>-->
         </view>
     </form>
 </view>
