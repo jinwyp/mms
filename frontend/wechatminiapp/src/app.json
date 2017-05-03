@@ -7,7 +7,6 @@
     "pages/craftDetail/craftDetail",
     
     "pages/personInfo/personInfo",
-    "pages/timeSetting/timeSetting",
     "pages/index/index" ,
     "pages/share/share" ,
     "pages/collection/collection",
