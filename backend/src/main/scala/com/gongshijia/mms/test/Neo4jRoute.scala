@@ -28,13 +28,13 @@ import akka.http.scaladsl.server.directives.FileInfo
 trait Neo4jRoute extends Core with SprayJsonSupport {
 
   // neo4j example
-  def addNode = path("neo4jAddNode") {
+  def addNode = path("addNode") {
     post {
       complete("ok")
     }
   }
 
-  def addRelation = path("neo4jAddRelation") {
+  def addRelation = path("addRelation") {
     post {
       complete("ok")
     }

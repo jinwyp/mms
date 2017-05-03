@@ -28,31 +28,31 @@ import akka.http.scaladsl.server.directives.FileInfo
 trait MongoRoute extends Core with SprayJsonSupport {
 
   // mongo example
-  def mongoInsert = path ("mongoInsert") {
+  def mongoInsert = path ("insert") {
     post {
       complete("ok")
     }
   }
 
-  def mongoUpsert = path ("mongoUpsert") {
+  def mongoUpsert = path ("upsert") {
     post {
       complete("ok")
     }
   }
 
-  def mongoDelete = path ("mongoDelete") {
+  def mongoDelete = path ("delete") {
     post {
       complete("ok")
     }
   }
 
-  def mongoPager = path ("mongoPager") {
+  def mongoPager = path ("pager") {
     post {
       complete("ok")
     }
   }
 
-  def mongoSelect = path("mongoSelect") {
+  def mongoSelect = path("select") {
     get {
       complete("ok")
     }
