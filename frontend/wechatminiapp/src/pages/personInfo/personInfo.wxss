@@ -23,11 +23,6 @@ form{
     height: 48px;
     vertical-align: middle;
 }
-/*.address{
-    float: right;
-    font-size: 16px;
-    margin-top: 30rpx;
-}*/
 .address{
     float: right;
     font-size: 14px;
