@@ -57,7 +57,7 @@ Page({
           that.setData({
             latitude : res.latitude,
             longitude : res.longitude,
-            address : res.address.slice(0,18)+'...'
+            address : res.address
           })
             // var latitude = res.latitude; 
             // var longitude = res.longitude; 

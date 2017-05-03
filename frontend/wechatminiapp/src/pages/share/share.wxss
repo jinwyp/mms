@@ -57,7 +57,7 @@ textarea{
 .map{
     float: right;
     font-size: 14px;
-    margin-top: 30rpx;
+    /*margin-top: 30rpx;*/
     width: 400rpx;
     text-align: right;
 }

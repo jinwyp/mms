@@ -5,7 +5,7 @@
  <!--类别-->
         
         <scroll-view class="items marginB " scroll-x="true">
-            <radio-group class="radio-group" bindchange="radioChange">
+            <radio-group class="radio-group" name="item" bindchange="radioChange">
                 <block wx:for="{{interest}}" wx:key="{{interest}}">
                 <label data-lv="{{item.name}}" class="radio interestList {{item.name === ifChoose?'chooseY':'chooseN'}}" >
                     <radio value="{{item.name}}" checked="{{item.checked}}" />{{item.name}}
@@ -76,11 +76,11 @@
          <view class="borderB borderT">
             <textarea name="feeling" placeholder="个人体验感受" placeholder-style="color:#999999;"  />
         </view>
-        <view class="borderB H100 " bindtap="getLocation">
+        <view class="borderB H100 " >
             <view class="form-title lineH48">体验区域：</view>
             <!--<input name="address"/>-->
-            <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <text class="map">{{address}}</text>
+            <image src="../../images/trigger-r.png" class="trigger-r" bindtap="getLocation"></image>
+            <input class="map" name="address" value="{{address}}"/>
         </view>
         <view class="borderB H100">
             <view class="form-title">体验门店(店铺)：</view>

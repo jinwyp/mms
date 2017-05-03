@@ -225,14 +225,15 @@ Page({
   },
   //  调用地图
   getLocation:function() {
-    console.log('地图定位！')
+    // console.log('地图定位！')
     var that = this
     wx.chooseLocation({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
         success: function (res) {
-          console.log(res) 
+          // console.log(res) 
             that.setData({
-              address : res.address.slice(0,13)+'...',
+              // address : res.address.slice(0,13)+'...',
+              address : res.address,
               latitude : res.latitude,
               longitude : res.longitude
             })
@@ -246,7 +247,7 @@ Page({
   },
 
  radioChange: function(e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    // console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.setData({
       ifChoose:e.detail.value
     })
