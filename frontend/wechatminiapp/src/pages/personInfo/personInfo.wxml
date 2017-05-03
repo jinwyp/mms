@@ -1,52 +1,93 @@
 <!--pages/personInfo/personInfo.wxml-->
 <view class="container">
     <form bindsubmit="formSubmit" bindreset="formReset">
-        <view class="borderB H150 marginB">
+        <view class="borderB row H150 marginB">
             <view class="form-title lineH120">头像</view>
             <image src="{{tempFilePaths}}" bindtap="chooseimage" mode="aspecFill" class="personImg"></image>
         </view>
-        <view class="borderB borderT H100">
+        <view class="borderB row borderT H100">
             <view class="form-title">姓名：</view>
             <input name="name"/>
         </view>
-        <view class="borderB H100">
+        <view class="borderB row H100">
             <view class="form-title">联系电话：</view>
             <input name="tel"/>
         </view>
-        <view class="borderB H100">
+        <view class="borderB row H100">
             <view class="form-title">商号名称：</view>
             <input name="shopName"/>
         </view>
-        <view class="borderB H100" bindtap="getLocation">
+        <view class="borderB row H100" bindtap="getLocation">
             <view class="form-title lineH48">工作地址：</view>
             <!--<input name="address"/>-->
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <text class="picker">未选择</text>
+            <text class="address">未选择</text>
         </view>
-        <view class="borderB H100">
+        <view class="borderB row H100">
             <view class="form-title">个人微信号：</view>
             <input name="wx"/>
         </view>
-        <view class="borderB H150 marginB">
+        <view class="borderB row H150 marginB">
             <view class="form-title lineH120">个人微信二维码：</view>
             <image src="{{userInfoAvatar}}" bindtap="chooseWXcode" mode="aspecFill" class="WXcode"></image>
         </view>
-        <!--<view class="borderB H48">
-            <view class="form-title lineH48">擅长工艺</view>
-            <picker class="picker lineH48" value="{{picker1Value}}" range="{{picker1Range}}" bindchange="normalPickerBindchange">
-                 {{picker1Range[picker1Value]}}
-            </picker>
-            <image src="../../images/trigger-r.png" class="trigger-r"></image>
-        </view>-->
-
-        <navigator url="../timeSetting/timeSetting">
-            <view class="borderB borderT H100 marginB100">
-                <view class="form-title lineH48">工作时间：</view>
-                <image src="../../images/trigger-r.png" class="trigger-r"></image>
-                <text class="picker">未选择</text>
+        <view class="borderT row">
+            <view class="form-title H150" >工作日：</view>
+            <view class="week">
+                <checkbox-group bindchange="checkboxChange">
+                    <label class="checkbox">
+                        <checkbox value="星期一"/>星期一
+                    </label>
+                    <label class="checkbox">
+                        <checkbox value="星期二"/>星期二
+                    </label>
+                    <label class="checkbox">
+                        <checkbox value="星期三"/>星期三
+                    </label>
+                    <label class="checkbox">
+                        <checkbox value="星期四"/>星期四
+                    </label>
+                    <label class="checkbox">
+                        <checkbox value="星期五"/>星期五
+                    </label>
+                    <label class="checkbox">
+                        <checkbox value="星期六"/>星期六
+                    </label>
+                    <label class="checkbox">
+                        <checkbox value="星期日"/>星期日
+                    </label>
+                
+                </checkbox-group>
             </view>
-        </navigator>
+        </view>
+        <view class="row borderT borderB H200">
+            <view class="form-title mar80">工作时间：</view>
+            <view class="workTime">
+                <picker mode="time" class="picker lineH48" value="{{time}}" name="timePicker1" start="09:00" end="23:00" bindchange="bindTimeChange">
+                <image src="../../images/trigger-r.png" class="trigger-r"></image>
+                    <view class="time">
+                    上班时间: {{time}}
+                    </view>
+                </picker> 
+                <picker mode="time" class="picker lineH48 borderT" value="{{time2}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
+                <image src="../../images/trigger-r.png" class="trigger-r"></image>
+                    <view class="time">
+                    下班时间: {{time2}}
+                    </view>
+                </picker>     
+            </view>
+        </view>
+        <!--<view class="borderB row H50">
+            <picker mode="time" class="picker lineH48 borderT" value="{{time2}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
+            <image src="../../images/trigger-r.png" class="trigger-r"></image>
+                <view class="picker">
+                下班时间: {{time2}}
+                </view>
+            </picker>      
+        </view>-->
         
+
+    
 
          <view class="btn-area">
             <button formType="submit">保存</button>

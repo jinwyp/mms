@@ -7,6 +7,8 @@ Page({
    userInfoAvatar:'',
    tempFilePaths:'../../images/star.png',
    allValue:'',
+   time: '09:00',
+   time2: '18:00',
    markers: [{
       latitude: 23.099994,
       longitude: 113.324520,
@@ -25,7 +27,22 @@ Page({
       rotate: 90
     }]
   }, 
-   
+  //  时间选择
+  //时间选择
+  bindTimeChange: function(e) {
+    this.setData({
+      time: e.detail.value
+    })
+  },
+  bindTimeChange2: function(e) {
+    this.setData({
+      time2: e.detail.value
+    })
+  },
+  // checkbox
+  checkboxChange: function(e) {
+    console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+  },
   getLocation:function() {
     console.log('地图定位！')
     var that = this
