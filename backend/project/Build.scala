@@ -133,7 +133,10 @@ object Dependencies {
     "org.thymeleaf" % "thymeleaf" % thymeleaf,
 
     // scala protobuf
-    "com.trueaccord.scalapb" %% "scalapb-runtime" % scalapbRuntime % "protobuf"
+    "com.trueaccord.scalapb" %% "scalapb-runtime" % scalapbRuntime % "protobuf",
+
+    // redis client
+  "net.debasishg" %% "redisclient" % "3.4"
 
   )
 }
