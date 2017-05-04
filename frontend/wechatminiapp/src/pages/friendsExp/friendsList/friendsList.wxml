@@ -1,4 +1,4 @@
-<swiper>
+<swiper bindchange="swiperChange">
     <block wx:for="{{expLists}}" wx:key="expLists">
         <swiper-item>
             <view class="swiperContain" catchtap="jumpToDetail">

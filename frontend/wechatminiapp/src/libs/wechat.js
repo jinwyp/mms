@@ -8,7 +8,7 @@ function request(url, data, method){
 	 		  url,
 			  data: data || {},
 				method : method || 'GET',
-			  header: { 'Content-Type': 'application/json', 'X-SID' :wx.getStorageSync('accessToken111') },
+			  header: { 'Content-Type': 'application/json', 'X-OPENID' :wx.getStorageSync('accessToken') },
 			  success (res) {
 					console.log('成功',res)
 

@@ -32,9 +32,18 @@ Page({
           }
         })
     }else{
-      var that=this,policy,callback,signature,OssAccessKeyId
+      var that=this,policy,callback,signature,OssAccessKeyId;
+      function generateUUID(){
+          var d = new Date().getTime();
+          var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+              var r = (d + Math.random()*16)%16 | 0;
+              d = Math.floor(d/16);
+              return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+          });
+          return uuid;
+      };
       wx.request({
-        url: 'http://zxy.gongshijia.com/getOssPolicy',
+        url: 'http://zxy.gongshijia.com/asset/policy',
         method:'GET',
         header: {
           'content-type': 'application/json'
@@ -43,8 +52,8 @@ Page({
           policy=res.data.policy;
           callback=res.data.callback;
           signature=res.data.signature;
-          OssAccessKeyId=res.data.accessid;
-          console.log(res)
+          OssAccessKeyId=res.data.ossAccessId;
+          console.log(res.data)
         }
       })
 
@@ -53,79 +62,54 @@ Page({
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: function (res) {
-          var tempFilePaths = res.tempFilePaths;
           that.setData({
-            uploadImg:tempFilePaths.concat(that.data.uploadImg)
+            uploadImg:res.tempFilePaths.concat(that.data.uploadImg)
           })
-
         },
         complete:function(res){
-           var tempFilePaths = res.tempFilePaths;
-           wx.uploadFile({
+          var tempFilePaths = res.tempFilePaths;
+          console.log(tempFilePaths)
+          if(that.data.uploadImg.length>9){
+              wx.showModal({
+              title: '提示',
+              content: '店内实景最多上传9张',
+              showCancel:false,
+              success: function(res) {
+                if (res.confirm) {
+                  that.data.uploadImg.length=9;
+                    that.setData({
+                        uploadImg:that.data.uploadImg
+                  })
+                }
+              }
+            })
+          }else{
+            for(var i=0;i<tempFilePaths.length;i++){
+              var fd = {
+                key: generateUUID(),
+                policy: policy ,
+                success_action_status:'200',
+                callback: callback,
+                signature:signature,
+                OSSAccessKeyId:OssAccessKeyId,
+                file: tempFilePaths[i]
+              }
+              console.log(fd)
+              wx.uploadFile({
                 url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
-                header: {
-                  'content-type': 'multipart/form-data'
-                },
-                filePath:tempFilePaths[0],
+                filePath:tempFilePaths[i],
                 name: 'file',
-                formData: {
-                  key:'${filename}',
-                  policy: policy ,
-                  success_action_status:200,
-                  callback: callback,
-                  signature:signature,
-                  OSSAccessKeyId:OssAccessKeyId,
-                  file:that.data.uploadImg
-                },
+                header: { "content-Type": "multipart/form-data" },
+                formData: fd,
                 success: function(res) {
-                  // console.log(res)
+                  console.log(res)
                 },
-                complete:function(res){
+                fail:function(res){
                   console.log(res)
                 }
               })
-          // if(that.data.uploadImg.length>9){
-          //     wx.showModal({
-          //     title: '提示',
-          //     content: '店内实景最多上传9张',
-          //     showCancel:false,
-          //     success: function(res) {
-          //       if (res.confirm) {
-          //         that.data.uploadImg.length=9;
-          //           that.setData({
-          //               uploadImg:that.data.uploadImg
-          //             })
-
-                  
-
-          //       } else if (res.cancel) {
-          //         console.log('用户点击取消')
-          //       }
-          //     }
-          //   })
-          // }else{
-          //   wx.uploadFile({
-          //     url: 'http://gsjtest.oss-cn-shanghai.aliyuncs.com/',
-          //     method:'POST',
-          //     header: {
-          //       'content-type': 'multipart/form-data'
-          //     },
-          //     filePath:that.data.uploadImg,
-          //     name: 'file',
-          //     formData: {
-          //       key:'${filename}',
-          //       policy: policy ,
-          //       success_action_status:200,
-          //       callback: callback,
-          //       signature:signature,
-          //       OssAccessKeyId:OssAccessKeyId,
-          //       file:that.data.uploadImg
-          //     },
-          //     success: function(res) {
-          //       console.log(res)
-          //     }
-          //   })
-          // }
+            }
+          }
         }
       })
     }

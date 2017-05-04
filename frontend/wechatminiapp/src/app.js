@@ -13,23 +13,31 @@ App({
     wx.setStorageSync('logs', logs)
 
 
-    UserService.getWXUserInfo().then(function(result){
+    var accessToken = wx.getStorageSync('accessToken')
+    console.log("accessToken",accessToken)
 
-        if(!that.globalData.userInfo){
-          that.globalData.userInfo = result
+    if(!accessToken){
+
+      UserService.getWXUserInfo().then(function(result){
+
+          if(!that.globalData.userInfo){
+            that.globalData.userInfo = result
+          }
+
+          return UserService.signUp(result)
+
+      }).then(function(resultUserToken){
+
+        console.log("Token : ", resultUserToken)
+        if(typeof resultUserToken.error === 'undefined'){
+             that.globalData.accessToken = resultUserToken.data.openid
+            // that.globalData.userId = resultUserToken._id
+
+            wx.setStorageSync('accessToken', resultUserToken.data.openid)
         }
-
-        return UserService.signUp(result)
-
-    }).then(function(resultUserToken){
-
-      console.log("Token : ", resultUserToken)
-
-      that.globalData.accessToken = resultUserToken.sid
-      // that.globalData.userId = resultUserToken._id
-
-       wx.setStorageSync('accessToken', resultUserToken.sid)
-    })
+       
+      })
+    }
   },
   
   globalData:{
