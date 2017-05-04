@@ -67,9 +67,16 @@ function signUp (data){
 }
 
 
+function addComment (data){
+    return wechat.request(apiPath.test, data, 'POST')
+}
+
+
+
 module.exports = {
     getWXUserInfo : getWXUserInfo,
-    signUp : signUp
+    signUp : signUp,
+    addComment: addComment
 }
 
 

@@ -1,5 +1,7 @@
 //index.js
 //获取应用实例
+var UserService = require('../../service/user.js');
+
 var app = getApp()
 Page({
   data: {
@@ -33,27 +35,34 @@ Page({
   formReset: function() {
     console.log('form发生了reset事件');
   },
+  test :function(){
+    UserService.addComment().then(function(res){
+      console.log('test',res)
+    }
+      
+    );
+  },
   onLoad: function () {
     var that = this;
-    wx.request({
-      url: 'https://wd.gongshijia.com',
-      data: {},
-      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      // header: {}, // 设置请求的 header
-      success: function(res){
-        // success
-        console.log(res.data);
-        // that.setData({
-        //   interest : res.data
-        // })
-      },
-      fail: function(res) {
-        // fail
-        console.log(res.errMsg);
-      },
-      complete: function(res) {
-        // complete
-      }
-    })
+    // wx.request({
+    //   url: 'http://hary.gongshijia.com/login/login',
+    //   data: {},
+    //   method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+    //   // header: {}, // 设置请求的 header
+    //   success: function(res){
+    //     // success
+    //     console.log(res.data);
+    //     // that.setData({
+    //     //   interest : res.data
+    //     // })
+    //   },
+    //   fail: function(res) {
+    //     // fail
+    //     console.log(res.errMsg);
+    //   },
+    //   complete: function(res) {
+    //     // complete
+    //   }
+    // })
   }
 })

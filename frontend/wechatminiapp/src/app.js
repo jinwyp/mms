@@ -25,8 +25,10 @@ App({
 
       console.log("Token : ", resultUserToken)
 
-      that.globalData.accessToken = resultUserToken.data.accessToken
-      that.globalData.userId = resultUserToken.data._id
+      that.globalData.accessToken = resultUserToken.sid
+      // that.globalData.userId = resultUserToken._id
+
+       wx.setStorageSync('accessToken', resultUserToken.sid)
     })
   },
   
