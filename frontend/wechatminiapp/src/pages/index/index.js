@@ -2,17 +2,18 @@
 //获取应用实例
 var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
+var Error = require('../../service/error.js');
 
 var app = getApp()
 Page({
   data: {
    interest:[
-     {name:'造型',value:'造型',checked: false},
-     {name:'美甲',value:'美甲',checked: false},
-     {name:'服装',value:'服装',checked: false},
-     {name:'茶艺',value:'茶艺',checked: false},
-     {name:'美容',value:'美容',checked: false},
-     {name:'美发',value:'美发',checked: false} 
+    //  {name:'造型',value:'造型',checked: false},
+    //  {name:'美甲',value:'美甲',checked: false},
+    //  {name:'服装',value:'服装',checked: false},
+    //  {name:'茶艺',value:'茶艺',checked: false},
+    //  {name:'美容',value:'美容',checked: false},
+    //  {name:'美发',value:'美发',checked: false} 
     ]
   
   },
@@ -45,15 +46,17 @@ Page({
 
   },
   onLoad: function () {
-
+    var that = this
     var openId = wx.getStorageSync('accessToken')
     console.log('openId',openId)
     if (openId) {
         CategoryService.getIndexList().then(function(res){
           console.log('getIndexList',res)
-        }).catch(function(){
-          console.log("no id")
-        })
+          that.setData({
+            interest:res.data
+          })
+
+        }).catch(Error.PromiseError)
     }
    
   }

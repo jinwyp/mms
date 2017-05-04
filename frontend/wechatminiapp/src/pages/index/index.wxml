@@ -6,9 +6,9 @@
       <view class="item">
         <checkbox-group name="interestChoose" bindchange="checkboxChange">
           <block wx:for="{{interest}}" wx:key="{{interest}}" wx:for-index="index">
-            <label data-value='{{item.value}}' bindtap="checkItem" data-index="{{index}}" class="itemList item-{{index}}" >
-            <image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked ? '':'chooseN'}}" data-value='{{item.value}}'></image>
-            <checkbox value="{{item.value}}">{{item.name}} </checkbox>
+            <label data-value='{{item.name}}' bindtap="checkItem" data-index="{{index}}" class="itemList item-{{index}}" >
+            <image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked ? '':'chooseN'}}" data-value='{{item.name}}'></image>
+            <checkbox value="{{item.name}}">{{item.name}} </checkbox>
               {{item.name}}
             </label>  
           </block> 
