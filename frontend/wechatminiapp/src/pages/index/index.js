@@ -8,37 +8,62 @@ var app = getApp()
 Page({
   data: {
    interest:[
-    //  {name:'造型',value:'造型',checked: false},
-    //  {name:'美甲',value:'美甲',checked: false},
-    //  {name:'服装',value:'服装',checked: false},
-    //  {name:'茶艺',value:'茶艺',checked: false},
-    //  {name:'美容',value:'美容',checked: false},
-    //  {name:'美发',value:'美发',checked: false} 
-    ]
+    //  {name:'造型',checked: false},
+    //  {name:'美甲',checked: false},
+    //  {name:'服装',checked: false},
+    //  {name:'茶艺',checked: false},
+    //  {name:'美容',checked: false},
+    //  {name:'美发',checked: false} 
+    ],
   
   },
 
-  // checkboxChange: function(e) {  
-  //   console.log('checkbox发生change事件，携带value值为：', e.detail.value)    
-  // }, 
   checkItem: function(e) {
     var index=e.target.dataset.index;
     var a = !this.data.interest[index].checked
-    // console.log(a)
     this.setData({
       ['interest['+index+'].checked']:a
     })
   },
   
-  //表单提交
-  // formSubmit: function(e) {
-  //   console.log('form发生了submit事件，携带数据为：', this.data.interest);
-  // },
-  // formReset: function() {
-  //   console.log('form发生了reset事件');
-  // },
+  
   interestPost:function(e) {
+    var that = this
     console.log('interestPost事件，携带数据为：', this.data.interest);
+    var categories = [];
+    var interest = this.data.interest;
+    for(var i=0;i<interest.length;i++){
+      if(interest[i].checked === true){
+        categories.push(interest[i].name)
+      }
+      
+    }
+   
+    console.log('categories',categories);
+
+    CategoryService.pushIndexList({  categories:categories }).then(function(res){
+          if(res.data.redirect === 0){
+            wx.navigateTo({
+              url: '../collection/collection',
+              // success: function(res){
+              //   // success
+              // },
+              // fail: function(res) {
+              //   // fail
+              // },
+              // complete: function(res) {
+              //   // complete
+              // }
+            })
+          }else if(res.data.redirect === 1){
+            wx.navigateTo({
+              url: '../friendsExp/friendsList/friendsList',
+            })
+          }else{
+            console.log('categories',res)
+          }
+
+        }).catch(Error.PromiseError)
   },
   
   test :function(){
