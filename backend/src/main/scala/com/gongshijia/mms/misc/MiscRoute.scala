@@ -71,20 +71,23 @@ trait MiscRoute extends SprayJsonSupport with Core {
   }
 
   def getArts = path("arts") {
-    (get & headerValueByName("X-OPENID")) { openid =>
+    (get & openid) { id =>
       extractExecutionContext { implicit ec =>
-        complete(handleGetArts(openid))
+        complete(handleGetArts(id))
       }
     }
   }
 
   // 添加评价
-  case class CommentRequest(content: String)
-  implicit val CommentFormat = jsonFormat1(CommentRequest)
-  def saveComment(content: String, openid: String): Future[Result[Boolean]] = Future.successful(success(true))  // todo: 保存评论到mongodb
+  case class CommentRequest(content: String, reportId: String)
+  implicit val CommentFormat = jsonFormat2(CommentRequest)
+
+  def saveComment(content: String, reportId: String, openid: String): Future[Result[Boolean]] =
+    Future.successful(success(true))  // todo: 保存评论到mongodb
+
   def addComment = path("comment") {
     (post & entity(as[CommentRequest]) & openid) { (comment, openid) =>
-      complete(saveComment(comment.content, openid))
+      complete(saveComment(comment.content, comment.reportId, openid))
     }
   }
 
