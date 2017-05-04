@@ -1,14 +1,14 @@
 <!--index.wxml-->
 <view class="container">
-  <form bindsubmit="formSubmit" bindreset="formReset">
+  <!--<form bindsubmit="formSubmit" bindreset="formReset">-->
     <view class="interest">
       <view class="title"><text>兴趣</text></view>
       <view class="item">
-        <checkbox-group name="interestChoose" bindchange="checkboxChange">
+        <checkbox-group name="interestChoose" >
           <block wx:for="{{interest}}" wx:key="{{interest}}" wx:for-index="index">
-            <label data-value='{{item.value}}' bindtap="checkItem" data-index="{{index}}" class="itemList item-{{index}}" >
-            <image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked ? '':'chooseN'}}" data-value='{{item.value}}'></image>
-            <checkbox value="{{item.value}}">{{item.name}} </checkbox>
+            <label data-value='{{item.name}}' bindtap="checkItem" data-index="{{index}}" class="itemList item-{{index}}" >
+            <image src="../../images/gou.png" mode="aspectFill" class="chooseImg {{item.checked ? '':'chooseN'}}" data-value='{{item.name}}'></image>
+            <checkbox value="{{item.name}}">{{item.name}} </checkbox>
               {{item.name}}
             </label>  
           </block> 
@@ -18,12 +18,12 @@
  
  <view class="interestChoose">
  <!--有数据情况-->
-   <navigator url="../collection/collection">
-      <button class="btn" formType="submit">
+   <!--<navigator url="../collection/collection">-->
+      <button class="btn" bindtap="interestPost">
           <image src="../../images/cart.png"></image>
       </button>
       
-    </navigator>
+    <!--</navigator>-->
     <button class="btn" bindtap="test">
           test
       </button>
@@ -35,5 +35,5 @@
       </button>
     </navigator>
   </view>
-  </form>
+  <!--</form>-->
 </view>
