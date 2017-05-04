@@ -43,23 +43,23 @@ import scala.concurrent.duration._
 trait MiscRoute extends SprayJsonSupport with Core {
 
   // 获取类目
-  case class ArtResult(name: String, checked: Boolean = false)
+  case class CategoryResult(name: String, checked: Boolean = false)
 
-  implicit val ArtResultFormat = jsonFormat2(ArtResult)
-  val artsList: Seq[ArtResult] = List(
-    ArtResult("造型"),
-    ArtResult("美甲"),
-    ArtResult("茶艺"),
-    ArtResult("插花"),
-    ArtResult("搭配"),
-    ArtResult("健身")
+  implicit val CategoryResultFormat = jsonFormat2(CategoryResult)
+  val artsList: Seq[CategoryResult] = List(
+    CategoryResult("造型"),
+    CategoryResult("美甲"),
+    CategoryResult("茶艺"),
+    CategoryResult("插花"),
+    CategoryResult("搭配"),
+    CategoryResult("健身")
   )
 
-  def handleGetArts(openid: String)(implicit ec: ExecutionContext) = {
+  def handleGetCategorys(openid: String)(implicit ec: ExecutionContext) = {
     // todo:  依据openid 从mongo中拿出这个人的兴趣
     val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
     fis map { is =>
-      val arts: Seq[ArtResult] = artsList.map { art =>
+      val arts: Seq[CategoryResult] = artsList.map { art =>
         if (is.contains(art.name)) {
           art.copy(checked = true)
         } else {
@@ -70,11 +70,22 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  def getArts = path("arts") {
+  def getCategorys = path("arts") {
     (get & openid) { id =>
       extractExecutionContext { implicit ec =>
-        complete(handleGetArts(id))
+        complete(handleGetCategorys(id))
       }
+    }
+  }
+
+  // 保存兴趣
+  case class CategoriesRequest(categories: List[String])
+  case class CategoriesResponse(redirect: Int)
+  implicit val CategoriesRequestFormat = jsonFormat1(CategoriesRequest)
+  implicit val CategoriesResponseFormat = jsonFormat1(CategoriesResponse)
+  def saveCategories = path("saveCatetories") {
+    (post & openid & entity(as[CategoriesRequest])) { (id, cats) =>
+      complete(success(CategoriesResponse(0)))
     }
   }
 
@@ -123,5 +134,5 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  def miscRoute = addComment ~ getArts  ~ tst
+  def miscRoute = addComment ~ getCategorys  ~ tst
 }
