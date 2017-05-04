@@ -49,6 +49,14 @@ Page({
       slideshow:false
     })
   },
+  swiperChange:function(e){
+    var current=e.detail.current,
+        listsLen=this.data.expLists.length
+        // 判断是否滑到最后一个
+        if(current==listsLen-1){
+          console.log("已经滑到最后一个")
+        }
+  },
   jumpToDetail:function(){
     // wx.navigateTo({
     //   url: 'test?id=1'
