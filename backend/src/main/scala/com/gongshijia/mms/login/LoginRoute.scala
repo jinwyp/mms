@@ -37,16 +37,13 @@ import com.gongshijia.mms.service.UserService
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
-import Models._
-
 /**
   * Created by hary on 2017/5/3.
   */
-trait LoginRoute extends Core with SprayJsonSupport {
+trait LoginRoute extends Core with SprayJsonSupport with Models{
 
-
-  val appId = coreSystem.settings.config.getString("wx.appId")
-  val appSecret = coreSystem.settings.config.getString("wx.appSecret")
+  val appId = coreConfig.getString("wx.appId")
+  val appSecret = coreConfig.getString("wx.appSecret")
 
   implicit val ec = coreSystem.dispatcher
 
@@ -54,10 +51,7 @@ trait LoginRoute extends Core with SprayJsonSupport {
 
   // 获取WxSession
   def getWxSession(code: String): Future[WxSession] = {
-
     import spray.json._
-
-
     val wxUrl = s"https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code"
 
     for {
@@ -80,71 +74,29 @@ trait LoginRoute extends Core with SprayJsonSupport {
   }
 
   // 处理登录
-  def handleLogin(code: String): Future[Option[String]] = {
+  def handleLogin(request: LoginRequest): Future[Option[String]] = {
     for {
-      wxSession <- getWxSessionMock(code)
+      // wxSession <- getWxSessionMock(request.code)
+      wxSession <- getWxSession(request.code)
       success <- saveSession(wxSession)
     } yield success
   }
 
   // 用户登录
   def login = path("login") {
-    get {
-      parameter('code) { code =>
-        onSuccess(handleLogin(code)) {
+    post {
+      entity(as[LoginRequest]) { request =>
+        log.debug("post request: {}", request)
+        println("request = " + request)
+        onSuccess(handleLogin(request)) {
           case Some(sid) =>
-            complete(LoginResponse(sid))
+            complete(LoginResponse(sid, "openid"))
         }
       }
     }
   }
 
-  // 获取类目
-  def getArts = path("arts") {
-    get {
-      complete("ok")
-    }
-  }
-
-  import com.gongshijia.mms.HttpResult.Error
-  import com.gongshijia.mms.HttpResult.Result
-
-  // 添加评价
-  def addComment = path("comment") {
-    wxSession { (fs: Future[Option[WxSession]]) =>
-      put {
-        onSuccess(fs) {
-          case Some(wxSession) => complete(wxSession)
-          case _ => complete(Result[Int](None, success = false, error = Some(Error(401, "hasdfa", "asdfaf"))))
-            // Result(None, false, Some(Error(401, "login required", "X-SID"))))
-        }
-      }
-    }
-  }
-
-  // 获取未确认署名
-  def getUnverifiedSignInfo = path("signCheck") {
-    get {
-      complete("ok")
-    }
-  }
-
-  // 保存体验报告草稿
-  def saveReport = path("report") {
-    post {
-      complete("ok")
-    }
-  }
-
-  // 补充个人信息
-  def addPersonInfo = path("person") {
-    post {
-      complete("ok")
-    }
-  }
-
-  //
-
-  def loginRoute = login ~ addComment
-
+  def loginRoute = login
 }
+
+
