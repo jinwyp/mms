@@ -29,16 +29,15 @@ trait AssetRoute extends Core with SprayJsonSupport {
 
   import Models._
 
-
   implicit val assetRouteExecutionContext = coreSystem.dispatcher
 
-  val accessKeyId = coreSystem.settings.config.getString("aliyun.accessKeyId")
-  val accessKeySecret = coreSystem.settings.config.getString("aliyun.accessKeySecret")
-  val ossBucket = coreSystem.settings.config.getString("aliyun.ossBucket")
-  val ossHost = coreSystem.settings.config.getString("aliyun.ossHost")
-  val domain = coreSystem.settings.config.getString("mms.domain")
+  val accessKeyId = coreConfig.getString("aliyun.accessKeyId")
+  val accessKeySecret = coreConfig.getString("aliyun.accessKeySecret")
+  val ossBucket = coreConfig.getString("aliyun.ossBucket")
+  val ossHost = coreConfig.getString("aliyun.ossHost")
+  val domain = coreConfig.getString("mms.domain")
 
-  val fileRoot = "/tmp" // coreSystem.settings.config.getString("file.root")
+  val fileRoot = "/tmp" // coreConfig.getString("file.root")
 
   //  private def getAssetInfo(id: String): Future[(String, String, Source[ByteString, Future[IOResult]])] = {
   //    val query = assetClass.filter(f => f.asset_id === id).map { e =>
@@ -187,7 +186,9 @@ trait AssetRoute extends Core with SprayJsonSupport {
     }
   }
 
-  def assetRoute = assetUploadPolicy ~ assetOssCallback ~ assetOssDownload
+  def assetRoute = assetUploadPolicy ~ assetOssCallback ~ assetOssDownload ~ path("hello") {
+    complete("hello")
+  }
 
 }
 

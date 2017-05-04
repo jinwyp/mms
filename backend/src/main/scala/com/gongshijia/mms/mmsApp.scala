@@ -41,6 +41,9 @@ object mmsApp extends App
     pathPrefix("login") { loginRoute } ~
     pathPrefix("misc")  { miscRoute }
     pathPrefix("test")  { testRoute }
+    path("hello") {
+     complete("hello")
+    }
   }
 
   // start http server

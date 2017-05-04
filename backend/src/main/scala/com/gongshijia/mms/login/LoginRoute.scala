@@ -40,12 +40,10 @@ import scala.concurrent.duration._
 /**
   * Created by hary on 2017/5/3.
   */
-trait LoginRoute extends Core with SprayJsonSupport {
+trait LoginRoute extends Core with SprayJsonSupport with Models{
 
-  import Models._
-
-  val appId = coreSystem.settings.config.getString("wx.appId")
-  val appSecret = coreSystem.settings.config.getString("wx.appSecret")
+  val appId = coreConfig.getString("wx.appId")
+  val appSecret = coreConfig.getString("wx.appSecret")
 
   implicit val ec = coreSystem.dispatcher
 

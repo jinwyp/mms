@@ -7,7 +7,7 @@ import spray.json.DefaultJsonProtocol
 /**
   * Created by hary on 2017/5/3.
   */
-object Models extends DefaultJsonProtocol {
+trait Models extends DefaultJsonProtocol {
 
   case class LoginRequest(
         code: String,
@@ -26,3 +26,5 @@ object Models extends DefaultJsonProtocol {
   case class LoginResponse(sid: String, openid: String)
   implicit val LoginResponseFormat = jsonFormat2(LoginResponse)
 }
+
+object Models extends Models
