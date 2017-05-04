@@ -33,6 +33,13 @@ trait Core extends MMSService {
 
   val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
 
+  // val neo4j =
+
+  // val mongo
+
+
+
+
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")
 
   import akka.http.scaladsl.server.Directives._

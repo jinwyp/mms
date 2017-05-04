@@ -50,6 +50,8 @@ trait LoginRoute extends Core with SprayJsonSupport {
 
   implicit val ec = coreSystem.dispatcher
 
+  def getWxSessionMock(code: String) = Future.successful(WxSession("openid", "session_key", 10000))
+
   // 获取WxSession
   def getWxSession(code: String): Future[WxSession] = {
 
@@ -78,9 +80,9 @@ trait LoginRoute extends Core with SprayJsonSupport {
   }
 
   // 处理登录
-  def handleLogin(code: String) = {
+  def handleLogin(code: String): Future[Option[String]] = {
     for {
-      wxSession <- getWxSession(code)
+      wxSession <- getWxSessionMock(code)
       success <- saveSession(wxSession)
     } yield success
   }
@@ -104,11 +106,18 @@ trait LoginRoute extends Core with SprayJsonSupport {
     }
   }
 
+  import com.gongshijia.mms.HttpResult.Error
+  import com.gongshijia.mms.HttpResult.Result
+
   // 添加评价
   def addComment = path("comment") {
     wxSession { (fs: Future[Option[WxSession]]) =>
       put {
-        complete("ok")
+        onSuccess(fs) {
+          case Some(wxSession) => complete(wxSession)
+          case _ => complete(Result[Int](None, success = false, error = Some(Error(401, "hasdfa", "asdfaf"))))
+            // Result(None, false, Some(Error(401, "login required", "X-SID"))))
+        }
       }
     }
   }
@@ -136,6 +145,6 @@ trait LoginRoute extends Core with SprayJsonSupport {
 
   //
 
-  def loginRoute = login
+  def loginRoute = login ~ addComment
 
 }
