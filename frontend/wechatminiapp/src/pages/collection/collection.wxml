@@ -63,7 +63,7 @@
              <!--判断是否有体验手册（无）-->
             <swiper-item wx:else>
                 <view class="collectItemList_n" >
-                    <image class="collectImg_n" src="../../images/collect_del.png"></image>
+                    <image class="collectImg_n" src="../../images/collect_del.png" mode="widthFix"></image>
                     <view><text class="collectTxt_n">暂未收藏</text></view>
                 </view>
             </swiper-item>         

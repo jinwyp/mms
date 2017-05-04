@@ -40,11 +40,15 @@ swiper{
 }
 .collectItemList_n,.collectItemList{
     width: 100%;
-    display: inline-block; 
+    display: inline-block;   
 }
 
 .collectItemList_n{
     text-align: center;
+    background: #ffffff;
+    border: 1px solid #dedede;
+    border-radius: 5px; 
+    height: 100%;
 }
 .collectItemList .avatar{
     width: 100rpx;
