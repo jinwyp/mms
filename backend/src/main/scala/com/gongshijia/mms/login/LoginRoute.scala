@@ -36,6 +36,8 @@ import com.gongshijia.mms.service.UserService
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
+import scalaz._
+import Scalaz._
 
 /**
   * Created by hary on 2017/5/3.
@@ -50,10 +52,29 @@ trait LoginRoute extends Core with SprayJsonSupport with Models{
         log.info(request.toJson.prettyPrint)
 
         log.info("POST /login/login request: {}", request)
-        val fs = createSession(request.code) // 创建session
-        // val is = ??? // todo: upsert 用户信息
-        onSuccess(createSession(request.code)) {
-          case (session: Session, openid) =>
+
+//        val f1 = Future.successful(1)
+//        val f2 = Future.successful(1L)
+//
+//        val lf = List(Future.successful(1), Future.successful(2))
+//
+//        val fl: Future[List[Int]] = Future.sequence(lf)
+//
+//        val jobs = List(1,2,3)   // 1 -> 2  3
+//
+//        val fj: Future[List[Int]] = Future.traverse(jobs){ i =>  Future { i * i }}
+//
+//
+//        val f3 = (f1 |@| f2 |@| fl) { (a, b, c) =>
+//          1
+//        }
+
+
+
+        val fs = createSession(request) // 创建session
+
+        onSuccess(fs) {
+          case (session, openid) =>
             log.info("session created: openid = {}, session = {}", openid, session)
             complete(success(LoginResponse(openid)))
         }

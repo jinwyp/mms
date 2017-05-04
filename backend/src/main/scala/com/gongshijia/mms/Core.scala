@@ -66,11 +66,27 @@ trait Core extends MMSService with DefaultJsonProtocol {
   }
 
   import akka.http.scaladsl.server.Directives._
+  case class LoginRequest(
+                           code: String,
+                           avatarUrl: String,
+                           country: String,
+                           province: String,
+                           city: String,
+                           gender: Int,
+                           language: String,
+                           nickName: String,
+                           rawData: String,
+                           signature: String,
+                           encryptedData: String,
+                           iv: String
+                         )
+
+  implicit val LoginRequestFormat = jsonFormat12(LoginRequest)
 
   // 获取WxSession
-  def createSession(code: String): Future[(Session, String)] = {
+  def createSession(request: LoginRequest): Future[(Session, String)] = {
     import spray.json._
-    val wxUrl = s"https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code"
+    val wxUrl = s"https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${request.code}&grant_type=authorization_code"
 
     for {
       resposne <- Http().singleRequest(HttpRequest(uri = wxUrl, method = HttpMethods.GET))
@@ -78,8 +94,14 @@ trait Core extends MMSService with DefaultJsonProtocol {
       wxSession <- entity.dataBytes.runFold(ByteString.empty) { case (acc, b) => acc ++ b } map {
         _.decodeString("UTF-8").parseJson.convertTo[WxSession]
       }
+
+    // check request with wxSession.session_key
+    // compare openid if equal, upsert request里的用户信息到mongodb
+
+    // 保存session到redis
       session = Session(wxSession.session_key)
       ok: Boolean <- redis.setex(wxSession.openid, wxSession.expires_in, session)
+
       result = if (ok) {
         (session, wxSession.openid)
       } else {
@@ -88,7 +110,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
     } yield result
   }
 
-  val openid = headerValueByName("X-OPENID")
+  val openid: Directive1[String] = headerValueByName("X-OPENID")
 
   def optSession(openid: String): Directive1[Future[Option[Session]]] = provide(redis.get(openid))
 
@@ -157,7 +179,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
     case NonFatal(e) =>
       extractUri { uri =>
         log.error(s"Request to $uri could not be handled normally!!!!!!!!!")
-        log.error("{}", e)
+        log.error("{}", e.getStackTrace.mkString("\n"))
         complete(HttpResponse(StatusCodes.InternalServerError, entity = Result(data = Some("error"), error = Some(Error(500, "系统错误"))).toJson.toString))
       }
   }
@@ -189,10 +211,14 @@ trait Core extends MMSService with DefaultJsonProtocol {
             log.warning(s"$uri That wasn't valid! {}", msg)
             complete((InternalServerError, "That wasn't valid! " + msg))
           }
-        case MissingHeaderRejection("X-OPENID") =>
+        case MissingHeaderRejection(header) =>
           extractUri { uri =>
-            log.warning("Unauthorized access to {} ", uri)
-            throw UnauthorizedException("kkk")
+            if ( header == "X-OPENID") {
+              log.warning("Unauthorized access to {} ", uri)
+              throw UnauthorizedException("kkk")
+            } else {
+              throw UnauthorizedException("kkk")
+            }
           }
       }
       .handleAll[MethodRejection] { methodRejections =>
