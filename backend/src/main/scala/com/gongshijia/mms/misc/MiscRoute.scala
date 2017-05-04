@@ -43,10 +43,39 @@ import scala.concurrent.duration._
   */
 trait MiscRoute extends SprayJsonSupport with Core {
 
+  case class ArtResult(name: String, checked: Boolean = false)
+
+  implicit val ArtResultFormat = jsonFormat2(ArtResult)
+
+  val artsList: Seq[ArtResult] = List(
+    ArtResult("造型"),
+    ArtResult("美甲"),
+    ArtResult("茶艺"),
+    ArtResult("插花"),
+    ArtResult("搭配"),
+    ArtResult("健身")
+  )
+
   // 获取类目
   def getArts = path("arts") {
-    get {
-      complete("ok")
+    headerValueByName("X-OPENID") { openid =>
+      get {
+        extractExecutionContext { implicit ec =>
+          // todo:  依据openid 从mongo中拿出这个人的兴趣
+          val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
+
+          val newArts: Future[Result[Seq[ArtResult]]] = fis map { is =>
+            Result(Some(artsList.map { art =>
+              if (is.contains(art.name)) {
+                art.copy(checked = true)
+              } else {
+                art
+              }
+            }))
+          }
+          complete(newArts)
+        }
+      }
     }
   }
 
@@ -56,7 +85,7 @@ trait MiscRoute extends SprayJsonSupport with Core {
       post {
         onSuccess(fs) {
           case Some(wxSession) => complete(wxSession)
-          case _ =>  complete(failed(401, "login required"))
+          case _ => complete(failed(401, "login required"))
         }
       }
     }
@@ -83,7 +112,5 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  //
-
-  def miscRoute = addComment
+  def miscRoute = addComment ~ getArts
 }
