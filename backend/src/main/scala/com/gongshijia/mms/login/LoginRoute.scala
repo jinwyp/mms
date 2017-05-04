@@ -42,60 +42,27 @@ import scala.concurrent.duration._
   */
 trait LoginRoute extends Core with SprayJsonSupport with Models{
 
-  val appId = coreConfig.getString("wx.appId")
-  val appSecret = coreConfig.getString("wx.appSecret")
-
-  implicit val ec = coreSystem.dispatcher
-
-  def getWxSessionMock(code: String) = Future.successful(WxSession("openid", "session_key", 10000))
-
-  // 获取WxSession
-  def getWxSession(code: String): Future[WxSession] = {
-    import spray.json._
-    val wxUrl = s"https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code"
-
-    for {
-      resposne <- Http().singleRequest(HttpRequest(uri = wxUrl, method = HttpMethods.GET))
-      entity <- resposne.entity.toStrict(10.seconds)
-      session <- entity.dataBytes.runFold(ByteString.empty) { case (acc, b) => acc ++ b } map {
-        _.decodeString("UTF-8").parseJson.convertTo[WxSession]
-      }
-    } yield session
-  }
-
-  // 保存session
-  def saveSession(wxSession: WxSession): Future[Option[String]] = {
-    import java.util.UUID
-    val sid = UUID.randomUUID().toString
-    redis.set(sid, wxSession) map {
-      case true => Some(sid)
-      case _ => None
-    }
-  }
-
-  // 处理登录
-  def handleLogin(request: LoginRequest): Future[Option[String]] = {
-    for {
-      // wxSession <- getWxSessionMock(request.code)
-      wxSession <- getWxSession(request.code)
-      success <- saveSession(wxSession)
-    } yield success
-  }
-
   // 用户登录
   def login = path("login") {
     post {
       entity(as[LoginRequest]) { request =>
+
+        log.info(request.toJson.prettyPrint)
+
         log.info("POST /login/login request: {}", request)
-        onSuccess(handleLogin(request)) {
-          case Some(sid) =>
-            complete(LoginResponse(sid, "openid"))
+        val fs = createSession(request.code) // 创建session
+        // val is = ??? // todo: upsert 用户信息
+        onSuccess(createSession(request.code)) {
+          case (session: Session, openid) =>
+            log.info("session created: openid = {}, session = {}", openid, session)
+            complete(success(LoginResponse(openid)))
         }
       }
     }
   }
 
   def loginRoute = login
+
 }
 
 
