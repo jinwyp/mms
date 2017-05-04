@@ -39,8 +39,8 @@ object mmsApp extends App
   val route: Route = logRequestResult(extractLogEntry _) {
     pathPrefix("asset") { assetRoute } ~
     pathPrefix("login") { loginRoute } ~
-    pathPrefix("misc")  { miscRoute }
-    pathPrefix("test")  { testRoute }
+    pathPrefix("misc")  { miscRoute } ~
+    pathPrefix("test")  { testRoute } ~
     path("hello") {
      complete("hello")
     }
