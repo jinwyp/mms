@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 var UserService = require('../../service/user.js');
+var CategoryService = require('../../service/category.js');
 
 var app = getApp()
 Page({
@@ -36,33 +37,24 @@ Page({
     console.log('form发生了reset事件');
   },
   test :function(){
-    UserService.addComment().then(function(res){
+    UserService.addComment({ content: "hello world" }).then(function(res){
       console.log('test',res)
     }
       
     );
+
   },
   onLoad: function () {
-    var that = this;
-    // wx.request({
-    //   url: 'http://hary.gongshijia.com/login/login',
-    //   data: {},
-    //   method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    //   // header: {}, // 设置请求的 header
-    //   success: function(res){
-    //     // success
-    //     console.log(res.data);
-    //     // that.setData({
-    //     //   interest : res.data
-    //     // })
-    //   },
-    //   fail: function(res) {
-    //     // fail
-    //     console.log(res.errMsg);
-    //   },
-    //   complete: function(res) {
-    //     // complete
-    //   }
-    // })
+
+    var openId = wx.getStorageSync('accessToken')
+    console.log('openId',openId)
+    if (openId) {
+        CategoryService.getIndexList().then(function(res){
+          console.log('getIndexList',res)
+        }).catch(function(){
+          console.log("no id")
+        })
+    }
+   
   }
 })
