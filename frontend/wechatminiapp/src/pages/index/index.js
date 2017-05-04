@@ -18,9 +18,9 @@ Page({
   
   },
 
-  checkboxChange: function(e) {  
-    console.log('checkbox发生change事件，携带value值为：', e.detail.value)    
-  }, 
+  // checkboxChange: function(e) {  
+  //   console.log('checkbox发生change事件，携带value值为：', e.detail.value)    
+  // }, 
   checkItem: function(e) {
     var index=e.target.dataset.index;
     var a = !this.data.interest[index].checked
@@ -31,24 +31,26 @@ Page({
   },
   
   //表单提交
-  formSubmit: function(e) {
-    console.log('form发生了submit事件，携带数据为：', e.detail.value);
+  // formSubmit: function(e) {
+  //   console.log('form发生了submit事件，携带数据为：', this.data.interest);
+  // },
+  // formReset: function() {
+  //   console.log('form发生了reset事件');
+  // },
+  interestPost:function(e) {
+    console.log('interestPost事件，携带数据为：', this.data.interest);
   },
-  formReset: function() {
-    console.log('form发生了reset事件');
-  },
+  
   test :function(){
     UserService.addComment({ content: "hello world" }).then(function(res){
       console.log('test',res)
-    }
-      
-    );
+    })
 
   },
   onLoad: function () {
     var that = this
     var openId = wx.getStorageSync('accessToken')
-    console.log('openId',openId)
+        console.log('openId',openId)
     if (openId) {
         CategoryService.getIndexList().then(function(res){
           console.log('getIndexList',res)
