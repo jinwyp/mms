@@ -8,11 +8,17 @@ function request(url, data, method){
 	 		  url,
 			  data: data || {},
 				method : method || 'GET',
-			  header: { 'Content-Type': 'application/json' },
+			  header: { 'Content-Type': 'application/json', 'X-SID' :wx.getStorageSync('accessToken111') },
 			  success (res) {
+					console.log('成功',res)
+
+					if (res.data.error && res.data.error.code === 401){
+						console.log("请登录")
+					}
 			    resolve(res.data)
 			  },
 			  fail (e) {
+					console.log('fail',e)
 			    reject(e)
 			  }
 	  	})

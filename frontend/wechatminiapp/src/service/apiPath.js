@@ -1,9 +1,10 @@
 
-var apiPrefix = 'https://zxy.ngrok.io/api'
+var apiPrefix = 'http://hary.gongshijia.com'
 
 
 var apiPath = {
-    signUpWechat : apiPrefix + '/user/signup/wechat'
+    signUpWechat : apiPrefix + '/login/login',
+    test : apiPrefix +'/misc/comment'
 }
 
 module.exports = apiPath;

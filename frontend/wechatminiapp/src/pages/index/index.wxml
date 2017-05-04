@@ -22,7 +22,11 @@
       <button class="btn" formType="submit">
           <image src="../../images/cart.png"></image>
       </button>
+      
     </navigator>
+    <button class="btn" bindtap="test">
+          test
+      </button>
 
 <!--无数据情况-->
   <navigator url="../friendsExp/friendsList/friendsList">
