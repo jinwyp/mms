@@ -90,7 +90,8 @@ trait MiscRoute extends SprayJsonSupport with Core {
                        pictures: List[String],
                        materials: List[Material],
                        flows: List[ArtFlow],
-                       feeling: String
+                       feeling: String,
+                       comments: List[String]
   );
   case class CategoriesRequest(categories: List[String])
   case class CategoriesResponse(redirect: Int, experiences: Map[String, List[Experience]])
