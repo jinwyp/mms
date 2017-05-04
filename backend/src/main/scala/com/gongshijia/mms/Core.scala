@@ -12,10 +12,9 @@ import akka.http.scaladsl.server.Directives.{complete, extractUri}
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
-import com.gongshijia.mms.login.Models.WxSession
 import com.gongshijia.mms.mmsApp.coreSystem
 import com.gongshijia.mms.service.{MMSService, UserMaster}
-import redis.RedisClient
+import redis.{ByteStringFormatter, RedisClient}
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
 import scala.concurrent.Future
@@ -24,72 +23,62 @@ import scala.util.control.NonFatal
 /**
   * Created by hary on 17/1/9.
   */
-trait Core extends MMSService {
+trait Core extends MMSService with DefaultJsonProtocol {
+
+  // 系统， 配置， 日志
   implicit val coreSystem: ActorSystem = mkSystem
   implicit val coreMaterializer = ActorMaterializer()
-
   val coreConfig = coreSystem.settings.config
   val log = Logging(coreSystem, this.getClass)
-
-  val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
-
-  // val neo4j =
-
-  // val mongo
-
-
-
-
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")
 
-  import akka.http.scaladsl.server.Directives._
+  // redis
+  val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
 
+  // neo4j
+  // val neo4j =
+
+  // mongo
+  // val mongo
+
+  // 扩展指令
+  case class WxSession(openid: String, session_key: String, expires_in: Long)
+  implicit val WxSessionFormat = jsonFormat3(WxSession)
+  implicit val byteStringFormatter = new ByteStringFormatter[WxSession] {
+    override def serialize(data: WxSession): ByteString = {
+      ByteString(s"${data.openid}|${data.session_key}|${data.expires_in}")
+    }
+    override def deserialize(bs: ByteString): WxSession = {
+      val ss = bs.utf8String.split("\\|")
+      println()
+      WxSession(ss(0), ss(1), ss(2).toLong)
+    }
+  }
+  import akka.http.scaladsl.server.Directives._
   val wxSession: Directive1[Future[Option[WxSession]]] = optionalHeaderValueByName("X-SID") flatMap {
     case Some(sid) => provide(redis.get[WxSession](sid))
     case None =>  provide(Future.successful(None))
   }
-}
+  // API接口定义
+  case class Pagination(total: Int, pageSize: Int, curPage: Int)
+  case class Error(code: Int, message: String)
+  case class Result[T](data: Option[T], error: Option[Error] = None, pagination: Option[Pagination] = None)
+  implicit val PaginationFormat = jsonFormat3(Pagination)
+  implicit val ErrorFormat = jsonFormat2(Error)
+  implicit def resultFormat[A: JsonFormat] = jsonFormat3(Result.apply[A])
+  def failed(code: Int, message: String) = Result[Int](None, Some(Error(code, message)))
 
+  // 异常定义
+  case class DatabaseException(message:String) extends Exception
+  case class ParameterException(message: String) extends Exception
+  case class BusinessException(message: String) extends Exception
 
-object HttpResult extends DefaultJsonProtocol {
-
-  case class Result[T](data: Option[T], success: Boolean = true, error: Option[Error] = None, meta: Option[PagerInfo] = None)
-
-  case class PagerInfo(total: Int, count: Int, offset: Int, page: Int)
-
-  implicit val PagerInfoFormat = jsonFormat4(PagerInfo)
-
-  case class Error(code: Int, message: String, field: String)
-
-  implicit val ErrorFormat = jsonFormat3(Error)
-
-  implicit def resultFormat[A: JsonFormat] = jsonFormat4(Result.apply[A])
-}
-
-
-/**
-  * Created by wangqi on 16/12/16.
-  */
-case class DatabaseException(message:String) extends Exception
-case class ParameterException(message: String) extends Exception
-case class BusinessException(message: String) extends Exception
-
-
-
-
-/**
-  * Created by hary on 2017/5/2.
-  */
-
-trait CommonJsonFormat {
-
+  // 一些常用的spray-json format
   implicit object SqlTimestampFormat extends RootJsonFormat[Timestamp] {
-
     override def write(obj: Timestamp) = {
       val formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
       JsString(formatter.format(obj))
     }
-
     override def read(json: JsValue) : Timestamp = {
       val formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
       json match {
@@ -98,18 +87,14 @@ trait CommonJsonFormat {
       }
     }
   }
-}
 
-
-trait MmsExceptionHandler extends SprayJsonSupport with Core {
-
-  import HttpResult._
-
+  // akka-http exception handler
   implicit def myExceptionHandler: ExceptionHandler = ExceptionHandler {
     case e: BusinessException =>
       extractUri { uri =>
         log.error(s"Request to $uri could not be handled normally!!!!!!!!! BusinessException")
-        complete(HttpResponse(StatusCodes.BadRequest, entity = Result(data = Some("error"), success = false, error = Some(Error(409, e.message, ""))).toJson.toString))
+        complete(
+          HttpResponse(StatusCodes.BadRequest, entity = Result(data = Some("error"), error = Some(Error(409, e.message))).toJson.toString))
       }
 
     case e: DatabaseException =>
@@ -121,16 +106,11 @@ trait MmsExceptionHandler extends SprayJsonSupport with Core {
       extractUri { uri =>
         log.error(s"Request to $uri could not be handled normally!!!!!!!!!")
         log.error("{}", e)
-        complete(HttpResponse(StatusCodes.InternalServerError, entity = Result(data = Some("error"), success = false, error = Some(Error(500, "系统错误", ""))).toJson.toString))
+        complete(HttpResponse(StatusCodes.InternalServerError, entity = Result(data = Some("error"), error = Some(Error(500, "系统错误"))).toJson.toString))
       }
   }
-}
 
-/**
-  * Created by wangqi on 17/1/18.
-  */
-trait MmsRejectionHandler extends SprayJsonSupport with Core {
-
+  // akka-http rejection handler
   implicit def myRejectionHandler =
     RejectionHandler.newBuilder()
       .handle { case MissingCookieRejection(cookieName) =>

@@ -9,23 +9,20 @@ import spray.json.DefaultJsonProtocol
   */
 object Models extends DefaultJsonProtocol {
 
-  case class WxSession(openid: String, session_key: String, expires_in: Long)
-  implicit val WxSessionFormat = jsonFormat3(WxSession)
+  case class LoginRequest(
+        code: String,
+        avatarUrl: String,
+        country: String,
+        province: String,
+        city: String,
+        gender: Int,
+        language: String,
+        nickName: String,
+        rawData: String,
+        iv: String
+  )
+  implicit val LoginRequestFormat = jsonFormat10(LoginRequest)
 
-  case class LoginResponse(sid: String)
-  implicit val LoginResponseFormat = jsonFormat1(LoginResponse)
-
-  // for redis
-  implicit val byteStringFormatter = new ByteStringFormatter[WxSession] {
-
-    override def serialize(data: WxSession): ByteString = {
-      ByteString(s"${data.openid}|${data.session_key}|${data.expires_in}")
-    }
-    override def deserialize(bs: ByteString): WxSession = {
-      val ss = bs.utf8String.split("\\|")
-      println()
-      WxSession(ss(0), ss(1), ss(2).toLong)
-    }
-  }
-
+  case class LoginResponse(sid: String, openid: String)
+  implicit val LoginResponseFormat = jsonFormat2(LoginResponse)
 }
