@@ -23,8 +23,8 @@ trait Models extends DefaultJsonProtocol {
   )
   implicit val LoginRequestFormat = jsonFormat10(LoginRequest)
 
-  case class LoginResponse(sid: String, openid: String)
-  implicit val LoginResponseFormat = jsonFormat2(LoginResponse)
+  case class LoginResponse(openid: String)
+  implicit val LoginResponseFormat = jsonFormat1(LoginResponse)
 
 }
 

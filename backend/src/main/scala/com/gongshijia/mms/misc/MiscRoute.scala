@@ -20,8 +20,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.FileInfo
 
-import scala.concurrent.Future
-import javax.crypto.Mac
+import scala.concurrent.{ExecutionContext, Future}
 import javax.crypto.spec.SecretKeySpec
 import java.io.IOException
 import java.security.InvalidKeyException
@@ -43,10 +42,10 @@ import scala.concurrent.duration._
   */
 trait MiscRoute extends SprayJsonSupport with Core {
 
+  // 获取类目
   case class ArtResult(name: String, checked: Boolean = false)
 
   implicit val ArtResultFormat = jsonFormat2(ArtResult)
-
   val artsList: Seq[ArtResult] = List(
     ArtResult("造型"),
     ArtResult("美甲"),
@@ -56,38 +55,36 @@ trait MiscRoute extends SprayJsonSupport with Core {
     ArtResult("健身")
   )
 
-  // 获取类目
-  def getArts = path("arts") {
-    headerValueByName("X-OPENID") { openid =>
-      get {
-        extractExecutionContext { implicit ec =>
-          // todo:  依据openid 从mongo中拿出这个人的兴趣
-          val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
-
-          val newArts: Future[Result[Seq[ArtResult]]] = fis map { is =>
-            Result(Some(artsList.map { art =>
-              if (is.contains(art.name)) {
-                art.copy(checked = true)
-              } else {
-                art
-              }
-            }))
-          }
-          complete(newArts)
+  def handleGetArts(openid: String)(implicit ec: ExecutionContext) = {
+    // todo:  依据openid 从mongo中拿出这个人的兴趣
+    val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
+    fis map { is =>
+      val arts: Seq[ArtResult] = artsList.map { art =>
+        if (is.contains(art.name)) {
+          art.copy(checked = true)
+        } else {
+          art
         }
+      }
+      success(arts)
+    }
+  }
+
+  def getArts = path("arts") {
+    (get & headerValueByName("X-OPENID")) { openid =>
+      extractExecutionContext { implicit ec =>
+        complete(handleGetArts(openid))
       }
     }
   }
 
   // 添加评价
+  case class CommentRequest(content: String)
+  implicit val CommentFormat = jsonFormat1(CommentRequest)
+  def saveComment(content: String, openid: String): Future[Result[Boolean]] = Future.successful(success(true))  // todo: 保存评论到mongodb
   def addComment = path("comment") {
-    wxSession { (fs: Future[Option[WxSession]]) =>
-      post {
-        onSuccess(fs) {
-          case Some(wxSession) => complete(wxSession)
-          case _ => complete(failed(401, "login required"))
-        }
-      }
+    (post & entity(as[CommentRequest]) & openid) { (comment, openid) =>
+      complete(saveComment(comment.content, openid))
     }
   }
 
@@ -112,5 +109,16 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  def miscRoute = addComment ~ getArts
+  def tst = path("test") {
+    get {
+      openid { id =>
+        optSession(id) { (session: Future[Option[Session]]) =>
+          implicit val format = jsonFormat1(Session)
+          complete(session)
+        }
+      }
+    }
+  }
+
+  def miscRoute = addComment ~ getArts  ~ tst
 }
