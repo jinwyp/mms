@@ -34,6 +34,26 @@ Page({
     console.log('form发生了reset事件');
   },
   onLoad: function () {
-    // console.log('onLoad')
+    var that = this;
+    wx.request({
+      url: 'https://wd.gongshijia.com',
+      data: {},
+      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      // header: {}, // 设置请求的 header
+      success: function(res){
+        // success
+        console.log(res.data);
+        // that.setData({
+        //   interest : res.data
+        // })
+      },
+      fail: function(res) {
+        // fail
+        console.log(res.errMsg);
+      },
+      complete: function(res) {
+        // complete
+      }
+    })
   }
 })

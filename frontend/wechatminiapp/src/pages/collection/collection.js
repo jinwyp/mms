@@ -22,22 +22,22 @@ Page({
       number:0
     }],
     experience: [
-      {
-        id:'111',
-        category:'造型',
-        name:'刘杰',
-        headImg:'../../images/star.png',
-        img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
-        text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
-      },
-      {
-        id:'222',
-        category:'造型',
-        name:'刘杰2',
-        headImg:'../../images/star.png',
-        video:'../../images/star.png',
-        text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
-      }
+      // {
+      //   id:'111',
+      //   category:'造型',
+      //   name:'刘杰',
+      //   headImg:'../../images/star.png',
+      //   img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
+      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      // },
+      // {
+      //   id:'222',
+      //   category:'造型',
+      //   name:'刘杰2',
+      //   headImg:'../../images/star.png',
+      //   video:'../../images/star.png',
+      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
+      // }
       
     ],
     autoplay:false,//是否自动播放
