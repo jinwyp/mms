@@ -25,6 +25,7 @@ trait Models extends DefaultJsonProtocol {
 
   case class LoginResponse(sid: String, openid: String)
   implicit val LoginResponseFormat = jsonFormat2(LoginResponse)
+
 }
 
 object Models extends Models
