@@ -79,13 +79,35 @@ trait MiscRoute extends SprayJsonSupport with Core {
   }
 
   // 保存兴趣
+  case class Material(name: String, count: Int)
+  case class ArtFlow(flow: String, duration: Int)
+  case class Experience(
+                       location_lat: Double,
+                       location_lon: Double,
+                       location_name: String,
+                       exp_time: String,
+                       exp_price: Int,
+                       pictures: List[String],
+                       materials: List[Material],
+                       flows: List[ArtFlow],
+                       feeling: String
+  );
   case class CategoriesRequest(categories: List[String])
-  case class CategoriesResponse(redirect: Int)
+  case class CategoriesResponse(redirect: Int, experiences: Map[String, List[Experience]])
+
   implicit val CategoriesRequestFormat = jsonFormat1(CategoriesRequest)
-  implicit val CategoriesResponseFormat = jsonFormat1(CategoriesResponse)
-  def saveCategories = path("saveCatetories") {
+  implicit val CategoriesResponseFormat = jsonFormat2(CategoriesResponse)
+  def saveCategories = path("saveCategories") {
     (post & openid & entity(as[CategoriesRequest])) { (id, cats) =>
-      complete(success(CategoriesResponse(0)))
+
+      // todo:
+      // 1. 获取id对应的所有人脉, 如果人脉为空则
+      //      redirect = 0,  为跳转到 分享
+      //    如果人脉不为空,
+      //      rediect = 1, 为跳转到体验页
+      //
+      //
+      complete(success(CategoriesResponse(0, Map())))
     }
   }
 
@@ -134,5 +156,5 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  def miscRoute = addComment ~ getCategorys  ~ tst
+  def miscRoute = addComment ~ getCategorys  ~ saveCategories ~ tst
 }
