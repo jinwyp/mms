@@ -53,7 +53,7 @@ trait MiscRoute extends SprayJsonSupport with Core {
   // 添加评价
   def addComment = path("comment") {
     wxSession { (fs: Future[Option[WxSession]]) =>
-      put {
+      post {
         onSuccess(fs) {
           case Some(wxSession) => complete(wxSession)
           case _ =>  complete(failed(401, "login required"))

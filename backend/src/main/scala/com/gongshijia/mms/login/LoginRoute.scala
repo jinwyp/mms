@@ -87,6 +87,7 @@ trait LoginRoute extends Core with SprayJsonSupport with Models{
     post {
       entity(as[LoginRequest]) { request =>
         log.debug("post request: {}", request)
+        println("request = " + request)
         onSuccess(handleLogin(request)) {
           case Some(sid) =>
             complete(LoginResponse(sid, "openid"))
