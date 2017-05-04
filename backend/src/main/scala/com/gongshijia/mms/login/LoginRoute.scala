@@ -76,7 +76,8 @@ trait LoginRoute extends Core with SprayJsonSupport with Models{
   // 处理登录
   def handleLogin(request: LoginRequest): Future[Option[String]] = {
     for {
-      wxSession <- getWxSessionMock(request.code)
+      // wxSession <- getWxSessionMock(request.code)
+      wxSession <- getWxSession(request.code)
       success <- saveSession(wxSession)
     } yield success
   }

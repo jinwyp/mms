@@ -18,11 +18,11 @@ import com.gongshijia.mms.test.TestRoute
   * Created by hary on 2017/5/2.
   */
 object mmsApp extends App
+  with Core
   with AssetRoute
   with LoginRoute
   with MiscRoute
   with TestRoute
-  with Core
 {
 
   val config = coreSystem.settings.config
