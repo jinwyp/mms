@@ -40,26 +40,13 @@ import scala.concurrent.duration._
 /**
   * Created by hary on 2017/5/4.
   */
-trait MiscRoute extends SprayJsonSupport with Core {
+trait MiscRoute extends SprayJsonSupport with Core with Models{
 
-  // 获取类目
-  case class ArtResult(name: String, checked: Boolean = false)
-
-  implicit val ArtResultFormat = jsonFormat2(ArtResult)
-  val artsList: Seq[ArtResult] = List(
-    ArtResult("造型"),
-    ArtResult("美甲"),
-    ArtResult("茶艺"),
-    ArtResult("插花"),
-    ArtResult("搭配"),
-    ArtResult("健身")
-  )
-
-  def handleGetArts(openid: String)(implicit ec: ExecutionContext) = {
+  def handleGetCategorys(openid: String)(implicit ec: ExecutionContext): Future[Result[Seq[Category]]] = {
     // todo:  依据openid 从mongo中拿出这个人的兴趣
     val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
     fis map { is =>
-      val arts: Seq[ArtResult] = artsList.map { art =>
+      val arts: Seq[Category] = artsList.map { art =>
         if (is.contains(art.name)) {
           art.copy(checked = true)
         } else {
@@ -70,17 +57,31 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  def getArts = path("arts") {
+  def getCategorys = path("arts") {
     (get & openid) { id =>
       extractExecutionContext { implicit ec =>
-        complete(handleGetArts(id))
+        complete(handleGetCategorys(id))
       }
     }
   }
 
-  // 添加评价
-  case class CommentRequest(content: String, reportId: String)
-  implicit val CommentFormat = jsonFormat2(CommentRequest)
+  def handleSaveCategories(id: String, cats: CategoriesRequest) = {
+
+  }
+
+  def saveCategories = path("saveCategories") {
+    (post & openid & entity(as[CategoriesRequest])) { (id, cats) =>
+
+      // todo:
+      // 1. 获取id对应的所有人脉, 如果人脉为空则
+      //      redirect = 0,  为跳转到 分享
+      //    如果人脉不为空,
+      //      rediect = 1, 为跳转到体验页
+      //
+      //
+      complete(success(CategoriesResponse(0, null)))
+    }
+  }
 
   def saveComment(content: String, reportId: String, openid: String): Future[Result[Boolean]] =
     Future.successful(success(true))  // todo: 保存评论到mongodb
@@ -123,5 +124,5 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  def miscRoute = addComment ~ getArts  ~ tst
+  def miscRoute = addComment ~ getCategorys  ~ saveCategories ~ tst
 }

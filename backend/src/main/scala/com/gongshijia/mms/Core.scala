@@ -2,25 +2,24 @@ package com.gongshijia.mms
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 import akka.actor.ActorSystem
 import akka.event.Logging
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes.{BadRequest, Forbidden, InternalServerError, MethodNotAllowed}
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, StatusCodes}
-import akka.http.scaladsl.server.Directives.{complete, extractUri}
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
-import com.gongshijia.mms.mmsApp.coreSystem
-import com.gongshijia.mms.service.{MMSService, UserMaster}
+import com.gongshijia.mms.service.MMSService
+import org.mongodb.scala.{Document, MongoClient, Observable}
 import redis.{ByteStringFormatter, RedisClient}
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.{Duration, _}
 import scala.util.control.NonFatal
-import scala.concurrent.duration._
 
 /**
   * Created by hary on 17/1/9.
@@ -30,14 +29,27 @@ trait Core extends MMSService with DefaultJsonProtocol {
   // 系统， 配置， 日志
   implicit val coreSystem: ActorSystem = mkSystem
   implicit val coreMaterializer = ActorMaterializer()
+
+  // 线程池
   implicit val ec = coreSystem.dispatcher
+
+  // 配置
   val coreConfig = coreSystem.settings.config
+  val accessKeyId = coreConfig.getString("aliyun.accessKeyId")
+  val accessKeySecret = coreConfig.getString("aliyun.accessKeySecret")
+  val ossBucket = coreConfig.getString("aliyun.ossBucket")
+  val ossHost = coreConfig.getString("aliyun.ossHost")
+  val domain = coreConfig.getString("mms.domain")
+
+  // 日志
   val log = Logging(coreSystem, this.getClass)
 
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")
 
   val appId = coreConfig.getString("wx.appId")
   val appSecret = coreConfig.getString("wx.appSecret")
+
+  val mongoUri = coreConfig.getString("mongo.uri")
 
   // redis
   val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
@@ -46,7 +58,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
   // val neo4j =
 
   // mongo
-  // val mongo
+  val mongoClient = MongoClient(mongoUri);
 
   // 扩展指令
   case class Session(session_key: String)
@@ -66,6 +78,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
   }
 
   import akka.http.scaladsl.server.Directives._
+
   case class LoginRequest(
                            code: String,
                            avatarUrl: String,
@@ -95,10 +108,11 @@ trait Core extends MMSService with DefaultJsonProtocol {
         _.decodeString("UTF-8").parseJson.convertTo[WxSession]
       }
 
-    // check request with wxSession.session_key
-    // compare openid if equal, upsert request里的用户信息到mongodb
+      // todo:
+      // check request with wxSession.session_key
+      // compare openid if equal, upsert request里的用户信息到mongodb
 
-    // 保存session到redis
+      // 保存session到redis
       session = Session(wxSession.session_key)
       ok: Boolean <- redis.setex(wxSession.openid, wxSession.expires_in, session)
 
@@ -186,52 +200,73 @@ trait Core extends MMSService with DefaultJsonProtocol {
 
   // akka-http rejection handler
   implicit def myRejectionHandler =
-    RejectionHandler.newBuilder()
-      .handle {
-        case MissingCookieRejection(cookieName) =>
-          extractUri { uri =>
-            log.warning(s"$uri No cookies, no service!!!")
-            complete(HttpResponse(BadRequest, entity = "No cookies, no service!!!"))
-          }
+    RejectionHandler.newBuilder().handle {
+      case MissingCookieRejection(cookieName) =>
+        extractUri { uri =>
+          log.warning(s"$uri No cookies, no service!!!")
+          complete(HttpResponse(BadRequest, entity = failed(BadRequest.intValue, "No cookies, no service!!!").toJson.toString()))
+        }
 
-        case MissingQueryParamRejection(name) =>
-          extractUri { uri =>
-            log.warning(s"$uri miss request parameter $name")
-            complete((Forbidden, s"miss request parameter $name"))
-          }
+      case MissingQueryParamRejection(name) =>
+        extractUri { uri =>
+          log.warning(s"$uri miss request parameter $name")
+          complete((Forbidden, s"miss request parameter $name"))
+        }
 
-        case AuthorizationFailedRejection =>
-          extractUri { uri =>
-            log.warning(s"$uri You're out of your depth!")
-            complete((Forbidden, "You're out of your depth!"))
-          }
+      case AuthorizationFailedRejection =>
+        extractUri { uri =>
+          log.warning(s"$uri You're out of your depth!")
+          complete((Forbidden, "You're out of your depth!"))
+        }
 
-        case ValidationRejection(msg, _) =>
-          extractUri { uri =>
-            log.warning(s"$uri That wasn't valid! {}", msg)
-            complete((InternalServerError, "That wasn't valid! " + msg))
+      case ValidationRejection(msg, _) =>
+        extractUri { uri =>
+          log.warning(s"$uri That wasn't valid! {}", msg)
+          complete((InternalServerError, "That wasn't valid! " + msg))
+        }
+      case MissingHeaderRejection(header) =>
+        extractUri { uri =>
+          if (header == "X-OPENID") {
+            log.warning("Unauthorized access to {} ", uri)
+            throw UnauthorizedException("kkk")
+          } else {
+            throw UnauthorizedException("kkk")
           }
-        case MissingHeaderRejection(header) =>
-          extractUri { uri =>
-            if ( header == "X-OPENID") {
-              log.warning("Unauthorized access to {} ", uri)
-              throw UnauthorizedException("kkk")
-            } else {
-              throw UnauthorizedException("kkk")
-            }
-          }
-      }
-      .handleAll[MethodRejection] { methodRejections =>
+        }
+    }.handleAll[MethodRejection] { methodRejections =>
       extractUri { uri =>
         val names = methodRejections.map(_.supported.name)
         log.warning("{} Can't do that! Supported: {} ", uri, names)
         complete((MethodNotAllowed, s"Can't do that! Supported: ${names mkString " or "}!"))
       }
+    }.handleNotFound {
+      complete(HttpResponse(StatusCodes.NotFound, entity = "Not found"))
+    }.result()
+
+
+
+  //mongo
+  implicit class DocumentObservable[C](val observable: Observable[Document]) extends ImplicitObservable[Document] {
+    override val converter: (Document) => String = (doc) => doc.toJson
+  }
+
+  implicit class GenericObservable[C](val observable: Observable[C]) extends ImplicitObservable[C] {
+    override val converter: (C) => String = (doc) => doc.toString
+  }
+
+  trait ImplicitObservable[C] {
+    val observable: Observable[C]
+    val converter: (C) => String
+
+    def results(): Seq[C] = Await.result(observable.toFuture(), Duration(10, TimeUnit.SECONDS))
+    def headResult() = Await.result(observable.head(), Duration(10, TimeUnit.SECONDS))
+    def printResults(initial: String = ""): Unit = {
+      if (initial.length > 0) print(initial)
+      results().foreach(res => println(converter(res)))
     }
-      .handleNotFound {
-        complete(HttpResponse(StatusCodes.NotFound, entity = "Not found"))
-      }
-      .result()
+    def printHeadResult(initial: String = ""): Unit = println(s"${initial}${converter(headResult())}")
+  }
+
 }
 
 
