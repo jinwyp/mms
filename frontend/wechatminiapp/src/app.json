@@ -1,12 +1,14 @@
 {
   "pages":[
     "pages/index/index" ,
+    "pages/share/share" ,
+    
     "pages/craft/craftTitle",
     "pages/expDetail/expDetail",
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     
     "pages/craftDetail/craftDetail",
-    "pages/share/share" ,
+    
     "pages/personInfo/personInfo",
 
     "pages/collection/collection",

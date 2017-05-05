@@ -72,6 +72,10 @@ Page({
     })
 
   },
+  clear :function(){
+    wx.clearStorageSync();
+
+  },
   onLoad: function () {
     var that = this
     var openId = wx.getStorageSync('accessToken')
