@@ -7,13 +7,15 @@ import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives.{complete, get, path, _}
 import akka.http.scaladsl.server.Route
-import com.gongshijia.mms.Core;
+import com.gongshijia.mms.Core
+import com.gongshijia.mms.service.AssetService
+
 
 
 /**
   * Created by hary on 2017/5/2.
   */
-trait AssetRoute extends Core with SprayJsonSupport with Models {
+trait AssetRoute extends Core with SprayJsonSupport with Models with AssetService{
 
   // 获取上传文件签名
   private def getSignature(data: Array[Byte], key: Array[Byte]): String = {
@@ -62,7 +64,7 @@ trait AssetRoute extends Core with SprayJsonSupport with Models {
         extractExecutionContext { implicit ec =>
           complete({
             val policy = base64Encode(getPolicy.getBytes());
-            PolicyResponse(callback, getSignature(policy.getBytes(), accessKeySecret.getBytes()), policy, accessKeyId, ossHost,id);
+            PolicyResponse(callback, getSignature(policy.getBytes(), accessKeySecret.getBytes()), policy, accessKeyId, ossHost, id);
           })
         }
       }
@@ -80,9 +82,11 @@ trait AssetRoute extends Core with SprayJsonSupport with Models {
            |"mimeType": "$mimeType"
            |}
                    """.stripMargin
+      insertUploadRecord(filename,mimeType);
       complete(resultStr);
     }
   }
+
   def assetRoute = assetUploadPolicy ~ assetOssCallback
 
 }

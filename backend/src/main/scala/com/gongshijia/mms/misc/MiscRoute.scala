@@ -79,7 +79,7 @@ trait MiscRoute extends SprayJsonSupport with Core with Models{
       //      rediect = 1, 为跳转到体验页
       //
       //
-      complete(success(CategoriesResponse(0, Map())))
+      complete(success(CategoriesResponse(0, null)))
     }
   }
 

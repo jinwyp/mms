@@ -2,25 +2,24 @@ package com.gongshijia.mms
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 import akka.actor.ActorSystem
 import akka.event.Logging
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes.{BadRequest, Forbidden, InternalServerError, MethodNotAllowed}
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, StatusCodes}
-import akka.http.scaladsl.server.Directives.{complete, extractUri}
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
-import com.gongshijia.mms.mmsApp.coreSystem
-import com.gongshijia.mms.service.{MMSService, UserMaster}
+import com.gongshijia.mms.service.MMSService
+import org.mongodb.scala.{Document, MongoClient, Observable}
 import redis.{ByteStringFormatter, RedisClient}
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.{Duration, _}
 import scala.util.control.NonFatal
-import scala.concurrent.duration._
 
 /**
   * Created by hary on 17/1/9.
@@ -50,6 +49,8 @@ trait Core extends MMSService with DefaultJsonProtocol {
   val appId = coreConfig.getString("wx.appId")
   val appSecret = coreConfig.getString("wx.appSecret")
 
+  val mongoUri = coreConfig.getString("mongo.uri")
+
   // redis
   val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
 
@@ -57,7 +58,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
   // val neo4j =
 
   // mongo
-  // val mongo
+  val mongoClient = MongoClient(mongoUri);
 
   // 扩展指令
   case class Session(session_key: String)
@@ -241,6 +242,31 @@ trait Core extends MMSService with DefaultJsonProtocol {
     }.handleNotFound {
       complete(HttpResponse(StatusCodes.NotFound, entity = "Not found"))
     }.result()
+
+
+
+  //mongo
+  implicit class DocumentObservable[C](val observable: Observable[Document]) extends ImplicitObservable[Document] {
+    override val converter: (Document) => String = (doc) => doc.toJson
+  }
+
+  implicit class GenericObservable[C](val observable: Observable[C]) extends ImplicitObservable[C] {
+    override val converter: (C) => String = (doc) => doc.toString
+  }
+
+  trait ImplicitObservable[C] {
+    val observable: Observable[C]
+    val converter: (C) => String
+
+    def results(): Seq[C] = Await.result(observable.toFuture(), Duration(10, TimeUnit.SECONDS))
+    def headResult() = Await.result(observable.head(), Duration(10, TimeUnit.SECONDS))
+    def printResults(initial: String = ""): Unit = {
+      if (initial.length > 0) print(initial)
+      results().foreach(res => println(converter(res)))
+    }
+    def printHeadResult(initial: String = ""): Unit = println(s"${initial}${converter(headResult())}")
+  }
+
 }
 
 
