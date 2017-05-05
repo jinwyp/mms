@@ -40,20 +40,7 @@ import scala.concurrent.duration._
 /**
   * Created by hary on 2017/5/4.
   */
-trait MiscRoute extends SprayJsonSupport with Core {
-
-  // 获取类目
-  case class CategoryResult(name: String, checked: Boolean = false)
-
-  implicit val CategoryResultFormat = jsonFormat2(CategoryResult)
-  val artsList: Seq[CategoryResult] = List(
-    CategoryResult("造型"),
-    CategoryResult("美甲"),
-    CategoryResult("茶艺"),
-    CategoryResult("插花"),
-    CategoryResult("搭配"),
-    CategoryResult("健身")
-  )
+trait MiscRoute extends SprayJsonSupport with Core with Models{
 
   def handleGetCategorys(openid: String)(implicit ec: ExecutionContext) = {
     // todo:  依据openid 从mongo中拿出这个人的兴趣
@@ -78,26 +65,6 @@ trait MiscRoute extends SprayJsonSupport with Core {
     }
   }
 
-  // 保存兴趣
-  case class Material(name: String, count: Int)
-  case class ArtFlow(flow: String, duration: Int)
-  case class Experience(
-                       location_lat: Double,
-                       location_lon: Double,
-                       location_name: String,
-                       exp_time: String,
-                       exp_price: Int,
-                       pictures: List[String],
-                       materials: List[Material],
-                       flows: List[ArtFlow],
-                       feeling: String,
-                       comments: List[String]
-  );
-  case class CategoriesRequest(categories: List[String])
-  case class CategoriesResponse(redirect: Int, experiences: Map[String, List[Experience]])
-
-  implicit val CategoriesRequestFormat = jsonFormat1(CategoriesRequest)
-  implicit val CategoriesResponseFormat = jsonFormat2(CategoriesResponse)
   def saveCategories = path("saveCategories") {
     (post & openid & entity(as[CategoriesRequest])) { (id, cats) =>
 
@@ -111,10 +78,6 @@ trait MiscRoute extends SprayJsonSupport with Core {
       complete(success(CategoriesResponse(0, Map())))
     }
   }
-
-  // 添加评价
-  case class CommentRequest(content: String, reportId: String)
-  implicit val CommentFormat = jsonFormat2(CommentRequest)
 
   def saveComment(content: String, reportId: String, openid: String): Future[Result[Boolean]] =
     Future.successful(success(true))  // todo: 保存评论到mongodb
