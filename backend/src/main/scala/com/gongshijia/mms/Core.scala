@@ -107,6 +107,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
         _.decodeString("UTF-8").parseJson.convertTo[WxSession]
       }
 
+      // todo:
       // check request with wxSession.session_key
       // compare openid if equal, upsert request里的用户信息到mongodb
 

@@ -41,12 +41,14 @@ trait Domain extends DefaultJsonProtocol {
 trait Models extends DefaultJsonProtocol with Domain {
 
   // 署名
-  case class ExpSignRequest(exp_id: String)
-  case class ExpSignResponse(exp_id: String)
+  case class ExpSignRequest(expid: String)
+  case class ExpSignResponse(expid: String)
+  implicit val ExpSignRequestFormat = jsonFormat1(ExpSignRequest)
+  implicit val ExpSignResponseFormat = jsonFormat1(ExpSignResponse)
 
   // 类目
   case class CategoriesRequest(categories: List[String])
-  case class CategoriesResponse(redirect: Int, experiences: Map[String, List[Experience]])
+  case class CategoriesResponse(redirect: Int, favoriteResp: Option[Map[String, List[Experience]]])
   implicit val CategoriesRequestFormat = jsonFormat1(CategoriesRequest)
   implicit val CategoriesResponseFormat = jsonFormat2(CategoriesResponse)
 
@@ -54,4 +56,9 @@ trait Models extends DefaultJsonProtocol with Domain {
   case class CommentRequest(content: String, reportId: String)
   case class CommentResponse()
   implicit val CommentFormat = jsonFormat2(CommentRequest)
+
+  // 收藏
+  type FavoriteRequest = Favorite
+
+
 }

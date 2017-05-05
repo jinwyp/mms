@@ -42,7 +42,7 @@ import scala.concurrent.duration._
   */
 trait MiscRoute extends SprayJsonSupport with Core with Models{
 
-  def handleGetCategorys(openid: String)(implicit ec: ExecutionContext) = {
+  def handleGetCategorys(openid: String)(implicit ec: ExecutionContext): Future[Result[Seq[Category]]] = {
     // todo:  依据openid 从mongo中拿出这个人的兴趣
     val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
     fis map { is =>
@@ -63,6 +63,10 @@ trait MiscRoute extends SprayJsonSupport with Core with Models{
         complete(handleGetCategorys(id))
       }
     }
+  }
+
+  def handleSaveCategories(id: String, cats: CategoriesRequest) = {
+
   }
 
   def saveCategories = path("saveCategories") {
