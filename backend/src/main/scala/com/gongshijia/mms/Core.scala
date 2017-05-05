@@ -77,6 +77,7 @@ trait Core extends MMSService with DefaultJsonProtocol {
   }
 
   import akka.http.scaladsl.server.Directives._
+
   case class LoginRequest(
                            code: String,
                            avatarUrl: String,
@@ -106,10 +107,10 @@ trait Core extends MMSService with DefaultJsonProtocol {
         _.decodeString("UTF-8").parseJson.convertTo[WxSession]
       }
 
-    // check request with wxSession.session_key
-    // compare openid if equal, upsert request里的用户信息到mongodb
+      // check request with wxSession.session_key
+      // compare openid if equal, upsert request里的用户信息到mongodb
 
-    // 保存session到redis
+      // 保存session到redis
       session = Session(wxSession.session_key)
       ok: Boolean <- redis.setex(wxSession.openid, wxSession.expires_in, session)
 
@@ -197,52 +198,48 @@ trait Core extends MMSService with DefaultJsonProtocol {
 
   // akka-http rejection handler
   implicit def myRejectionHandler =
-    RejectionHandler.newBuilder()
-      .handle {
-        case MissingCookieRejection(cookieName) =>
-          extractUri { uri =>
-            log.warning(s"$uri No cookies, no service!!!")
-            complete(HttpResponse(BadRequest, entity = "No cookies, no service!!!"))
-          }
+    RejectionHandler.newBuilder().handle {
+      case MissingCookieRejection(cookieName) =>
+        extractUri { uri =>
+          log.warning(s"$uri No cookies, no service!!!")
+          complete(HttpResponse(BadRequest, entity = failed(BadRequest.intValue, "No cookies, no service!!!").toJson.toString()))
+        }
 
-        case MissingQueryParamRejection(name) =>
-          extractUri { uri =>
-            log.warning(s"$uri miss request parameter $name")
-            complete((Forbidden, s"miss request parameter $name"))
-          }
+      case MissingQueryParamRejection(name) =>
+        extractUri { uri =>
+          log.warning(s"$uri miss request parameter $name")
+          complete((Forbidden, s"miss request parameter $name"))
+        }
 
-        case AuthorizationFailedRejection =>
-          extractUri { uri =>
-            log.warning(s"$uri You're out of your depth!")
-            complete((Forbidden, "You're out of your depth!"))
-          }
+      case AuthorizationFailedRejection =>
+        extractUri { uri =>
+          log.warning(s"$uri You're out of your depth!")
+          complete((Forbidden, "You're out of your depth!"))
+        }
 
-        case ValidationRejection(msg, _) =>
-          extractUri { uri =>
-            log.warning(s"$uri That wasn't valid! {}", msg)
-            complete((InternalServerError, "That wasn't valid! " + msg))
+      case ValidationRejection(msg, _) =>
+        extractUri { uri =>
+          log.warning(s"$uri That wasn't valid! {}", msg)
+          complete((InternalServerError, "That wasn't valid! " + msg))
+        }
+      case MissingHeaderRejection(header) =>
+        extractUri { uri =>
+          if (header == "X-OPENID") {
+            log.warning("Unauthorized access to {} ", uri)
+            throw UnauthorizedException("kkk")
+          } else {
+            throw UnauthorizedException("kkk")
           }
-        case MissingHeaderRejection(header) =>
-          extractUri { uri =>
-            if ( header == "X-OPENID") {
-              log.warning("Unauthorized access to {} ", uri)
-              throw UnauthorizedException("kkk")
-            } else {
-              throw UnauthorizedException("kkk")
-            }
-          }
-      }
-      .handleAll[MethodRejection] { methodRejections =>
+        }
+    }.handleAll[MethodRejection] { methodRejections =>
       extractUri { uri =>
         val names = methodRejections.map(_.supported.name)
         log.warning("{} Can't do that! Supported: {} ", uri, names)
         complete((MethodNotAllowed, s"Can't do that! Supported: ${names mkString " or "}!"))
       }
-    }
-      .handleNotFound {
-        complete(HttpResponse(StatusCodes.NotFound, entity = "Not found"))
-      }
-      .result()
+    }.handleNotFound {
+      complete(HttpResponse(StatusCodes.NotFound, entity = "Not found"))
+    }.result()
 }
 
 
