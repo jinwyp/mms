@@ -30,8 +30,19 @@ trait Core extends MMSService with DefaultJsonProtocol {
   // 系统， 配置， 日志
   implicit val coreSystem: ActorSystem = mkSystem
   implicit val coreMaterializer = ActorMaterializer()
+
+  // 线程池
   implicit val ec = coreSystem.dispatcher
+
+  // 配置
   val coreConfig = coreSystem.settings.config
+  val accessKeyId = coreConfig.getString("aliyun.accessKeyId")
+  val accessKeySecret = coreConfig.getString("aliyun.accessKeySecret")
+  val ossBucket = coreConfig.getString("aliyun.ossBucket")
+  val ossHost = coreConfig.getString("aliyun.ossHost")
+  val domain = coreConfig.getString("mms.domain")
+
+  // 日志
   val log = Logging(coreSystem, this.getClass)
 
   protected def mkSystem: ActorSystem = ActorSystem("mms-system")

@@ -13,18 +13,7 @@ import com.gongshijia.mms.Core;
 /**
   * Created by hary on 2017/5/2.
   */
-trait AssetRoute extends Core with SprayJsonSupport {
-
-  import Models._
-
-  implicit val assetRouteExecutionContext = coreSystem.dispatcher
-
-  val accessKeyId = coreConfig.getString("aliyun.accessKeyId")
-  val accessKeySecret = coreConfig.getString("aliyun.accessKeySecret")
-  val ossBucket = coreConfig.getString("aliyun.ossBucket")
-  val ossHost = coreConfig.getString("aliyun.ossHost")
-  val domain = coreConfig.getString("mms.domain")
-
+trait AssetRoute extends Core with SprayJsonSupport with Models {
 
   // 获取上传文件签名
   private def getSignature(data: Array[Byte], key: Array[Byte]): String = {

@@ -46,7 +46,7 @@ trait MiscRoute extends SprayJsonSupport with Core with Models{
     // todo:  依据openid 从mongo中拿出这个人的兴趣
     val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
     fis map { is =>
-      val arts: Seq[CategoryResult] = artsList.map { art =>
+      val arts: Seq[Category] = artsList.map { art =>
         if (is.contains(art.name)) {
           art.copy(checked = true)
         } else {
