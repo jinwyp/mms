@@ -23,34 +23,31 @@ Page({
     ifChoose:'造型',
     isClick:false,
     index:0,
-    dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(),
-   
+    dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(), 
    tempFilePaths:'../../images/upload.png',
    uploadImg:[],
    uploadVideo:'',
    slideshow: false,
-  //  allValue:'',
    address:'未选择',
    latitude:'',
    longitude:'',
-   price:''
-  //  markers: [{
-  //     latitude: 23.099994,
-  //     longitude: 113.324520,
-  //     name: 'T.I.T 创意园',
-  //     desc: '未选择'
-  //   }],
-  //   covers: [{
-  //     latitude: 23.099794,
-  //     longitude: 113.324520,
-  //     iconPath: '../../images/wechart.png',
-  //     rotate: 10
-  //   }, {
-  //     latitude: 23.099298,
-  //     longitude: 113.324129,
-  //     iconPath: '../../images/wechart.png',
-  //     rotate: 90
-  //   }]
+   price:'',
+   submitAll:[{
+     a:'',
+     b:[],
+     c:'',
+     d:'',
+     e:'',
+     f:'',
+     g:'',
+     h:'',
+     i:'',
+     j:'',
+     k:'',
+     l:''
+
+   }]
+  
   }, 
   
   // 上传
@@ -73,6 +70,7 @@ Page({
               that.setData({
                 uploadImg:tempFilePaths.concat(that.data.uploadImg)
               })
+              // console.log('1',that.data.uploadImg)
             }
      
           })
@@ -81,13 +79,10 @@ Page({
             sourceType: ['album', 'camera'], // album 从相册选视频，camera 使用相机拍摄
             maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒。最长支持60秒
             camera: ['front', 'back'],
-            success: function(res){
-              // success
-              
+            success: function(res){  
               that.setData({
                   uploadVideo:res.tempFilePath
               })
-              console.log(this.data.uploadVideo)
             },
             fail: function(res) {
               // fail
@@ -132,6 +127,7 @@ Page({
           that.setData({
             uploadImg:tempFilePaths.concat(that.data.uploadImg)
           })
+          console.log('3',that.data.uploadImg)
         },
         complete:function(){
           if(that.data.uploadImg.length>9){
@@ -154,7 +150,7 @@ Page({
         }
       })
     }
-    console.log(this.data.uploadImg)     
+    // console.log('2',that.data.uploadImg)  
   },
 
   // 图片放大查看
@@ -247,12 +243,13 @@ Page({
   },
 
  radioChange: function(e) {
+   var that = this;
     // console.log('radio发生change事件，携带value值为：', e.detail.value)
-    this.setData({
-      ifChoose:e.detail.value
-    })
-    
+    that.setData({
+      ifChoose:e.detail.value,
+    })    
   },
+
   tapSwitch : function(){
     console.log(this.data.isClick)
     this.setData({
@@ -260,19 +257,26 @@ Page({
     });
   },
   
- 
  formSubmit: function(e) {
-    console.log('form发生了submit事件，携带数据为：', e.detail.value);
-    // this.setData({
-    //   allValue:e.detail.value
-    //   })
+    // console.log('form发生了submit事件，携带数据为：', e.detail.value);
+    var that = this;
+    that.setData({   
+      'submitAll.a':that.data.ifChoose,
+      'submitAll.b':that.data.uploadImg,
+      'submitAll.c':that.data.uploadVideo,
+      'submitAll.d':e.detail.value.feeling,
+      'submitAll.e':that.data.address,
+      'submitAll.f':that.data.latitude,
+      'submitAll.g':that.data.longitude,
+      'submitAll.h':e.detail.value.shop,
+      'submitAll.i':e.detail.value.day,
+      'submitAll.j':e.detail.value.price,
+      'submitAll.k':that.data.isClick,
+      'submitAll.l':e.detail.value.whoCanSee,    
+    })
+    console.log(that.data.submitAll)
   },
-  formReset: function() {
-    console.log('form发生了reset事件');
-    this.setData({
-   allValue:''
-  })
-  },
+
   // input价格校验
   inputReg:function(e) {
     var price = e.detail.value

@@ -27,6 +27,9 @@
     <button class="btn" bindtap="test">
           test
       </button>
+      <button class="btn" bindtap="clear">
+          清缓存
+      </button>
 
 <!--无数据情况-->
   <navigator url="../friendsExp/friendsList/friendsList">

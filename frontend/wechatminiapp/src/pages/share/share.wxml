@@ -1,7 +1,7 @@
 <!--pages/personInfo/personInfo.wxml-->
 <view class="container">
 
- <form bindsubmit="formSubmit" bindreset="formReset">
+ <form bindsubmit="formSubmit">
  <!--类别-->
         
         <scroll-view class="items marginB " scroll-x="true">
@@ -84,7 +84,7 @@
         </view>
         <view class="borderB H100">
             <view class="form-title">体验门店(店铺)：</view>
-            <input name="name" type="text"/>
+            <input name="shop" type="text"/>
         </view>
         <view class="borderB H100">
             <view class="form-title lineH48">体验时间：</view> 
@@ -114,7 +114,7 @@
 
          <view class="btn-area">
          <!--<navigator url="../shareSubmit/shareSubmit">-->
-            <button formType="submit">保存</button>
+            <button formType="submit" >保存</button>
             <!--</navigator>-->
         </view>
     </form>
