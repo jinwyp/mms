@@ -6,30 +6,28 @@ Page({
    nickName:'',
    WXcode:'../../images/upload.png',
    tempFilePaths:'../../images/star.png',
-   allValue:'',
+   week:'',
    time: '09:00',
    time2: '18:00',
    latitude:'',
    longitude:'',
    tel:'',
-   address:'请选择'
-  //  markers: [{
-  //     latitude: 23.099994,
-  //     longitude: 113.324520,
-  //     name: 'T.I.T 创意园',
-  //     desc: '我现在的位置'
-  //   }],
-  //   covers: [{
-  //     latitude: 23.099794,
-  //     longitude: 113.324520,
-  //     iconPath: '../../images/wechart.png',
-  //     rotate: 10
-  //   }, {
-  //     latitude: 23.099298,
-  //     longitude: 113.324129,
-  //     iconPath: '../../images/wechart.png',
-  //     rotate: 90
-  //   }]
+   address:'请选择',
+   submitAll:[{
+      a:'',
+      b:[],
+      c:'',
+      d:'',
+      e:'',
+      f:'',
+      g:'',
+      h:'',
+      i:'',
+      j:'',
+      k:'',
+      l:''
+
+  }]
   }, 
   //  时间选择
   //时间选择
@@ -46,6 +44,9 @@ Page({
   // checkbox
   checkboxChange: function(e) {
     console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+      this.setData({
+          week: e.detail.value
+      })
   },
   getLocation:function() {
     console.log('地图定位！')
@@ -150,37 +151,27 @@ checkTel:function(e) {
   }
 },
  formSubmit: function(e) {
-    console.log('form发生了submit事件，携带数据为：', e.detail.value);
-    this.setData({
-      allValue:e.detail.value
-      })
+    // console.log('form发生了submit事件，携带数据为：', e.detail.value);
+
+     var that = this;
+     that.setData({
+         'submitAll.a':that.data.tempFilePaths,
+         'submitAll.b':e.detail.value.name,
+         'submitAll.c':e.detail.value.tel,
+         'submitAll.d':e.detail.value.shopName,
+         'submitAll.e':that.data.address,
+         'submitAll.f':that.data.latitude,
+         'submitAll.g':that.data.longitude,
+         'submitAll.h':e.detail.value.wx,
+         'submitAll.i':that.data.WXcode,
+         'submitAll.j':that.data.week,
+         'submitAll.k':that.data.time,
+         'submitAll.l':that.data.time2
+     })
+     console.log(that.data.submitAll)
   },
-  formReset: function() {
-    console.log('form发生了reset事件');
-    this.setData({
-   allValue:''
-  })
-  },
+
   onLoad: function () {
-    // var that=this;    
-    // wx.getUserInfo({
-    //   success: function(res){
-    //     // success
-    //     that.setData({
-    //       nickName:res.userInfo.nickName,
-    //       userInfoAvatar:res.userInfo.avatarUrl
-    //     })
-        
-    //   },
-    //   fail: function() {
-    //     // fail
-    //     console.log("获取失败！")
-    //   },
-    //   complete: function() {
-    //     // complete
-    //     console.log("获取用户信息完成！")
-    //   }
-    // })
     
        
   }

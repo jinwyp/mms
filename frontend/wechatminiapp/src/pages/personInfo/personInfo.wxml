@@ -19,7 +19,7 @@
         </view>
         <view class="borderB row H100" bindtap="getLocation">
             <view class="form-title lineH48">工作地址：</view>
-            <!--<input name="address"/>-->
+
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
             <input class="address" value="{{address}}" name="address" />
         </view>
