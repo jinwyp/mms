@@ -1,21 +1,49 @@
 package com.gongshijia.mms.test
 
+
+import java.util.Date
+
+import com.gongshijia.mms.Core
 import org.mongodb.scala.bson.ObjectId
-import spray.json.DefaultJsonProtocol
 
 /**
   * Created by hary on 2017/5/3.
   */
-object Models extends DefaultJsonProtocol {
+trait Models extends Core {
+
+  case class Address(name: String, houseNum: Option[String])
+
+  case class Course(cName: String, score: List[Double])
+
+  case class Person(firstName: String,
+                    lastName: String,
+                    registerDate: Date,
+                    fullName: Option[String],
+                    address: List[Address],
+                    courses: List[Course])
+
+  implicit val AddressFormat = jsonFormat2(Address);
+  implicit val CourseFormat = jsonFormat2(Course);
+  implicit val PersonFormat = jsonFormat6(Person);
+  implicit val PersonDTOFormat= jsonFormat7(PersonDTO);
 
 
-  // Create the case class
-  object Person {
-    def apply(firstName: String, lastName: String): Person = Person(new ObjectId(), firstName, lastName);
-  }
+  //数据库领域对象
+//  object PersonDTO {
+//
+//    def apply(firstName: String, lastName: String, registerDate: Date, fullName: Option[String], address: List[Address], courses: List[Course]): PersonDTO =
+//      PersonDTO(new ObjectId(), firstName, lastName, registerDate, fullName, address, courses);
+//
+//  }
 
-  case class Person(_id: ObjectId, firstName: String, lastName: String)
-
-//  implicit val PersonResponseFormat = jsonFormat3(Person)
+  case class PersonDTO(_id: ObjectId,
+                       firstName: String,
+                       lastName: String,
+                       registerDate: Date,
+                       fullName: Option[String],
+                       address: List[Address],
+                       courses: List[Course])
 
 }
+
+object Models extends Models

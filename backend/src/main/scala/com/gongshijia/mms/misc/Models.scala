@@ -7,7 +7,7 @@ trait Domain extends DefaultJsonProtocol {
   // 体验报告
   case class Material(name: String, count: Int)
   case class ArtFlow(flow: String, duration: Int)
-  case class Experience(lat: Double, lon: Double, name: String, exptime: String, expprice: Int, pictures: List[String], materials: List[Material], flows: List[ArtFlow], feeling: String, comments: List[String] );
+  case class Experience(lat: Double, lon: Double, name: String, exptime: String, expprice: Int, pictures: List[String], materials: List[Material], flows: List[ArtFlow], feeling: String, comments: List[String]);
   implicit val MaterialFormat = jsonFormat2(Material)
   implicit val ArtFlowFormat = jsonFormat2(ArtFlow)
   implicit val ExperienceFormat = jsonFormat10(Experience)

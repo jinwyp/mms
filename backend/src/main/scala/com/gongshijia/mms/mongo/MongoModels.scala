@@ -2,6 +2,7 @@ package com.gongshijia.mms.mongo
 
 import java.util.Date
 
+import com.gongshijia.mms.Core
 import org.mongodb.scala.bson.ObjectId
 
 /**
@@ -30,4 +31,6 @@ object MongoModels {
   }
 
   case class AccountRes( status: Int, errMess:String)
+
+
 }

@@ -75,15 +75,18 @@ trait AssetRoute extends Core with SprayJsonSupport with Models with AssetServic
   // 阿里云上传成功回调
   def assetOssCallback: Route = path("callback") {
     formFields("filename", "mimeType") { (filename, mimeType) =>
-      val resultStr =
-        s"""
-           |{
-           |"filename": "$filename",
-           |"mimeType": "$mimeType"
-           |}
+      onSuccess(insertUploadRecord(filename, mimeType)) {
+        case true =>
+          val resultStr =
+            s"""
+               |{
+               |"filename": "$filename",
+               |"mimeType": "$mimeType"
+               |}
                    """.stripMargin
-      insertUploadRecord(filename,mimeType);
-      complete(resultStr);
+          complete(resultStr);
+
+      }
     }
   }
 

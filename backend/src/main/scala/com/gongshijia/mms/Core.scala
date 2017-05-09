@@ -2,6 +2,7 @@ package com.gongshijia.mms
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 import akka.actor.ActorSystem
@@ -12,19 +13,19 @@ import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, StatusC
 import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
-import com.gongshijia.mms.service.MMSService
+import org.mongodb.scala.bson.ObjectId
 import org.mongodb.scala.{Document, MongoClient, Observable}
 import redis.{ByteStringFormatter, RedisClient}
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat, RootJsonFormat}
 
-import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.{Duration, _}
+import scala.concurrent.{Await, Future}
 import scala.util.control.NonFatal
 
 /**
   * Created by hary on 17/1/9.
   */
-trait Core extends MMSService with DefaultJsonProtocol {
+trait Core extends DefaultJsonProtocol {
 
   // 系统， 配置， 日志
   implicit val coreSystem: ActorSystem = mkSystem
@@ -169,6 +170,28 @@ trait Core extends MMSService with DefaultJsonProtocol {
     }
   }
 
+  implicit object DateJsonFormat extends RootJsonFormat[Date] {
+
+    val formatter = new SimpleDateFormat("yyyyMMdd")
+
+    override def write(obj: Date) = JsString(formatter.format(obj))
+
+    override def read(json: JsValue): Date = json match {
+      case JsString(s) => formatter.parse(s)
+      case _ => throw new DeserializationException("Error info you want here ...")
+    }
+  }
+
+  implicit object ObjectIdJsonFormat extends RootJsonFormat[ObjectId] {
+
+    override def write(obj: ObjectId) = JsString(obj.toString)
+
+    override def read(json: JsValue): ObjectId = json match {
+      case JsString(s) => new ObjectId(s)
+      case _ => throw new DeserializationException("Error info you want here ...")
+    }
+  }
+
   // akka-http exception handler
   implicit def myExceptionHandler: ExceptionHandler = ExceptionHandler {
     case e: BusinessException =>
@@ -244,7 +267,6 @@ trait Core extends MMSService with DefaultJsonProtocol {
     }.result()
 
 
-
   //mongo
   implicit class DocumentObservable[C](val observable: Observable[Document]) extends ImplicitObservable[Document] {
     override val converter: (Document) => String = (doc) => doc.toJson
@@ -259,11 +281,14 @@ trait Core extends MMSService with DefaultJsonProtocol {
     val converter: (C) => String
 
     def results(): Seq[C] = Await.result(observable.toFuture(), Duration(10, TimeUnit.SECONDS))
+
     def headResult(): C = Await.result(observable.head(), Duration(10, TimeUnit.SECONDS))
+
     def printResults(initial: String = ""): Unit = {
       if (initial.length > 0) print(initial)
       results().foreach(res => println(converter(res)))
     }
+
     def printHeadResult(initial: String = ""): Unit = println(s"${initial}${converter(headResult())}")
   }
 
