@@ -48,6 +48,8 @@ object Dependencies {
 
   private val mongodbScala = "2.0.0"
 
+
+
   val appDependencies = Seq(
     // akka and cluster
     "com.typesafe.akka" %% "akka-actor" % akka,
@@ -116,7 +118,8 @@ object Dependencies {
 //    "org.slf4j" % "slf4j-nop" % "1.6.4",
 
     // neo4j
-    "org.neo4j" % "neo4j" % neo4j,
+    // "org.neo4j" % "neo4j" % neo4j,
+    "org.anormcypher" %% "anormcypher" % "0.9.1",
 
     // mongodb
     "org.mongodb.scala" %% "mongo-scala-driver" % mongodbScala,
@@ -136,7 +139,6 @@ object Dependencies {
     "com.trueaccord.scalapb" %% "scalapb-runtime" % scalapbRuntime % "protobuf",
 
     // redis client
-    // "net.debasishg" %% "redisclient" % "3.4"
     "com.github.etaty" %% "rediscala" % "1.8.0"
 
   )
@@ -149,6 +151,12 @@ object BuildSettings {
   val buildVersion = "0.0.5"
   val buildScalaVersion = "2.11.8"
   val buildScalaOptions = Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
+
+  // neo4j
+  resolvers ++= Seq(
+    "anormcypher" at "http://repo.anormcypher.org/",
+    "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
+  )
 
   import Dependencies._
 
