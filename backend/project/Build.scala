@@ -139,7 +139,10 @@ object Dependencies {
     "com.trueaccord.scalapb" %% "scalapb-runtime" % scalapbRuntime % "protobuf",
 
     // redis client
-    "com.github.etaty" %% "rediscala" % "1.8.0"
+    "com.github.etaty" %% "rediscala" % "1.8.0",
+
+    // scala-async
+   "org.scala-lang.modules" %% "scala-async" % "0.9.6"
 
   )
 }

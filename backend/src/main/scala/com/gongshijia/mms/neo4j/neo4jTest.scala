@@ -5,8 +5,12 @@ package com.gongshijia.mms.neo4j
 import org.anormcypher._
 import play.api.libs.ws._
 
+import scala.concurrent.{Await, Future}
+
+
 
 object neo4jTest extends App {
+
   // Provide an instance of WSClient
   val wsclient = ning.NingWSClient()
 
@@ -40,5 +44,7 @@ object neo4jTest extends App {
 
   // shut down WSClient
   wsclient.close()
+
+
 
 }
