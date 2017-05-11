@@ -130,20 +130,20 @@ trait Core extends DefaultJsonProtocol {
   def optSession(openid: String): Directive1[Future[Option[Session]]] = provide(redis.get(openid))
 
   // API接口定义
-  case class Pagination(total: Int, pageSize: Int, curPage: Int)
+  case class Pagination(totalSize: Int, totalPage: Int, pageSize: Int, curPage: Int)
 
   case class Error(code: Int, message: String)
 
-  case class Result[T](data: Option[T], error: Option[Error] = None, pagination: Option[Pagination] = None)
+  case class Result[T](data: Option[T], success: Boolean, error: Option[Error] = None, pagination: Option[Pagination] = None)
 
-  implicit val PaginationFormat = jsonFormat3(Pagination)
+  implicit val PaginationFormat = jsonFormat4(Pagination)
   implicit val ErrorFormat = jsonFormat2(Error)
 
   implicit def resultFormat[A: JsonFormat] = jsonFormat3(Result.apply[A])
 
-  def failed(code: Int, message: String) = Result[Int](None, Some(Error(code, message)))
+  def failed(code: Int, message: String) = Result[Int](None, false, Some(Error(code, message)))
 
-  def success[T](data: T, pageInfo: Option[Pagination] = None): Result[T] = Result(Some(data), pagination = pageInfo)
+  def success[T](data: T, pageInfo: Option[Pagination] = None): Result[T] = Result(Some(data), success = true, pagination = pageInfo)
 
   // 异常定义
   case class DatabaseException(message: String) extends Exception
