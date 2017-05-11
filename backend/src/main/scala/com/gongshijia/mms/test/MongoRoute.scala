@@ -20,21 +20,17 @@ import org.mongodb.scala.bson.codecs.Macros._
 trait MongoRoute extends Models with Core with SprayJsonSupport {
 
 
-  //
   val codecRegistry = fromRegistries(fromProviders(classOf[PersonDTO], classOf[Address], classOf[Course]), DEFAULT_CODEC_REGISTRY);
 
 
   // mongo example
   def mongoInsert = path("insert") {
-    val mongoClient: MongoClient = MongoClient();
     val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
     val collection: MongoCollection[PersonDTO] = database.getCollection("userinfo")
     post {
       entity(as[Person]) { person =>
-        println("----------------------------------------");
-        println(person.toJson);
-        println("----------------------------------------");
-        val dto = PersonDTO(new ObjectId(),person.firstName, person.lastName, person.registerDate, person.fullName, person.address, person.courses);
+        val dto = PersonDTO(new ObjectId(), person.firstName, person.lastName, person.registerDate, person.fullName, person.address, person.courses);
+
         onSuccess(collection.insertOne(dto).toFuture().map(_ => true)) {
           case true => complete(person);
         }
@@ -44,7 +40,6 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   def mongoSelect = path("select") {
     get {
-      val mongoClient: MongoClient = MongoClient();
       val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
       val collection: MongoCollection[PersonDTO] = database.getCollection("userinfo")
       onSuccess(collection.find().toFuture()) {
@@ -57,7 +52,6 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   def mongoUpsert = path("upsert") {
     post {
-      val mongoClient: MongoClient = MongoClient();
       val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
       val collection: MongoCollection[Person] = database.getCollection("userinfo")
       collection.updateOne(equal("firstName", "A"), set("firstName", "AA")).printHeadResult("Update Result: ")
@@ -74,7 +68,6 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   def mongoPager = path("pager") {
     get {
-      val mongoClient: MongoClient = MongoClient();
       val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
       val collection: MongoCollection[Person] = database.getCollection("userinfo")
       onSuccess(collection.find().limit(5).skip(2).toFuture()) {

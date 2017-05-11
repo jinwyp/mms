@@ -33,27 +33,28 @@ object Async extends App {
   //  val getAge = Future {  33 }
   //  val getScore = Future {  99 }
 
-  // for-comprehension
-  val fc = for {
+//  // for-comprehension
+  val fc: Future[Student] = for {
     n <- getName
     a <- getAge
     s <- getScore
   } yield Student(n, a, s)
-  val tfc = Await.ready(fc, 3.seconds)
+  val tfc= Await.ready(fc, 3.seconds)
   println(s"the result is: $tfc")
 
-  // scalaz + sequence + traverse
+//  // scalaz + sequence + traverse
   val fstudent = (getName |@| getAge |@| getScore) {
     Student(_, _, _)
   }
-  val st = Await.ready(fstudent, 3.seconds)
-  println(s"the result is: $st")
 
-  val fl: Future[List[Int]] = Future.traverse(List(1, 2, 3))(i => Future { i * i})
-  val lf = List( Future { 1 }, Future { 2 })
-  val fl2: Future[List[Int]] = Future.sequence(lf)
-
-  // async
+//  val st = Await.ready(fstudent, 3.seconds)
+//  println(s"the result is: $st")
+//
+//  val fl: Future[List[Int]] = Future.traverse(List(1, 2, 3))(i => Future { i * i})
+//  val lf = List( Future { 1 }, Future { 2 })
+//  val fl2: Future[List[Int]] = Future.sequence(lf)
+//
+//  // async
   val fa: Future[Student] = async {
     val name: String = await(getName)
     if (name == "hary") {
@@ -75,14 +76,14 @@ object Async extends App {
   //
   //
 
-  val f: Future[Int] = async {
-    if (await(Future { true })) {
-      await(Future { 2 })
-    } else {
-      0
-    }
-  }
-
-  val t = Await.ready(f, 3.seconds)
-  println(s"the result is: $t")
+//  val f: Future[Int] = async {
+//    if (await(Future { true })) {
+//      await(Future { 2 })
+//    } else {
+//      0
+//    }
+//  }
+//
+//  val t = Await.ready(f, 3.seconds)
+//  println(s"the result is: $t")
 }

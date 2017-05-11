@@ -55,8 +55,6 @@ trait Core extends DefaultJsonProtocol {
   // redis
   val redis = RedisClient(coreConfig.getString("redis.host"), coreConfig.getInt("redis.port"))
 
-  // neo4j
-  // val neo4j =
 
   // mongo
   val mongoClient = MongoClient(mongoUri);
@@ -80,50 +78,6 @@ trait Core extends DefaultJsonProtocol {
 
   import akka.http.scaladsl.server.Directives._
 
-  case class LoginRequest(
-                           code: String,
-                           avatarUrl: String,
-                           country: String,
-                           province: String,
-                           city: String,
-                           gender: Int,
-                           language: String,
-                           nickName: String,
-                           rawData: String,
-                           signature: String,
-                           encryptedData: String,
-                           iv: String
-                         )
-
-  implicit val LoginRequestFormat = jsonFormat12(LoginRequest)
-
-  // 获取WxSession
-  def createSession(request: LoginRequest): Future[(Session, String)] = {
-    import spray.json._
-    val wxUrl = s"https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${request.code}&grant_type=authorization_code"
-
-    for {
-      resposne <- Http().singleRequest(HttpRequest(uri = wxUrl, method = HttpMethods.GET))
-      entity <- resposne.entity.toStrict(10.seconds)
-      wxSession <- entity.dataBytes.runFold(ByteString.empty) { case (acc, b) => acc ++ b } map {
-        _.decodeString("UTF-8").parseJson.convertTo[WxSession]
-      }
-
-      // todo:
-      // check request with wxSession.session_key
-      // compare openid if equal, upsert request里的用户信息到mongodb
-
-      // 保存session到redis
-      session = Session(wxSession.session_key)
-      ok: Boolean <- redis.setex(wxSession.openid, wxSession.expires_in, session)
-
-      result = if (ok) {
-        (session, wxSession.openid)
-      } else {
-        throw DatabaseException("save session failed")
-      }
-    } yield result
-  }
 
   val openid: Directive1[String] = headerValueByName("X-OPENID")
 
@@ -131,15 +85,13 @@ trait Core extends DefaultJsonProtocol {
 
   // API接口定义
   case class Pagination(totalSize: Int, totalPage: Int, pageSize: Int, curPage: Int)
+  implicit val PaginationFormat = jsonFormat4(Pagination)
 
   case class Error(code: Int, message: String)
-
-  case class Result[T](data: Option[T], success: Boolean, error: Option[Error] = None, pagination: Option[Pagination] = None)
-
-  implicit val PaginationFormat = jsonFormat4(Pagination)
   implicit val ErrorFormat = jsonFormat2(Error)
 
-  implicit def resultFormat[A: JsonFormat] = jsonFormat3(Result.apply[A])
+  case class Result[T](data: Option[T], success: Boolean, error: Option[Error] = None, pagination: Option[Pagination] = None)
+  implicit def resultFormat[A: JsonFormat] = jsonFormat4(Result.apply[A])
 
   def failed(code: Int, message: String) = Result[Int](None, false, Some(Error(code, message)))
 
@@ -198,7 +150,7 @@ trait Core extends DefaultJsonProtocol {
       extractUri { uri =>
         log.error(s"Request to $uri could not be handled normally!!!!!!!!! BusinessException")
         complete(
-          HttpResponse(StatusCodes.BadRequest, entity = Result(data = Some("error"), error = Some(Error(409, e.message))).toJson.toString))
+          HttpResponse(StatusCodes.BadRequest, entity = Result(data = Some("error"),success=false, error = Some(Error(409, e.message))).toJson.toString))
       }
 
     case e: DatabaseException =>
@@ -217,7 +169,7 @@ trait Core extends DefaultJsonProtocol {
       extractUri { uri =>
         log.error(s"Request to $uri could not be handled normally!!!!!!!!!")
         log.error("{}", e.getStackTrace.mkString("\n"))
-        complete(HttpResponse(StatusCodes.InternalServerError, entity = Result(data = Some("error"), error = Some(Error(500, "系统错误"))).toJson.toString))
+        complete(HttpResponse(StatusCodes.InternalServerError, entity = Result(data = Some("error"),success=false, error = Some(Error(500, "系统错误"))).toJson.toString))
       }
   }
 

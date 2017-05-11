@@ -7,11 +7,9 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server._
 import akka.http.scaladsl.server.directives.LogEntry
-import akka.util.Timeout
 import com.gongshijia.mms.asset.AssetRoute
 import com.gongshijia.mms.login.LoginRoute
 import com.gongshijia.mms.misc.MiscRoute
-import com.gongshijia.mms.service.UserMaster
 import com.gongshijia.mms.test.TestRoute
 
 /**
@@ -22,13 +20,10 @@ object mmsApp extends App
   with AssetRoute
   with LoginRoute
   with MiscRoute
-  with TestRoute
-{
+  with TestRoute {
 
   val config = coreSystem.settings.config
 
-  // 准备服务
-  val userMaster = coreSystem.actorOf(UserMaster.props)
 
   // 准备路由
   def extractLogEntry(req: HttpRequest): RouteResult => Option[LogEntry] = {
@@ -38,12 +33,10 @@ object mmsApp extends App
 
   val route: Route = logRequestResult(extractLogEntry _) {
     pathPrefix("asset") { assetRoute } ~
-    pathPrefix("login") { loginRoute } ~
-    pathPrefix("misc")  { miscRoute } ~
-    pathPrefix("test")  { testRoute } ~
-    path("hello") {
-     complete("hello")
-    }
+      pathPrefix("login") { loginRoute } ~
+      pathPrefix("misc") { miscRoute } ~
+      pathPrefix("test") { testRoute } ~
+      path("hello") { complete("hello") }
   }
 
   // start http server

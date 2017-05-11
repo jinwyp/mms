@@ -3,11 +3,12 @@ package com.gongshijia.mms.login
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives.{complete, onSuccess, path, post, _}
 import com.gongshijia.mms.Core
+import com.gongshijia.mms.service.UserService
 
 /**
   * Created by hary on 2017/5/3.
   */
-trait LoginRoute extends Core with SprayJsonSupport with Models{
+trait LoginRoute extends Core with UserService with Models with SprayJsonSupport {
   // 用户登录
   def login = path("login") {
     post {
@@ -22,6 +23,7 @@ trait LoginRoute extends Core with SprayJsonSupport with Models{
       }
     }
   }
+
   def loginRoute = login
 }
 

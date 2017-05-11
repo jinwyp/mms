@@ -1,46 +1,16 @@
 package com.gongshijia.mms.misc
 
 
-import akka.http.scaladsl.model.ContentTypes.`application/octet-stream`
-import akka.http.scaladsl.model.{HttpEntity, HttpResponse, StatusCodes}
-import akka.http.scaladsl.model.headers.{ContentDispositionTypes, `Content-Disposition`}
-import akka.http.scaladsl.server.Directives.{complete, extractRequestContext, fileUpload, get, onSuccess, parameter, path, post}
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.directives.FileInfo
-import akka.stream.IOResult
-import akka.stream.scaladsl.{FileIO, Keep, Source}
-import akka.util.ByteString
-import com.gongshijia.mms.Core
-import org.apache.commons.io.FileUtils
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import akka.http.scaladsl.model.ContentTypes._
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.{ContentDispositionTypes, `Content-Disposition`}
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.directives.FileInfo
+import com.gongshijia.mms.Core
 
 import scala.concurrent.{ExecutionContext, Future}
-import javax.crypto.spec.SecretKeySpec
-import java.io.IOException
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
-
-import org.apache.commons.codec.binary.Base64
-import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
-
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import com.gongshijia.mms.Core
-import com.gongshijia.mms.service.UserService
-
-import scala.concurrent.Future
-import scala.concurrent.duration._
 
 /**
   * Created by hary on 2017/5/4.
   */
-trait MiscRoute extends SprayJsonSupport with Core with Models{
+trait MiscRoute extends SprayJsonSupport with Core with Models {
 
   def handleGetCategorys(openid: String)(implicit ec: ExecutionContext): Future[Result[Seq[Category]]] = {
     // todo:  依据openid 从mongo中拿出这个人的兴趣
@@ -84,7 +54,7 @@ trait MiscRoute extends SprayJsonSupport with Core with Models{
   }
 
   def saveComment(content: String, reportId: String, openid: String): Future[Result[Boolean]] =
-    Future.successful(success(true))  // todo: 保存评论到mongodb
+    Future.successful(success(true)) // todo: 保存评论到mongodb
 
   def addComment = path("comment") {
     (post & entity(as[CommentRequest]) & openid) { (comment, openid) =>
@@ -124,5 +94,5 @@ trait MiscRoute extends SprayJsonSupport with Core with Models{
     }
   }
 
-  def miscRoute = addComment ~ getCategorys  ~ saveCategories ~ tst
+  def miscRoute = addComment ~ getCategorys ~ saveCategories ~ tst
 }

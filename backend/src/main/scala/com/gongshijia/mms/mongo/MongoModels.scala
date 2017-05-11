@@ -1,14 +1,12 @@
 package com.gongshijia.mms.mongo
 
-import java.util.Date
-
 import com.gongshijia.mms.Core
 import org.mongodb.scala.bson.ObjectId
 
 /**
   * Created by xiangyang on 2017/5/5.
   */
-object MongoModels {
+trait MongoModels extends Core {
 
 
   case class OSSAsset(_id: ObjectId, url: String, assetType: String)
@@ -18,19 +16,11 @@ object MongoModels {
   }
 
 
-  case class User(_id: ObjectId, union_id: Option[String], name: Option[String], nickname: String, gender: Int, city: String, province: String, avatarUrl: String, arts: List[String],
-                  workBeg: Option[Date], workEnd: Option[Date], workAddress: Option[String], phone: Option[String],
-                  shopName: Option[String], lastUpdate: Date)
+  case class User(_id: ObjectId, openid: String, avatarUrl: String, country: String, province: String, city: String, gender: Int, language: String, nickName: String);
 
-  object User {
-    def apply(union_id: Option[String], name: Option[String], nickname: String, gender: Int, city: String, province: String, avatarUrl: String, arts: List[String],
-              workBeg: Option[Date], workEnd: Option[Date], workAddress: Option[String], phone: Option[String],
-              shopName: Option[String], lastUpdate: Date): User = User(new ObjectId(), union_id, name, nickname, gender, city, province, avatarUrl, arts,
-      workBeg, workEnd, workAddress, phone,
-      shopName, lastUpdate);
-  }
-
-  case class AccountRes( status: Int, errMess:String)
+  implicit val UserFormat = jsonFormat9(User);
 
 
 }
+
+object MongoModels extends MongoModels
