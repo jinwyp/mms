@@ -1,13 +1,12 @@
-package com.gongshijia.mms.login
+package com.gongshijia.mms.user.login
 
 import spray.json.DefaultJsonProtocol
 
 /**
-  * Created by hary on 2017/5/3.
+  * Created by hary on 2017/5/12.
   */
-trait Models extends DefaultJsonProtocol{
-
-
+object LoginModels extends DefaultJsonProtocol {
+  // 登录
   case class LoginRequest(code: String,
                           avatarUrl: String,
                           country: String,
@@ -20,15 +19,7 @@ trait Models extends DefaultJsonProtocol{
                           signature: String,
                           encryptedData: String,
                           iv: String)
-
-  implicit val LoginRequestFormat = jsonFormat12(LoginRequest)
-
-
   case class LoginResponse(openid: String)
-
+  implicit val LoginRequestFormat = jsonFormat12(LoginRequest)
   implicit val LoginResponseFormat = jsonFormat1(LoginResponse)
-
-
 }
-
-object Models extends Models

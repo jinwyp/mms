@@ -1,34 +1,32 @@
-package com.gongshijia.mms.service
+package com.gongshijia.mms.user.login
 
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest}
 import akka.util.ByteString
-import com.gongshijia.mms.Core
-import com.gongshijia.mms.login.Models
-import com.gongshijia.mms.mongo.MongoModels
-import org.bson.codecs.configuration.CodecRegistries
-import org.bson.codecs.configuration.CodecRegistries.fromProviders
-import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
-import org.mongodb.scala.bson.codecs.Macros._
+import com.gongshijia.mms._
+import org.mongodb.scala.MongoCollection
 import org.mongodb.scala.model.Filters._
 import org.mongodb.scala.model.UpdateOptions
 import org.mongodb.scala.model.Updates._
 import org.mongodb.scala.result.UpdateResult
-import org.mongodb.scala.{MongoCollection, MongoDatabase}
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
+
 /**
-  * Created by hary on 2017/5/3.
+  * Created by hary on 2017/5/12.
   */
-trait UserService extends Core with Models with MongoModels {
+trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig with MongoSupport with RedisSupport {
 
-
-  private val codecRegistry = CodecRegistries.fromRegistries(fromProviders(classOf[User]), DEFAULT_CODEC_REGISTRY);
+  import LoginModels._
 
   // 获取WxSession
   def createSession(login: LoginRequest): Future[(Session, String)] = {
+
+    case class WxSession(openid: String, session_key: String, expires_in: Long)
+    implicit val WxSessionFormat = jsonFormat3(WxSession)
+
     import spray.json._
     val wxUrl = s"https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${login.code}&grant_type=authorization_code"
     for {
@@ -44,7 +42,7 @@ trait UserService extends Core with Models with MongoModels {
       upsertResult <- upsertUser(user)
       // 保存session到redis
       session = Session(wxSession.session_key)
-      ok: Boolean <- redis.setex(wxSession.openid, wxSession.expires_in, session)
+      ok: Boolean <- redisClient.setex(wxSession.openid, wxSession.expires_in, session)
       result = if (ok) {
         (session, wxSession.openid)
       } else {
@@ -53,9 +51,9 @@ trait UserService extends Core with Models with MongoModels {
     } yield result
   }
 
+
   def upsertUser(user: User): Future[UpdateResult] = {
-    val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
-    val collection: MongoCollection[User] = database.getCollection("userinfo")
+    val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
     val updateOptions = UpdateOptions().upsert(true)
     val updateBson = combine(set("openid", user.openid), set("avatarUrl", user.avatarUrl), set("country", user.country),
       set("province", user.province), set("city", user.city), set("gender", user.gender), set("language", user.language),
@@ -63,17 +61,5 @@ trait UserService extends Core with Models with MongoModels {
     collection.updateOne(equal("openid", user.openid), updateBson, updateOptions).toFuture()
   }
 
-  //添加关注的类目
-  def addArtsList(openId: String, artsList: List[String]): Future[UpdateResult] = {
-    val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
-    val collection: MongoCollection[User] = database.getCollection("userinfo")
-    collection.updateOne(equal("openid", openid), pushEach("arts", artsList)).toFuture()
-  }
-
-  def findArtsList(openId: String): Future[Option[List[String]]] ={
-    val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
-    val collection: MongoCollection[User] = database.getCollection("userinfo")
-    collection.find(equal("openid",openId)).first().toFuture().map(_.categories)
-  }
 
 }
