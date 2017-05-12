@@ -130,6 +130,7 @@ trait HttpSupport extends Core with ExceptionSupport with ApiSupport with SprayJ
       case AuthorizationFailedRejection => extractUri { uri => completeReject(uri, BadRequest, s"authorization failed") }
       case ValidationRejection(msg, _) => extractUri { uri => completeReject(uri, BadRequest, s"validation: $msg") }
       case MissingHeaderRejection(header) => extractUri { uri => completeReject(uri, BadRequest, s"missing $header") }
+      case MalformedRequestContentRejection(msg, _) => extractUri { uri => completeReject(uri, BadRequest, msg)}
     }.handleAll[MethodRejection] { methodRejections =>
       extractUri { uri =>
         val names = methodRejections.map(_.supported.name).mkString(",")
