@@ -10,20 +10,9 @@ import com.gongshijia.mms.user.UserRoute
 /**
   * Created by hary on 2017/5/12.
   */
-trait AllSupport extends App
-  with Core
-  with ApiSupport
-  with HttpSupport
-  with ExceptionSupport
-  with MongoSupport
-  with RedisSupport
-  with SprayJsonSupport
-
 trait AppRoute extends MiscRoute with UserRoute
 
-object MmsApp extends AllSupport
-  with AppRoute {
-
+object MmsApp extends AllSupport with AppRoute {
   val route: Route =
     path("hello") {
       get {
