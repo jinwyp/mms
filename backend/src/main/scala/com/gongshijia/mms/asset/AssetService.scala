@@ -4,7 +4,8 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import javax.xml.crypto.dsig.SignatureMethod.HMAC_SHA1
 
-import com.gongshijia.mms.{AppConfig, MongoSupport, Utils}
+import com.gongshijia.mms.core.{AppConfig, MongoSupport}
+import com.gongshijia.mms.Utils
 import org.mongodb.scala.MongoCollection
 
 import scala.concurrent.Future

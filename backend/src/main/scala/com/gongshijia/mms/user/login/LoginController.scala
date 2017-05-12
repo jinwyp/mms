@@ -1,6 +1,6 @@
 package com.gongshijia.mms.user.login
 
-import com.gongshijia.mms.{ApiSupport, Core}
+import com.gongshijia.mms.core.{ApiSupport, Core}
 
 import scala.concurrent.Future
 

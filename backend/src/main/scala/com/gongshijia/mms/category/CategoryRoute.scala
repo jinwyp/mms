@@ -1,7 +1,7 @@
 package com.gongshijia.mms.category
 
 import akka.http.scaladsl.server.Directives._
-import com.gongshijia.mms.HttpSupport
+import com.gongshijia.mms.core.HttpSupport
 
 /**
   * Created by hary on 2017/5/12.

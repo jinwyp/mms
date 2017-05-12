@@ -1,7 +1,7 @@
 package com.gongshijia.mms.asset
 
 import akka.http.scaladsl.server.Directives.{complete, get, path, _}
-import com.gongshijia.mms.{AppConfig, Core, HttpSupport}
+import com.gongshijia.mms.core.{AppConfig, Core, HttpSupport}
 
 /**
   * Created by hary on 2017/5/2.

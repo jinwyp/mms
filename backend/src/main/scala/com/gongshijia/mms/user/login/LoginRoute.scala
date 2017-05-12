@@ -2,7 +2,7 @@ package com.gongshijia.mms.user.login
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.gongshijia.mms.HttpSupport
+import com.gongshijia.mms.core.HttpSupport
 
 /**
   * Created by hary on 2017/5/12.

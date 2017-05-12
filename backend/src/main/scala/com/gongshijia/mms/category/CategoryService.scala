@@ -1,6 +1,6 @@
 package com.gongshijia.mms.category
 
-import com.gongshijia.mms.{Core, MongoSupport}
+import com.gongshijia.mms.core.{Core, MongoSupport}
 import org.mongodb.scala.MongoCollection
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.model.Updates.pushEach
