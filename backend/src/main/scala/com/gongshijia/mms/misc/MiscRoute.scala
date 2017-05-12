@@ -4,27 +4,29 @@ package com.gongshijia.mms.misc
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives._
 import com.gongshijia.mms.Core
+import com.gongshijia.mms.service.UserService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by hary on 2017/5/4.
   */
-trait MiscRoute extends SprayJsonSupport with Core with Models {
+trait MiscRoute extends SprayJsonSupport with Core with Models with UserService {
 
   def handleGetCategorys(openid: String)(implicit ec: ExecutionContext): Future[Result[Seq[Category]]] = {
-    // todo:  依据openid 从mongo中拿出这个人的兴趣
-    val fis: Future[List[String]] = Future.successful(List("造型")) // 获取兴趣
-    fis map { is =>
-      val arts: Seq[Category] = artsList.map { art =>
-        if (is.contains(art.name)) {
-          art.copy(checked = true)
-        } else {
-          art
+    val userCategory: Future[Option[List[String]]] = findArtsList(openid)
+        userCategory map { is =>
+          val arts: Seq[Category] = artsList.map { art =>
+            if (art.name.contains(is)) {
+              art.copy(checked = true)
+            } else {
+              art
+            }
+          }
+          success(arts)
         }
-      }
-      success(arts)
-    }
+
+
   }
 
   def getCategorys = path("arts") {
@@ -37,19 +39,22 @@ trait MiscRoute extends SprayJsonSupport with Core with Models {
 
   def handleSaveCategories(id: String, cats: CategoriesRequest) = {
 
+
   }
 
   def saveCategories = path("saveCategories") {
     (post & openid & entity(as[CategoriesRequest])) { (id, cats) =>
-
+      onSuccess(addArtsList(id, cats.categories)) {
+        case _ => complete(success(CategoriesResponse(1, null)))
+      }
       // todo:
       // 1. 获取id对应的所有人脉, 如果人脉为空则
+
       //      redirect = 0,  为跳转到 分享
       //    如果人脉不为空,
       //      rediect = 1, 为跳转到体验页
       //
       //
-      complete(success(CategoriesResponse(0, null)))
     }
   }
 

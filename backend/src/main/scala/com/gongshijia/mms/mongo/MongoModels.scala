@@ -1,12 +1,13 @@
 package com.gongshijia.mms.mongo
 
-import com.gongshijia.mms.Core
+import java.util.Date
+
 import org.mongodb.scala.bson.ObjectId
 
 /**
   * Created by xiangyang on 2017/5/5.
   */
-trait MongoModels extends Core {
+trait MongoModels {
 
 
   case class OSSAsset(_id: ObjectId, url: String, assetType: String)
@@ -15,11 +16,16 @@ trait MongoModels extends Core {
     def apply(url: String, assetType: String): OSSAsset = OSSAsset(new ObjectId(), url, assetType);
   }
 
+  case class User(_id: ObjectId, openid: String, avatarUrl: String, country: String, province: String, city: String,
+                  gender: Int, language: String, nickName: String,
+                  workBeg: Option[Date] = None, workEnd: Option[Date] = None, workAddress: Option[String] = None,
+                  phone: Option[String] = None, shopName: Option[String] = None, lastUpdate: Option[Date] = None,
+                  categories: Option[List[String]] = None);
 
-  case class User(_id: ObjectId, openid: String, avatarUrl: String, country: String, province: String, city: String, gender: Int, language: String, nickName: String);
-
-  implicit val UserFormat = jsonFormat9(User);
-
+  object User {
+    def apply(openid: String, avatarUrl: String, country: String, province: String, city: String,
+              gender: Int, language: String, nickName: String): User = User(new ObjectId(), openid, avatarUrl, country, province, city, gender, language, nickName);
+  }
 
 }
 

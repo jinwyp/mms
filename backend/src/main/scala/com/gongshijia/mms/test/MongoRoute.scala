@@ -25,7 +25,7 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   // mongo example
   def mongoInsert = path("insert") {
-    val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
+    val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
     val collection: MongoCollection[PersonDTO] = database.getCollection("userinfo")
     post {
       entity(as[Person]) { person =>
@@ -40,7 +40,7 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   def mongoSelect = path("select") {
     get {
-      val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
+      val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
       val collection: MongoCollection[PersonDTO] = database.getCollection("userinfo")
       onSuccess(collection.find().toFuture()) {
         persons => {
@@ -52,10 +52,9 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   def mongoUpsert = path("upsert") {
     post {
-      val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
+      val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
       val collection: MongoCollection[Person] = database.getCollection("userinfo")
       collection.updateOne(equal("firstName", "A"), set("firstName", "AA")).printHeadResult("Update Result: ")
-      mongoClient.close();
       complete("ok")
     }
   }
@@ -68,7 +67,7 @@ trait MongoRoute extends Models with Core with SprayJsonSupport {
 
   def mongoPager = path("pager") {
     get {
-      val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry)
+      val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry)
       val collection: MongoCollection[Person] = database.getCollection("userinfo")
       onSuccess(collection.find().limit(5).skip(2).toFuture()) {
         persons => complete(persons);

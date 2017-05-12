@@ -57,7 +57,7 @@ trait Core extends DefaultJsonProtocol {
 
 
   // mongo
-  val mongoClient = MongoClient(mongoUri);
+  val mongoDatabase= MongoClient(mongoUri).getDatabase(coreConfig.getString("mongo.dbName"));
 
   // 扩展指令
   case class Session(session_key: String)

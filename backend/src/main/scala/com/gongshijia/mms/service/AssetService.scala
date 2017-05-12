@@ -16,7 +16,7 @@ trait AssetService extends Core {
 
   def insertUploadRecord(filename: String, mimeType: String): Future[Boolean] = {
     val codecRegistry = fromRegistries(fromProviders(classOf[OSSAsset]), DEFAULT_CODEC_REGISTRY)
-    val database: MongoDatabase = mongoClient.getDatabase("test").withCodecRegistry(codecRegistry);
+    val database: MongoDatabase = mongoDatabase.withCodecRegistry(codecRegistry);
     val collection: MongoCollection[OSSAsset] = database.getCollection("uploadFile_record");
     collection.insertOne(OSSAsset(filename, mimeType)).toFuture().map { _ => true }
   }
