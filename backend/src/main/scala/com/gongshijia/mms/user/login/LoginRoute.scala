@@ -12,7 +12,7 @@ trait LoginRoute extends HttpSupport with LoginController {
   import LoginModels._
 
   // 处理登录
-  def loginLogin = (post & entity(as[LoginRequest])) { req =>
+  def loginLogin = (path("login") & post & entity(as[LoginRequest])) { req =>
       complete(handleLogin(req).toResult)
   }
 

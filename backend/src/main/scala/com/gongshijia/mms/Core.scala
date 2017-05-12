@@ -93,8 +93,6 @@ object MongoTestSupport extends MongoTestSupport
 
 // mongodb support
 trait MongoSupport extends Core {
-  val mongoClient = MongoClient(coreConfig.getString("mongo.uri"))
-  val mongoDb = mongoClient.getDatabase(coreConfig.getString("mongo.database")).withCodecRegistry(codecRegistry)
 
   // 模型注册!
 
@@ -122,6 +120,8 @@ trait MongoSupport extends Core {
     classOf[User] // 添加更多的models在这里
   ), DEFAULT_CODEC_REGISTRY)
 
+  val mongoClient = MongoClient(coreConfig.getString("mongo.uri"))
+  val mongoDb = mongoClient.getDatabase(coreConfig.getString("mongo.database")).withCodecRegistry(codecRegistry)
   def getCollection(name: String) = mongoDb.getCollection(name)
 
 }
