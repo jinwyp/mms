@@ -15,7 +15,7 @@ object AssetServiceUtils extends AppConfig {
   val callback = Utils.base64Encode(
     s"""
        |{
-       |"callbackUrl":"http://$jfcDomain/asset/callback",
+       |"callbackUrl":"http://$mmsDomain/asset/callback",
        |"callbackBody":"$callbackBody",
        |"callbackBodyType":"application/x-www-form-urlencoded"
        |}

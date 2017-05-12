@@ -8,7 +8,7 @@ trait AppConfig extends Core {
   val accessKeySecret = coreConfig.getString("aliyun.accessKeySecret")
   val ossBucket = coreConfig.getString("aliyun.ossBucket")
   val ossHost = coreConfig.getString("aliyun.ossHost")
-  val jfcDomain = coreConfig.getString("jfc.domain")
+  val mmsDomain = coreConfig.getString("mms.domain")
 
   //
   val appId = coreConfig.getString("wx.appId")

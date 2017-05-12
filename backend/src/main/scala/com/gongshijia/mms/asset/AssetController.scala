@@ -1,7 +1,5 @@
 package com.gongshijia.mms.asset
 
-import akka.http.scaladsl.server.Directives.{complete, onSuccess}
-import akka.http.scaladsl.server.StandardRoute
 import com.gongshijia.mms.core.Utils
 
 import scala.concurrent.Future
@@ -27,20 +25,20 @@ trait AssetController extends AssetService {
   def handleOssCallback(filename: String, mimeType: String): Future[String] = {
     insertUploadRecord(filename, mimeType).map {
       case true =>
-          s"""
-             |{
-             |"success": true,
-             |"filename": "$filename",
-             |"mimeType": "$mimeType"
-             |}
+        s"""
+           |{
+           |"success": true,
+           |"filename": "$filename",
+           |"mimeType": "$mimeType"
+           |}
                    """.stripMargin
       case false =>
-          s"""
-             |{
-             |"success": false,
-             |"filename": "$filename",
-             |"mimeType": "$mimeType"
-             |}
+        s"""
+           |{
+           |"success": false,
+           |"filename": "$filename",
+           |"mimeType": "$mimeType"
+           |}
                    """.stripMargin
 
     }
