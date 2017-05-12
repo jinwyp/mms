@@ -1,6 +1,10 @@
 package com.gongshijia.mms.asset
 
-import com.gongshijia.mms.Utils
+import akka.http.scaladsl.server.Directives.{complete, onSuccess}
+import akka.http.scaladsl.server.StandardRoute
+import com.gongshijia.mms.core.Utils
+
+import scala.concurrent.Future
 
 /**
   * Created by hary on 2017/5/12.
@@ -18,6 +22,28 @@ trait AssetController extends AssetService {
       accessKeyId,
       ossHost,
       openid)
+  }
+
+  def handleOssCallback(filename: String, mimeType: String): Future[String] = {
+    insertUploadRecord(filename, mimeType).map {
+      case true =>
+          s"""
+             |{
+             |"success": true,
+             |"filename": "$filename",
+             |"mimeType": "$mimeType"
+             |}
+                   """.stripMargin
+      case false =>
+          s"""
+             |{
+             |"success": false,
+             |"filename": "$filename",
+             |"mimeType": "$mimeType"
+             |}
+                   """.stripMargin
+
+    }
   }
 
 }

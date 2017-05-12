@@ -9,14 +9,11 @@ import com.gongshijia.mms.misc.address.AddressRoute
   */
 trait MiscRoute extends SprayJsonSupport with AddressRoute {
 
-  def miscHello = get {
-    path("hello") {
+  def miscHello = (get & path("hello"))  {
       complete("hello is ok")
-    }
   }
 
-  def miscRoute = pathPrefix("address") {
-    addressRoute
-  }
+  def miscRoute = miscHello ~
+    pathPrefix("address") { addressRoute }
 
 }

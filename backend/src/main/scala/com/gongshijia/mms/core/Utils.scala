@@ -1,4 +1,4 @@
-package com.gongshijia.mms
+package com.gongshijia.mms.core
 
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
