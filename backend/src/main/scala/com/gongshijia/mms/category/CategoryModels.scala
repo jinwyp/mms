@@ -8,7 +8,7 @@ import spray.json.DefaultJsonProtocol
 object CategoryModels extends DefaultJsonProtocol {
 
   // 预定义类目
-  val defaultCategories: Seq[Category] = List(
+  val defaultCategories: List[Category] = List(
     Category("造型"),
     Category("美甲"),
     Category("茶艺"),
@@ -21,6 +21,9 @@ object CategoryModels extends DefaultJsonProtocol {
   case class Category(name: String, checked: Boolean = false)
   implicit val CategoryResultFormat = jsonFormat2(Category)
 
-  case class CategoriesResponse(categories: Seq[Category])
+  case class CategoriesRequest (categories:List[String])
+  implicit val CategoriesRequestFormat = jsonFormat1(CategoriesRequest)
+
+  case class CategoriesResponse(categories: List[Category])
   implicit val CategoriesResponseFormat = jsonFormat1(CategoriesResponse)
 }

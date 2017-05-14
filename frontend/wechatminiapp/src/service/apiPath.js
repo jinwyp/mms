@@ -1,6 +1,6 @@
 
-var apiPrefix = 'http://zxy.gongshijia.com'
-
+//var apiPrefix = 'http://zxy.gongshijia.com'
+var apiPrefix = 'http://gongshijia.com.ngrok.io'
 
 var apiPath = {
     signUpWechat : apiPrefix + '/user/login/login',

@@ -2,11 +2,14 @@ package com.gongshijia.mms.core
 
 import java.util.Date
 
+import org.bson.BsonDocument
 import org.bson.codecs.configuration.CodecRegistries.{fromProviders, fromRegistries}
 import org.mongodb.scala.MongoClient
-import org.mongodb.scala.bson.codecs.Macros._
 import org.mongodb.scala.bson.ObjectId
 import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+import org.mongodb.scala.bson.codecs.Macros._
+import org.mongodb.scala.bson.collection.immutable.Document
+import org.mongodb.scala.bson.conversions.Bson
 
 /**
   * Created by hary on 2017/5/12.
@@ -17,7 +20,7 @@ trait MongoSupport extends Core {
   // 模型注册!
 
   // 阿里云oss文件模型
-  case class OSSAsset(_id: ObjectId, url: String, mimeType: String,aaa:Option[String]=None)
+  case class OSSAsset(_id: ObjectId, url: String, mimeType: String, aaa: Option[String] = None)
 
   object OSSAsset {
     def apply(url: String, mimeType: String): OSSAsset = OSSAsset(new ObjectId(), url, mimeType);
@@ -48,6 +51,7 @@ trait MongoSupport extends Core {
 
   val mongoClient = MongoClient(coreConfig.getString("mongo.uri"))
   val mongoDb = mongoClient.getDatabase(coreConfig.getString("mongo.database")).withCodecRegistry(codecRegistry)
+  def toBson(bson: Bson): Document = Document(bson.toBsonDocument(classOf[BsonDocument], MongoClient.DEFAULT_CODEC_REGISTRY))
   def getCollection(name: String) = mongoDb.getCollection(name)
 
 }

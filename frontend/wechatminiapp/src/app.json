@@ -1,8 +1,9 @@
 {
   "pages":[
+    "pages/index/index",
       "pages/friendsExp/friendsList/friendsList",
                 "pages/share/share",
-          "pages/index/index",
+          
 
 
 
