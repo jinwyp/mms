@@ -1,6 +1,7 @@
 package com.gongshijia.mms.category
 
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 import com.gongshijia.mms.core.HttpSupport
 
 /**
@@ -13,4 +14,9 @@ trait CategoryRoute extends CategoryController with HttpSupport {
   def categoryGet = (path("category") & get & openid) { id =>
     complete(handleCategoryGet(id).toResult)
   }
+
+  def saveCategories= (path("saveCategories") & get & openid) { id =>
+    complete(handleCategoryGet(id).toResult)
+  }
+  def categoryRoute: Route = categoryGet ~ saveCategories
 }

@@ -1,12 +1,12 @@
 
-var apiPrefix = 'http://hary.gongshijia.com'
+var apiPrefix = 'http://zxy.gongshijia.com'
 
 
 var apiPath = {
-    signUpWechat : apiPrefix + '/login/login',
+    signUpWechat : apiPrefix + '/user/login/login',
     test : apiPrefix +'/misc/comment',
-    getIndexList: apiPrefix +'/misc/arts',
-    pushIndexList: apiPrefix +'/misc/saveCategories'
+    getIndexList: apiPrefix +'/category/category',
+    pushIndexList: apiPrefix +'/category/saveCategories'
 }
 
 module.exports = apiPath;

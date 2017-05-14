@@ -22,21 +22,13 @@
       <button class="btn" bindtap="interestPost">
           <image src="../../images/cart.png"></image>
       </button>
-      
-    <!--</navigator>-->
-    <button class="btn" bindtap="test">
-          test
-      </button>
-      <button class="btn" bindtap="clear">
-          清缓存
-      </button>
 
 <!--无数据情况-->
-  <navigator url="../friendsExp/friendsList/friendsList">
+  <!--<navigator url="../friendsExp/friendsList/friendsList">
       <button class="btn" >
           有数据情况
       </button>
-    </navigator>
+    </navigator>-->
   </view>
   <!--</form>-->
 </view>

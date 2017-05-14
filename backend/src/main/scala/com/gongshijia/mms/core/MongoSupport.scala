@@ -17,7 +17,7 @@ trait MongoSupport extends Core {
   // 模型注册!
 
   // 阿里云oss文件模型
-  case class OSSAsset(_id: ObjectId, url: String, mimeType: String)
+  case class OSSAsset(_id: ObjectId, url: String, mimeType: String,aaa:Option[String]=None)
 
   object OSSAsset {
     def apply(url: String, mimeType: String): OSSAsset = OSSAsset(new ObjectId(), url, mimeType);
@@ -35,9 +35,15 @@ trait MongoSupport extends Core {
               gender: Int, language: String, nickName: String): User = User(new ObjectId(), openid, avatarUrl, country, province, city, gender, language, nickName);
   }
 
+  case class Material(name: String, count: Int)
+
+  case class ArtFlow(flow: String, duration: Int)
+
   val codecRegistry = fromRegistries(fromProviders(
     classOf[OSSAsset], // 添加更多的models在这里
-    classOf[User] // 添加更多的models在这里
+    classOf[User],
+    classOf[Material],
+    classOf[ArtFlow]
   ), DEFAULT_CODEC_REGISTRY)
 
   val mongoClient = MongoClient(coreConfig.getString("mongo.uri"))

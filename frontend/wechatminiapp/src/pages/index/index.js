@@ -84,7 +84,7 @@ Page({
         CategoryService.getIndexList().then(function(res){
           console.log('getIndexList',res)
           that.setData({
-            interest:res.data
+            interest:res.data.categories
           })
 
         }).catch(Error.PromiseError)

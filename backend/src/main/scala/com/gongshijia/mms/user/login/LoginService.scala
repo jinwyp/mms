@@ -39,7 +39,7 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
         _.decodeString("UTF-8").parseJson.convertTo[WxSession]
       };
       // todo :check request with wxSession.session_key
-      user = User(wxSession.openid, login.avatarUrl, login.country, login.province, login.city, login.gender, login.language, login.nickName)
+      user = User(null,wxSession.openid, login.avatarUrl, login.country, login.province, login.city, login.gender, login.language, login.nickName)
       upsertResult <- upsertUser(user)
       // 保存session到redis
       session = Session(wxSession.session_key)
