@@ -67,6 +67,30 @@ Page({
         // })
         // console.log(that.data.tapIndex)
         if(res.tapIndex === 0){
+          var that=this,policy,callback,signature,OssAccessKeyId;
+      function generateUUID(){
+          var d = new Date().getTime();
+          var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+              var r = (d + Math.random()*16)%16 | 0;
+              d = Math.floor(d/16);
+              return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+          });
+          return uuid;
+      };
+      wx.request({
+        url: 'http://zxy.gongshijia.com/asset/policy',
+        method:'GET',
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
+          policy=res.data.policy;
+          callback=res.data.callback;
+          signature=res.data.signature;
+          OssAccessKeyId=res.data.ossAccessId;
+          console.log(res.data)
+        }
+      })
           wx.chooseImage({
             count: 9, // 默认9
             sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -81,6 +105,30 @@ Page({
      
           })
         }else if(res.tapIndex === 1){
+          var that=this,policy,callback,signature,OssAccessKeyId;
+      function generateUUID(){
+          var d = new Date().getTime();
+          var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+              var r = (d + Math.random()*16)%16 | 0;
+              d = Math.floor(d/16);
+              return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+          });
+          return uuid;
+      };
+      wx.request({
+        url: 'http://zxy.gongshijia.com/asset/policy',
+        method:'GET',
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
+          policy=res.data.policy;
+          callback=res.data.callback;
+          signature=res.data.signature;
+          OssAccessKeyId=res.data.ossAccessId;
+          console.log(res.data)
+        }
+      })
           wx.chooseVideo({
             sourceType: ['album', 'camera'], // album 从相册选视频，camera 使用相机拍摄
             maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒。最长支持60秒
@@ -123,7 +171,31 @@ Page({
           }
         })
     }else{
-      var that=this;
+      var that=this,policy,callback,signature,OssAccessKeyId;
+      function generateUUID(){
+          var d = new Date().getTime();
+          var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+              var r = (d + Math.random()*16)%16 | 0;
+              d = Math.floor(d/16);
+              return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+          });
+          return uuid;
+      };
+      wx.request({
+        url: 'http://zxy.gongshijia.com/asset/policy',
+        method:'GET',
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
+          policy=res.data.policy;
+          callback=res.data.callback;
+          signature=res.data.signature;
+          OssAccessKeyId=res.data.ossAccessId;
+          console.log(res.data)
+        }
+      })
+
       wx.chooseImage({
         count: 9, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
