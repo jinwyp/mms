@@ -10,12 +10,13 @@ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
 import org.mongodb.scala.bson.codecs.Macros._
 import org.mongodb.scala.bson.collection.immutable.Document
 import org.mongodb.scala.bson.conversions.Bson
+import spray.json.DefaultJsonProtocol
 
 /**
   * Created by hary on 2017/5/12.
   */
 // mongodb support
-trait MongoSupport extends Core {
+trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
 
   // 模型注册!
 
@@ -30,30 +31,26 @@ trait MongoSupport extends Core {
                   gender: Int, language: String, nickName: String,
                   workBeg: Option[Date] = None, workEnd: Option[Date] = None, workAddress: Option[String] = None,
                   phone: Option[String] = None, shopName: Option[String] = None, lastUpdate: Option[Date] = None,
-                  categories: Option[List[String]] = None);
-
-  object User {
-    def apply(openid: String, avatarUrl: String, country: String, province: String, city: String,
-              gender: Int, language: String, nickName: String): User = User(new ObjectId(), openid, avatarUrl, country, province, city, gender, language, nickName);
-  }
+                  categories: Option[List[String]]=Some(List()));
 
   // 耗材
   case class Material(name: String, count: Int)
 
+  implicit val MaterialFormat = jsonFormat2(Material)
+
   // 流程
   case class ArtFlow(flow: String, duration: Int)
 
+  implicit val ArtFlowFormat = jsonFormat2(ArtFlow)
+
   //署名信息
-  case class SignInfo(_id: ObjectId, openid: String, checked: Int = 0, realPicture: List[String], material: List[Material], flows: List[ArtFlow])
+  case class SignInfo(_id: ObjectId, openid: String, checked: Int = 0, realPicture: List[String], material: List[Material]=List(), flows: List[ArtFlow]=List())
 
-
+  implicit val SignInfoFormat= jsonFormat6(SignInfo)
   //评论
   case class Comments(_id: ObjectId, openid: String, createDate: Date, content: String)
 
-  object Comments {
-    def apply(openid: String, createDate: Date, content: String): Comments =
-      new Comments(new ObjectId(), openid, createDate, content)
-  }
+  implicit val commentsFormat= jsonFormat4(Comments)
 
   // 体验报告
   case class ExperienceReport(_id: ObjectId,
@@ -70,24 +67,11 @@ trait MongoSupport extends Core {
                               privacy: Int,
                               pricePrivacy: Int,
                               openid: String,
-                              signInfo: Option[List[SignInfo]],
-                              comments: Option[List[Comments]]);
+                              signInfo: Option[List[SignInfo]]=Some(List()),
+                              comments: Option[List[Comments]]=Some(List()));
 
-  object ExperienceReport {
-    def apply(lon: Double,
-              lat: Double,
-              locationName: String,
-              shopName: String,
-              expTime: Date,
-              expPrice: Double,
-              pictures: List[String],
-              videos: Option[String],
-              feeling: String,
-              category: String,
-              privacy: Int,
-              pricePrivacy: Int,
-              openid: String): ExperienceReport = new ExperienceReport(new ObjectId(), lon, lat, locationName, shopName, expTime, expPrice, pictures, videos, feeling, category, privacy, pricePrivacy, openid, None, None)
-  }
+  implicit val ExperienceReportFormat = jsonFormat16(ExperienceReport)
+
 
   val codecRegistry = fromRegistries(fromProviders(
     classOf[OSSAsset], // 添加更多的models在这里
