@@ -18,11 +18,4 @@ trait LoginController extends ApiSupport with Core with LoginService {
     }
   }
 
-  //  def handleLogout(request: LogoutRequest): Future[LogoutResponse] = {
-  //    Future.successful(LogoutResponse("ok", "ok"))
-  //  }
-  //
-  //  def handleRegister(request: RegisterRequest): Future[RegisterResponse] = {
-  //    Future.successful(RegisterResponse("ok", "ok"))
-  //  }
 }
