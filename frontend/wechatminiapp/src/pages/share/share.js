@@ -1,4 +1,8 @@
 // pages/mine/mine.js
+var UserService = require('../../service/user.js');
+var CategoryService = require('../../service/category.js');
+var Error = require('../../service/error.js');
+
 
 var app = getApp() 
 Page({
@@ -22,6 +26,7 @@ Page({
     whoCanSee:['私密','好友','公开'],
     ifChoose:'造型',
     isClick:false,
+    pricePrivacy:'0',
     index:0,
     dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(), 
    tempFilePaths:'../../images/upload.png',
@@ -33,20 +38,21 @@ Page({
    longitude:'',
    price:'',
    submitAll:[{
-     a:'',
-     b:[],
-     c:'',
-     d:'',
-     e:'',
-     f:'',
-     g:'',
-     h:'',
-     i:'',
-     j:'',
-     k:'',
-     l:''
+     category:'',
+     pictures:[],
+     videos:'',
+     feeling:'',
+     locationName:'',
+     lat:'',
+     lon:'',
+     shopName:'',
+     expTime:'',
+     expPrice:0,
+     pricePrivacy:'',
+     privacy:''
 
-   }]
+   }],
+   ifSubmit:false
   
   }, 
   
@@ -251,31 +257,114 @@ Page({
   },
 
   tapSwitch : function(){
-    console.log(this.data.isClick)
+    // console.log(this.data.isClick)
     this.setData({
         isClick: !this.data.isClick
+        
     });
+    if(this.data.isClick == true){
+      this.setData({
+        pricePrivacy : '1'
+      });
+    }else{
+      this.setData({
+        pricePrivacy : '0'
+    });
+    }
   },
   
  formSubmit: function(e) {
-    // console.log('form发生了submit事件，携带数据为：', e.detail.value);
     var that = this;
+    var openId = wx.getStorageSync('accessToken')
     that.setData({   
-      'submitAll.a':that.data.ifChoose,
-      'submitAll.b':that.data.uploadImg,
-      'submitAll.c':that.data.uploadVideo,
-      'submitAll.d':e.detail.value.feeling,
-      'submitAll.e':that.data.address,
-      'submitAll.f':that.data.latitude,
-      'submitAll.g':that.data.longitude,
-      'submitAll.h':e.detail.value.shop,
-      'submitAll.i':e.detail.value.day,
-      'submitAll.j':e.detail.value.price,
-      'submitAll.k':that.data.isClick,
-      'submitAll.l':e.detail.value.whoCanSee,    
+      'submitAll.category':that.data.ifChoose,
+      'submitAll.pictures':that.data.uploadImg,
+      'submitAll.videos':that.data.uploadVideo,
+      'submitAll.feeling':e.detail.value.feeling,
+      'submitAll.locationName':that.data.address,
+      'submitAll.lat':that.data.latitude,
+      'submitAll.lon':that.data.longitude,
+      'submitAll.shopName':e.detail.value.shop,
+      'submitAll.expTime':e.detail.value.day,
+      'submitAll.expPrice':Number(e.detail.value.price),
+      'submitAll.pricePrivacy':Number(that.data.pricePrivacy),
+      'submitAll.privacy':Number(e.detail.value.whoCanSee),    
     })
-    console.log(that.data.submitAll)
+    // console.log(that.data.submitAll)
+    
+      if(that.data.submitAll.expPrice === 0){
+          wx.showModal({
+          title: '提示',
+          content: '请输入体验价格',
+          success: function(res) {
+            if (res.confirm) {
+            } else if (res.cancel) {
+            }
+          }
+        })
+       
+      }else if(that.data.submitAll.shopName === ''){
+          wx.showModal({
+          title: '提示',
+          content: '请输入体验门店（店铺）',
+          success: function(res) {
+            if (res.confirm) {
+            } else if (res.cancel) {
+            }
+          }
+        })
+        
+      }else if(that.data.submitAll.locationName === '未选择'){
+          wx.showModal({
+          title: '提示',
+          content: '请输入体验区域',
+          success: function(res) {
+            if (res.confirm) {
+            } else if (res.cancel) {
+            }
+          }
+        })
+        
+      }else if(that.data.submitAll.feeling === ''){
+          wx.showModal({
+          title: '提示',
+          content: '请输入个人体验感受',
+          success: function(res) {
+            if (res.confirm) {
+            } else if (res.cancel) {
+            }
+          }
+        })
+        
+      }else if(that.data.submitAll.pictures.length === 0 && that.data.submitAll.videos === ''){
+          wx.showModal({
+          title: '提示',
+          content: '请上传相关图片或者视频',
+          success: function(res) {
+            if (res.confirm) {
+            } else if (res.cancel) {
+            }
+          }
+        })
+      
+      }else{
+        that.setData({
+          ifSubmit : true
+        });
+              
+      }
+      
+      if(that.data.ifSubmit === true){
+        CategoryService.releaseReport(that.data.submitAll).then(function(res){
+          console.log('releaseReport',res)
+          
+        }).catch(Error.PromiseError)
+      }
+      
+    
   },
+
+
 
   // input价格校验
   inputReg:function(e) {
@@ -284,15 +373,13 @@ Page({
     var cents=''
     price = price.toString().replace(/\$|\,/g,'');  
     if(isNaN(price)){ 
-      price = "0"; 
+      price = 0; 
       wx.showModal({
         title: '提示',
         content: '请输入金额',
         success: function(res) {
           if (res.confirm) {
-            console.log('用户点击确定')
           } else if (res.cancel) {
-            console.log('用户点击取消')
           }
         }
       })

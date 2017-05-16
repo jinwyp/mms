@@ -1,9 +1,11 @@
 {
   "pages":[
+    
+    "pages/share/share",
     "pages/index/index",
       "pages/friendsExp/friendsList/friendsList",
-                "pages/share/share",
-          
+                
+         "pages/craft/craftTitle", 
 
 
 
@@ -12,7 +14,7 @@
     "pages/craftDetail/craftDetail",
    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
 
-    "pages/craft/craftTitle",
+    
     "pages/expDetail/expDetail",
 
 

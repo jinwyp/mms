@@ -8,10 +8,13 @@ function getIndexList (data){
 function pushIndexList (data){
     return wechat.request(apiPath.pushIndexList, data, 'POST')
 }
-
+function releaseReport (data){
+    return wechat.request(apiPath.releaseReport, data, 'POST')
+}
 
 module.exports = {
     getIndexList : getIndexList,
-    pushIndexList: pushIndexList
+    pushIndexList: pushIndexList,
+    releaseReport: releaseReport
     
 }
