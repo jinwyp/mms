@@ -58,7 +58,8 @@ Page({
   
   // 上传
   uploadfiles:function(){
-    var that=this;
+   var that = this;
+   var policy, callback, signature, OssAccessKeyId;
     wx.showActionSheet({
       itemList: ['上传照片', '上传视频'],
       success: function(res) {  
@@ -66,69 +67,72 @@ Page({
         //   tapIndex: res.tapIndex
         // })
         // console.log(that.data.tapIndex)
+         
         if(res.tapIndex === 0){
-          var that=this,policy,callback,signature,OssAccessKeyId;
-      function generateUUID(){
-          var d = new Date().getTime();
-          var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-              var r = (d + Math.random()*16)%16 | 0;
-              d = Math.floor(d/16);
-              return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-          });
-          return uuid;
-      };
-      wx.request({
-        url: 'http://zxy.gongshijia.com/asset/policy',
-        method:'GET',
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function(res) {
-          policy=res.data.policy;
-          callback=res.data.callback;
-          signature=res.data.signature;
-          OssAccessKeyId=res.data.ossAccessId;
-          console.log(res.data)
-        }
-      })
+               
+          function generateUUID(){
+              var d = new Date().getTime();
+              var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                  var r = (d + Math.random()*16)%16 | 0;
+                  d = Math.floor(d/16);
+                  return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+              });
+              return uuid;
+          };
+          wx.request({
+            url: 'http://zxy.gongshijia.com/asset/policy',
+            method:'GET',
+            header: {
+              'content-type': 'application/json',
+              'X-OPENID':wx.getStorageSync('accessToken'),
+            },
+            success: function(res) {
+              policy=res.data.policy;
+              callback=res.data.callback;
+              signature=res.data.signature;
+              OssAccessKeyId=res.data.ossAccessId;
+              console.log(res.data)
+            }
+          })
           wx.chooseImage({
             count: 9, // 默认9
-            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-            success: function (res) {
-              var tempFilePaths = res.tempFilePaths;
+            sizeType: ['original', 'compressed'], 
+            sourceType: ['album', 'camera'], 
+            success: function (res) {               
               that.setData({
-                uploadImg:tempFilePaths.concat(that.data.uploadImg)
+                uploadImg:res.tempFilePaths.concat(that.data.uploadImg)
               })
-              // console.log('1',that.data.uploadImg)
+              
+              console.log('1',res.tempFilePaths)
             }
      
           })
         }else if(res.tapIndex === 1){
-          var that=this,policy,callback,signature,OssAccessKeyId;
-      function generateUUID(){
-          var d = new Date().getTime();
-          var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-              var r = (d + Math.random()*16)%16 | 0;
-              d = Math.floor(d/16);
-              return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-          });
-          return uuid;
-      };
-      wx.request({
-        url: 'http://zxy.gongshijia.com/asset/policy',
-        method:'GET',
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function(res) {
-          policy=res.data.policy;
-          callback=res.data.callback;
-          signature=res.data.signature;
-          OssAccessKeyId=res.data.ossAccessId;
-          console.log(res.data)
-        }
-      })
+          // var that=this,policy,callback,signature,OssAccessKeyId;
+          function generateUUID(){
+              var d = new Date().getTime();
+              var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                  var r = (d + Math.random()*16)%16 | 0;
+                  d = Math.floor(d/16);
+                  return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+              });
+              return uuid;
+          };
+          wx.request({
+            url: 'http://zxy.gongshijia.com/asset/policy',
+            method:'GET',
+            header: {
+              'content-type': 'application/json',
+              'X-OPENID':wx.getStorageSync('accessToken'),
+            },
+            success: function(res) {
+              policy=res.data.policy;
+              callback=res.data.callback;
+              signature=res.data.signature;
+              OssAccessKeyId=res.data.ossAccessId;
+              console.log(res.data)
+            }
+          })
           wx.chooseVideo({
             sourceType: ['album', 'camera'], // album 从相册选视频，camera 使用相机拍摄
             maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒。最长支持60秒
@@ -171,7 +175,8 @@ Page({
           }
         })
     }else{
-      var that=this,policy,callback,signature,OssAccessKeyId;
+      var that=this
+      var policy,callback,signature,OssAccessKeyId;
       function generateUUID(){
           var d = new Date().getTime();
           var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -185,7 +190,8 @@ Page({
         url: 'http://zxy.gongshijia.com/asset/policy',
         method:'GET',
         header: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'X-OPENID':wx.getStorageSync('accessToken'),
         },
         success: function(res) {
           policy=res.data.policy;
@@ -205,7 +211,6 @@ Page({
           that.setData({
             uploadImg:tempFilePaths.concat(that.data.uploadImg)
           })
-          console.log('3',that.data.uploadImg)
         },
         complete:function(){
           if(that.data.uploadImg.length>9){
@@ -228,7 +233,6 @@ Page({
         }
       })
     }
-    // console.log('2',that.data.uploadImg)  
   },
 
   // 图片放大查看
