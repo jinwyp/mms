@@ -63,7 +63,7 @@ trait HttpSupport extends Core with ExceptionSupport with ApiSupport with SprayJ
 
   implicit object DateJsonFormat extends RootJsonFormat[Date] {
 
-    val formatter = new SimpleDateFormat("yyyyMMdd")
+    val formatter = new SimpleDateFormat("yyyy-MM-dd")
 
     override def write(obj: Date) = JsString(formatter.format(obj))
 

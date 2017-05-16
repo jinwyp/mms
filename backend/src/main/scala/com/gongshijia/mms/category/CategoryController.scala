@@ -1,29 +1,30 @@
 package com.gongshijia.mms.category
 
+import com.gongshijia.mms.user.login.LoginService
+
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by hary on 2017/5/12.
   */
-trait CategoryController extends CategoryService {
+trait CategoryController extends CategoryService with LoginService {
 
   import CategoryModels._
 
-
   def handlerUserCategoriesGet(openid: String)(implicit ec: ExecutionContext): Future[CategoriesResponse] = {
-    findCategoriesForUser(openid) map {
-      case Some(categoryStr) => {
-        val arts: List[Category] = defaultCategories.map(a =>
-          if (categoryStr.contains(a.name)) {
+
+    findUserByOpenId(openid) map { u =>
+      if (u.categories == null || u.categories.size==0) {
+        CategoriesResponse(defaultCategories)
+      } else {
+        val arts = defaultCategories.map(a =>
+          if (u.categories.get.contains(a.name)) {
             a.copy(checked = true)
           } else {
             a
           }
         )
         CategoriesResponse(arts)
-      }
-      case _ => {
-        CategoriesResponse(defaultCategories)
       }
     }
   }
