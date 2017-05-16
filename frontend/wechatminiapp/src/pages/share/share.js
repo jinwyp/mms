@@ -432,7 +432,9 @@ Page({
       
       if(that.data.ifSubmit === true){
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
-          console.log('releaseReport',res)
+          wx.navigateTo({
+            url: '../shareSubmit/shareSubmit',
+          })
           
         }).catch(Error.PromiseError)
       }
