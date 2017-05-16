@@ -8,11 +8,12 @@ import com.gongshijia.mms.core._
 import com.gongshijia.mms.misc.MiscRoute
 import com.gongshijia.mms.user.UserRoute
 import com.gongshijia.mms.category.CategoryRoute
+import com.gongshijia.mms.experience.ExperienceReportRoute
 
 /**
   * Created by hary on 2017/5/12.
   */
-trait AppRoute extends AssetRoute  with UserRoute with CategoryRoute
+trait AppRoute extends AssetRoute  with UserRoute with CategoryRoute with ExperienceReportRoute
 
 object MmsApp extends AllSupport with AppRoute {
   val route: Route =
@@ -23,7 +24,8 @@ object MmsApp extends AllSupport with AppRoute {
     } ~
   pathPrefix("asset") { assetRoute} ~
   pathPrefix("user") { userRoute } ~
-  pathPrefix("category"){categoryRoute}
+  pathPrefix("category"){categoryRoute}~
+  pathPrefix("report"){experienceReportRoute}
 
   startHttp(route)
 }

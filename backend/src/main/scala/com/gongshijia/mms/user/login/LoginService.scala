@@ -58,7 +58,7 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
     val updateOptions = UpdateOptions().upsert(true)
     val updateBson = combine(set("openid", user.openid), set("avatarUrl", user.avatarUrl), set("country", user.country),
       set("province", user.province), set("city", user.city), set("gender", user.gender), set("language", user.language),
-      set("nickName", user.nickName))
+      set("nickName", user.nickName),set("categories",user.categories))
     collection.updateOne(equal("openid", user.openid), updateBson, updateOptions).toFuture()
   }
 
