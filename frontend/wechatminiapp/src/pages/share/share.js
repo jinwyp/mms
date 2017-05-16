@@ -104,6 +104,32 @@ Page({
               })
               
               console.log('1',res.tempFilePaths)
+            },
+            complete:function(res){
+              var tempFilePaths = res.tempFilePaths;
+                var fd = {
+                  key: generateUUID(),
+                  policy: policy,
+                  success_action_status: '200',
+                  callback: callback,
+                  signature: signature,
+                  OSSAccessKeyId: OssAccessKeyId,
+                  file: tempFilePaths[0]
+                }
+                wx.uploadFile({
+                  url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                  filePath: tempFilePaths[0],
+                  name: 'file',
+                  header: { "content-Type": "multipart/form-data" },
+                  formData: fd,
+                  success: function (res) {
+                    console.log(res)
+                  },
+                  fail: function (res) {
+                    console.log(res)
+                  }
+                })
+             
             }
      
           })
@@ -146,7 +172,31 @@ Page({
               // fail
             },
             complete: function(res) {
-              // complete
+              var tempFilePaths = res.tempFilePaths;
+              console.log(tempFilePaths)
+                var fd = {
+                  key: generateUUID(),
+                  policy: policy,
+                  success_action_status: '200',
+                  callback: callback,
+                  signature: signature,
+                  OSSAccessKeyId: OssAccessKeyId,
+                  file: tempFilePaths
+                }
+                wx.uploadFile({
+                  url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                  filePath: tempFilePaths,
+                  name: 'file',
+                  header: { "content-Type": "multipart/form-data" },
+                  formData: fd,
+                  success: function (res) {
+                    console.log(res)
+                  },
+                  fail: function (res) {
+                    console.log(res)
+                  }
+                })
+              
             }
           })
           
@@ -212,7 +262,8 @@ Page({
             uploadImg:tempFilePaths.concat(that.data.uploadImg)
           })
         },
-        complete:function(){
+        complete:function(res){
+          var tempFilePaths = res.tempFilePaths;
           if(that.data.uploadImg.length>9){
               wx.showModal({
               title: '提示',
@@ -224,11 +275,35 @@ Page({
                     that.setData({
                         uploadImg:that.data.uploadImg
                       })
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
                 }
               }
             })
+          }else{
+            for (var i = 0; i < tempFilePaths.length; i++) {
+              var fd = {
+                key: generateUUID(),
+                policy: policy,
+                success_action_status: '200',
+                callback: callback,
+                signature: signature,
+                OSSAccessKeyId: OssAccessKeyId,
+                file: tempFilePaths[i]
+              }
+              console.log(fd)
+              wx.uploadFile({
+                url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                filePath: tempFilePaths[i],
+                name: 'file',
+                header: { "content-Type": "multipart/form-data" },
+                formData: fd,
+                success: function (res) {
+                  console.log(res)
+                },
+                fail: function (res) {
+                  console.log(res)
+                }
+              })
+            }
           }
         }
       })
@@ -366,7 +441,7 @@ Page({
       'submitAll.pricePrivacy':Number(that.data.pricePrivacy),
       'submitAll.privacy':Number(e.detail.value.whoCanSee),    
     })
-    // console.log(that.data.submitAll)
+    console.log(that.data.submitAll)
     
       if(that.data.submitAll.expPrice === 0){
           wx.showModal({
