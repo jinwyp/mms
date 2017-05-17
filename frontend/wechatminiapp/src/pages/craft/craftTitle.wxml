@@ -51,7 +51,7 @@
         <view class="ulCostLists">
             <block wx:for="{{costList}}" wx:key="{{costList}}" wx:for-index="idx">
                 <view class="liCostLists">
-                    <input type="text" data-idx="{{idx}}" class="costsName" bindblur="bindblurFun" value="{{item.costname}}" placeholder="此处输入耗材信息" placeholder-class="placeholderStyle"/>
+                    <input type="text" data-idx="{{idx}}" class="costsName" bindblur="bindblurFun" value="{{item.name}}" placeholder="此处输入耗材信息" placeholder-class="placeholderStyle"/>
                     <text class="subtractBtn" data-idx="{{idx}}" catchtap="subCost"></text>    
                 </view>
             </block>
@@ -65,12 +65,12 @@
         <block wx:for="{{gyprocessList}}" wx:key="{{gyprocessList}}" wx:for-index="idx">
             <view class="progressWrap">
                 <view class="progressInfo">
-                    <textarea data-idx="{{idx}}" bindblur="textareaVal"  value="{{item.gyInfo}}" placeholder="此处输入流程信息" placeholder-class="placeholderStyle" />
+                    <textarea data-idx="{{idx}}" bindblur="textareaVal"  value="{{item.flow}}" placeholder="此处输入流程信息" placeholder-class="placeholderStyle" />
                 </view>
                 <view class="pregressTime">
                     <view class="costTimeInfo">
                         <text>耗时</text>
-                        <picker mode="selector" class="time" data-idx="{{idx}}" range="{{range}}" bindchange="costTimeChange">{{item.costTime}}</picker>
+                        <picker mode="selector" class="time" data-idx="{{idx}}" range="{{range}}" bindchange="costTimeChange">{{item.duration}}</picker>
                         <text>分钟</text>
                     </view>
                     <view class="control" data-idx="{{idx}}" catchtap="subgy">
@@ -82,7 +82,7 @@
     </view>
     <view class="ulWrap contentWrap" hidden="{{!modalHidden}}">
         <view class="gyInfo">
-            <textarea placeholder="工艺说明：" placeholder-class="placeholderStyle" />       
+            <textarea placeholder="工艺说明：" value="{{introd}}" bindinput="introChange" placeholder-class="placeholderStyle" />       
         </view>
     </view>
     <button class="uploadBtn" bindtap="uploadBtn">上传</button>

@@ -1,4 +1,7 @@
 // pages/craft/craftTitle.js
+var UserService = require('../../service/user.js');
+var CategoryService = require('../../service/category.js');
+var Error = require('../../service/error.js');
 var apiPath = require("../../service/apiPath.js");
 Page({
   data:{
@@ -6,17 +9,22 @@ Page({
       mobile:'13045105222',
       shopAddress:'哈尔滨市道里区',
       uploadImg:[],
-      costList:[{costname:''}],
+      costList:[{name:'',count:''}],
       range:['5','10','15','20','25','30','35','40','45','50','55','60','65','70','75','80','85','90','95','100','105','110','115','120'],
-      gyprocessList:[{gyInfo:'',costTime:'0'}],
+      gyprocessList:[{flow:'',duration:0}],
       slideshow: false,
       currentId:0,
-      modalHidden:true
+      modalHidden:true,
+      uploadPath:[],
+      introd:''
     },
   onLoad:function(options){
-      wx.setNavigationBarTitle({
-        title: '手艺署名'
-    })
+      // var reportId = options.reportId ;暂时定死
+      var reportId = '591bbf183a4abeb009feb896' ;
+      
+
+
+
   },
   uploadImg:function(){
     if(this.data.uploadImg.length>=9){
@@ -85,7 +93,6 @@ Page({
               }
             })
           }else{
-            
             for(var i=0;i<tempFilePaths.length;i++){
               suffix=res.tempFilePaths[i].split('.')[1];
               var fd = {
@@ -104,6 +111,9 @@ Page({
                 header: { "content-Type": "multipart/form-data" },
                 formData: fd,
                 success: function(res) {
+                  var myFileName = apiPath.ossUrl + JSON.parse(res.data).filename;
+                  console.log(myFileName)
+                  that.data.uploadPath.push(myFileName)
                 },
                 fail:function(res){
                 }
@@ -132,14 +142,15 @@ Page({
     var idx = e.target.dataset.idx,
         obj = this.data.costList
         this.setData({
-          ['costList['+idx+'].costname']:e.detail.value
+          ['costList['+idx+'].name']:e.detail.value,
+          ['costList['+idx+'].count']:idx
         })
   },
   textareaVal:function(e){
     var idx = e.target.dataset.idx,
             obj = this.data.gyprocessList
             this.setData({
-              ['gyprocessList['+idx+'].gyInfo']:e.detail.value
+              ['gyprocessList['+idx+'].flow']:e.detail.value
             })
   },
   addCost:function(){
@@ -157,7 +168,7 @@ Page({
             }
           })
     }else{
-        var obj={costname:''}
+        var obj={name:'',count:''}
         this.setData({
             costList:this.data.costList.concat(obj)
         })
@@ -189,7 +200,7 @@ Page({
   costTimeChange:function(e){
         var idx = e.target.dataset.idx;
         this.setData({
-          ['gyprocessList['+idx+'].costTime']:this.data.range[e.detail.value]
+          ['gyprocessList['+idx+'].duration']:this.data.range[e.detail.value]*1
         })
     
   },
@@ -208,7 +219,7 @@ Page({
           }
         })
     }else{
-        var obj={gyInfo:'',costTime:'0'}
+        var obj={flow:'',duration:0}
         this.setData({
             gyprocessList:this.data.gyprocessList.concat(obj)
         })
@@ -256,10 +267,55 @@ Page({
           }
         })
   },
+  introChange:function(e){
+    this.setData({
+        introd:e.detail.value
+    });
+  },
   uploadBtn:function(){
+
+ wx.showModal({
+    title: '提示',
+    content: '店内实景最多上传9张',
+    showCancel:false,
+    success: function(res) {
+      if (res.confirm) {
+        console.log('用户点击确定')
+      } else if (res.cancel) {
+        console.log('用户点击取消')
+      }
+    }
+  })
+
+
+
+
+
+
     this.setData({
         modalHidden:false
     });
+    var openId = wx.getStorageSync('accessToken')
+        console.log('openId',openId);
+
+      var obj = {
+        'reportid':'591bbf183a4abeb009feb896',
+        'realPicture': this.data.uploadPath,
+        'material' : this.data.costList,
+        'flows': this.data.gyprocessList,
+        'checked' : false,
+        'introd' : this.data.introd
+      }
+
+    console.log(obj)
+
+    if (openId) {
+        CategoryService.craftTitleUpload(obj).then(function(res){
+        
+        }).catch(Error.PromiseError)
+    }
+
+
   },
   onShareAppMessage:function(){
     return {

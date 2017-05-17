@@ -1,28 +1,15 @@
 {
   "pages":[
-    
+    "pages/craft/craftTitle",
+    "pages/friendsExp/friendsList/friendsList",
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    "pages/craftDetail/craftDetail",
     "pages/share/share",
     "pages/index/index",
-     "pages/friendsExp/friendsList/friendsList",
-                
-     "pages/craft/craftTitle", 
-
-      "pages/collection/collection",
-
-
-    
-    "pages/craftDetail/craftDetail",
-   "pages/friendsExp/friendsExpDetail/friendsExpDetail",
-
-    
+    "pages/collection/collection",
     "pages/expDetail/expDetail",
-
-
     "pages/personInfo/personInfo",
-   
     "pages/shareSubmit/shareSubmit"
-
- 
   ],
   "window":{
     "backgroundTextStyle":"light",
