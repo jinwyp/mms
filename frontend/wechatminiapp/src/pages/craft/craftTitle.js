@@ -3,6 +3,7 @@ var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
 var apiPath = require("../../service/apiPath.js");
+var validation='';
 Page({
   data:{
       name:'张三丰',
@@ -272,48 +273,112 @@ Page({
         introd:e.detail.value
     });
   },
+  verify : function(){
+    if(this.data.uploadImg.length < 1){
+      wx.showModal({
+        title: '提示',
+        content: '店内实景不能为空',
+        showCancel:false,
+        success: function(res) {
+          if (res.confirm) {
+             uploadImgStatus = false;
+          }
+          else{
+             uploadImgStatus = true;
+          } 
+        }
+      })
+      return false;
+    }
+    for(var j=0;j<this.data.costList.length;j++){
+      if(this.data.costList[j].name==''){
+          wx.showModal({
+          title: '提示',
+          content: '耗材不能为空',
+          showCancel:false,
+          success: function(res) {
+            if (res.confirm) {
+              costListStatus = false;
+            }
+            else{
+              costListStatus = true;
+            } 
+          }
+        })
+        return false;
+      }
+       
+    }
+
+    for(var i=0;i<this.data.gyprocessList.length;i++){
+      if(this.data.gyprocessList[i].flow==''){
+          wx.showModal({
+            title: '提示',
+            content: '工艺流程不能为空',
+            showCancel:false,
+            success: function(res) {
+              if (res.confirm) {
+                gyprocessListStatus = false;
+              }
+              else{
+                gyprocessListStatus = true;
+              } 
+            }
+        })
+        return false;
+      }
+      
+    }
+    
+      if(this.data.introd==''){
+          wx.showModal({
+          title: '提示',
+          content: '工艺说明不能为空',
+          showCancel:false,
+          success: function(res) {
+            if (res.confirm) {
+               introdStatus = false;
+            }
+            else{
+               introdStatus = true;
+            } 
+          }
+        })
+      }
+    // return uploadImgStatus && gyprocessListStatus && costListStatus && introdStatus
+  },
   uploadBtn:function(){
+    this.verify()
+    // var totalVerify=this.verify()
+    // if(totalVerify){
+    //   console.log('ok');
+    // }else{
+    //   console.log('no');
+    // }
+    
 
- wx.showModal({
-    title: '提示',
-    content: '店内实景最多上传9张',
-    showCancel:false,
-    success: function(res) {
-      if (res.confirm) {
-        console.log('用户点击确定')
-      } else if (res.cancel) {
-        console.log('用户点击取消')
-      }
-    }
-  })
+    // this.setData({
+    //     modalHidden:false
+    // });
+    // var openId = wx.getStorageSync('accessToken')
+    //     console.log('openId',openId);
 
+    //   var obj = {
+    //     'reportid':'591bbf183a4abeb009feb896',
+    //     'realPicture': this.data.uploadPath,
+    //     'material' : this.data.costList,
+    //     'flows': this.data.gyprocessList,
+    //     'checked' : false,
+    //     'introd' : this.data.introd
+    //   }
 
+    // console.log(obj)
 
-
-
-
-    this.setData({
-        modalHidden:false
-    });
-    var openId = wx.getStorageSync('accessToken')
-        console.log('openId',openId);
-
-      var obj = {
-        'reportid':'591bbf183a4abeb009feb896',
-        'realPicture': this.data.uploadPath,
-        'material' : this.data.costList,
-        'flows': this.data.gyprocessList,
-        'checked' : false,
-        'introd' : this.data.introd
-      }
-
-    console.log(obj)
-
-    if (openId) {
-        CategoryService.craftTitleUpload(obj).then(function(res){
+    // if (openId) {
+    //     CategoryService.craftTitleUpload(obj).then(function(res){
         
-        }).catch(Error.PromiseError)
-    }
+    //     }).catch(Error.PromiseError)
+    // }
 
 
   },
