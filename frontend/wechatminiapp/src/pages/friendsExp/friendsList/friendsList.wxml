@@ -4,8 +4,8 @@
             <view class="swiperContain" catchtap="jumpToDetail">
                 <view class="manInfo">
                     <image class="personPic" src="../../../images/meinv.jpg"></image>
-                    <view class="personName">刘杰</view>
-                    <view class="personType">造型</view>
+                    <view class="personName">{{releaseName || 'null'}}</view>
+                    <view class="personType">{{item.category}}</view>
                 </view>
                 <view class="mesWrap">
                     <!--判断视频还是图片-->
@@ -33,7 +33,7 @@
                     </view>
                     <!--判断是否是手艺人-->
                     <view class="leaveMessage" wx:if="{{!item.myself}}">
-                         <navigator url="../../friendsExp/friendsExpDetail/friendsExpDetail">{{item.message}}</navigator>
+                         <navigator url="../../friendsExp/friendsExpDetail/friendsExpDetail?id={{item.hrefId}}">{{item.message}}</navigator>
                     </view>
                 </view>
                 <view class="storeInfo" wx:if="{{item.myself}}">

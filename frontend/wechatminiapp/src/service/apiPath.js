@@ -7,7 +7,9 @@ var apiPath = {
     test : apiPrefix +'/misc/comment',
     getIndexList: apiPrefix +'/category/category',
     pushIndexList: apiPrefix +'/category/saveCategories',
-    releaseReport: apiPrefix +'/report/releaseReport'
+    releaseReport: apiPrefix +'/report/releaseReport',
+    friendList:  apiPrefix +'/report/loadFriendReport?pageSize=5&page=1',
+    friendDetail:  apiPrefix +'/report',
 }
 
 module.exports = apiPath;

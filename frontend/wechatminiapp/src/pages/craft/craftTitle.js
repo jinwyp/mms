@@ -1,4 +1,7 @@
 // pages/craft/craftTitle.js
+var UserService = require('../../../service/user.js');
+var CategoryService = require('../../../service/category.js');
+var Error = require('../../../service/error.js');
 Page({
   data:{
       name:'张三丰',

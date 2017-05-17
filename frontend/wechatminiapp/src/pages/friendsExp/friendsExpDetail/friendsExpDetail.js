@@ -1,3 +1,7 @@
+var UserService = require('../../../service/user.js');
+var CategoryService = require('../../../service/category.js');
+var Error = require('../../../service/error.js');
+
 Page({
   data: {
     slideshow: false,
@@ -56,9 +60,32 @@ Page({
       
   },
   onLoad:function(options){
-    wx.setNavigationBarTitle({
-      title: '好友体验详情'
-    })
+
+    var id = options.id;
+    var that = this;
+    var openId = wx.getStorageSync('accessToken')
+        console.log('openId',openId);
+   
+
+    if (openId) {
+        CategoryService.friendDetail('',id).then(function(res){
+
+          console.log(res)
+          // for(var i = 0; i<res.data.length; i++){
+          //   var friendList={
+          //     category:res.data[i].category,
+          //     imgs:[res.data[i].pictures],
+          //     message:res.data[i].feeling
+          //   };
+          //   that.data.expLists.push(friendList);
+          //   that.setData({
+          //     expLists:that.data.expLists
+          //   })
+            
+          // }
+
+        }).catch(Error.PromiseError)
+    }
   },
   oncollect:function(){
     if(!this.data.hasCollect){

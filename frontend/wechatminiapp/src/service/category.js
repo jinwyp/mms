@@ -11,10 +11,17 @@ function pushIndexList (data){
 function releaseReport (data){
     return wechat.request(apiPath.releaseReport, data, 'POST')
 }
+function friendList (data){
+    return wechat.request(apiPath.friendList, data, 'GET')
+}
+function friendDetail (data,id){
+    return wechat.request(apiPath.friendDetail+'/'+id, data, 'GET')
+}
 
 module.exports = {
     getIndexList : getIndexList,
     pushIndexList: pushIndexList,
-    releaseReport: releaseReport
-    
+    releaseReport: releaseReport,
+    friendList: friendList,
+    friendDetail: friendDetail
 }
