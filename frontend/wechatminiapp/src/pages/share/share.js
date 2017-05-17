@@ -7,22 +7,24 @@ var Error = require('../../service/error.js');
 var app = getApp() 
 Page({
   data: {
-    interest:[{
-      name:"造型",
-      number:2
-    },
-    {
-      name:"美甲",
-      number:0
-    },
-    {
-      name:"服装搭配",
-      number:0
-    },
-    {
-      name:"茶艺",
-      number:0
-    }],
+    interest:[
+    //   {
+    //   name:"造型",
+    //   number:2
+    // },
+    // {
+    //   name:"美甲",
+    //   number:0
+    // },
+    // {
+    //   name:"服装搭配",
+    //   number:0
+    // },
+    // {
+    //   name:"茶艺",
+    //   number:0
+    // }
+    ],
     whoCanSee:['私密','好友','公开'],
     ifChoose:'造型',
     isClick:false,
@@ -65,11 +67,7 @@ Page({
     wx.showActionSheet({
       itemList: ['上传照片', '上传视频'],
       success: function(res) {  
-        // that.setData({
-        //   tapIndex: res.tapIndex
-        // })
-        // console.log(that.data.tapIndex)
-         
+           
         if(res.tapIndex === 0){
                
           function generateUUID(){
@@ -89,12 +87,10 @@ Page({
               'X-OPENID':wx.getStorageSync('accessToken'),
             },
             success: function(res) {
-              console.log(res);
               policy=res.data.data.policy;
               callback = res.data.data.callback;
               signature = res.data.data.signature;
               OssAccessKeyId = res.data.data.ossAccessId;
-              // console.log(res.data.data.policy)
             }
           })
           wx.chooseImage({
@@ -165,7 +161,6 @@ Page({
               callback = res.data.data.callback;
               signature = res.data.data.signature;
               OssAccessKeyId = res.data.data.ossAccessId;
-              console.log(res.data)
             }
           })
           wx.chooseVideo({
@@ -182,7 +177,6 @@ Page({
             },
             complete: function(res) {
               var tempFilePaths = res.tempFilePath;
-              // console.log(tempFilePaths)
                 var fd = {
                   key: generateUUID(),
                   policy: policy,
@@ -202,15 +196,13 @@ Page({
                      },
                   formData: fd,
                   success: function (res) {
-                    // console.log(res)
-                    var callBackName = JSON.parse(res.data);
+                    var callBackName = JSON.parse(res.data).filename;
                     that.setData({
-                      backVideo: callBackName.filename.concat(that.data.backVideo)
+                      backVideo: callBackName
                     })
 
                   },
                   fail: function (res) {
-                    console.log(res)
                   }
                 })
               
@@ -235,9 +227,9 @@ Page({
           showCancel:false,
           success: function(res) {
             if (res.confirm) {
-              console.log('用户点击确定')
+              // console.log('用户点击确定')
             } else if (res.cancel) {
-              console.log('用户点击取消')
+              // console.log('用户点击取消')
             }
           }
         })
@@ -265,14 +257,13 @@ Page({
           callback = res.data.data.callback;
           signature = res.data.data.signature;
           OssAccessKeyId = res.data.data.ossAccessId;
-          console.log(res.data)
         }
       })
 
       wx.chooseImage({
-        count: 9, // 默认9
-        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        count: 9, 
+        sizeType: ['original', 'compressed'], 
+        sourceType: ['album', 'camera'], 
         success: function (res) {
           var tempFilePaths = res.tempFilePaths;
           that.setData({
@@ -321,7 +312,6 @@ Page({
                   backImg: bb.concat(that.data.backImg)
 
                 })
-                  console.log('99',that.data.backImg)
               },
               fail: function (res) {
                 // console.log(res)
@@ -364,7 +354,7 @@ Page({
                 uploadImg:that.data.uploadImg
             });
           } else if (res.cancel) {
-            console.log('用户点击取消')
+            // console.log('用户点击取消')
           }
         }
       })
@@ -531,9 +521,9 @@ Page({
       
       if(that.data.ifSubmit === true){
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
-          // wx.navigateTo({
-          //   url: '../shareSubmit/shareSubmit',
-          // })
+          wx.navigateTo({
+            url: '../shareSubmit/shareSubmit',
+          })
           
         }).catch(Error.PromiseError)
       }
@@ -570,12 +560,22 @@ Page({
     for (var i = 0; i < Math.floor((price.length-(1+i))/3); i++)  
     price = price.substring(0,price.length-(4*i+3))+','+  
     price.substring(price.length-(4*i+3)); 
-    console.log(((sign)?'':'-') + price + '.' + cents)
+    // console.log(((sign)?'':'-') + price + '.' + cents)
     this.setData({
       price:(((sign)?'':'-') + price + '.' + cents)
     })
   },
   onLoad: function () {
-       
+    var that = this
+    var openId = wx.getStorageSync('accessToken')
+    if (openId) {
+      CategoryService.getIndexList().then(function (res) {
+        // console.log('getIndexList', res)
+        that.setData({
+          interest: res.data.categories
+        })
+
+      }).catch(Error.PromiseError)
+    }
   }
 })

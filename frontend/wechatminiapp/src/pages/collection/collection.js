@@ -1,4 +1,7 @@
 // pages/collection/collection.js
+var UserService = require('../../service/user.js');
+var CategoryService = require('../../service/category.js');
+var Error = require('../../service/error.js');
 Page({
   data:{
     slideshow: false,
@@ -95,6 +98,17 @@ Page({
         // success
       }
     })
+    var that = this
+    var openId = wx.getStorageSync('accessToken')
+    if (openId) {
+      CategoryService.getIndexList().then(function (res) {
+        console.log('getIndexList', res)
+        that.setData({
+          interest: res.data.categories
+        })
+
+      }).catch(Error.PromiseError)
+    }
   },
   onReady:function(){
     // 页面渲染完成

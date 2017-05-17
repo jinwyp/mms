@@ -1,11 +1,9 @@
 /* pages/personInfo/personInfo.wxss */
 .items{
     height: 120rpx;
-    width: 100%;
     background-color: #ffffff;
     border-bottom: 1px solid #dedede;
-    overflow: hidden;
-    box-sizing: border-box;
+
 }
 .interestList{
     padding: 14rpx 30rpx;
@@ -14,12 +12,17 @@
     border-radius: 40rpx;
     line-height:120rpx;
     color: #ffffff;
+    /*white-space: nowrap;*/
 }
 .chooseN{
     background-color: #01696c;
 }
 .chooseY{
     background-color: #f9b552;
+}
+.radio-group{
+  display: inline-block;
+  width: 130%;
 }
 radio{
     display: none;
