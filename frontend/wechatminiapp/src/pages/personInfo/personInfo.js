@@ -48,7 +48,6 @@ Page({
   },
   // checkbox
   checkboxChange: function(e) {
-    console.log('checkbox发生change事件，携带value值为：', e.detail.value)
     var aa = e.detail.value;
     var bb = aa.map(function(value){
       return parseInt(value,10)
@@ -56,15 +55,12 @@ Page({
       this.setData({
         week: bb
       })
-      console.log(bb)
   },
   getLocation:function() {
-    console.log('地图定位！')
     var that = this
     wx.chooseLocation({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
         success: function (res) {
-          console.log(res)
           that.setData({
             latitude : res.latitude,
             longitude : res.longitude,
@@ -135,7 +131,7 @@ Page({
                 that.setData({
                   upWXcode: apiPath.ossUrl + callBackName
                 })
-                console.log(that.data.upWXcode)
+                // console.log(that.data.upWXcode)
               },
               fail: function (res) {
                 // console.log(res)
@@ -149,7 +145,6 @@ Page({
 
 checkTel:function(e) {
   var tel = e.detail.value;
-  console.log(tel)
   var mobile = /^0?(13[0-9]|17[0-9]|15[0-9]|18[0-9]|14[57])[0-9]{8}$/;
   if(!mobile.test(tel)){
     wx.showModal({
@@ -157,17 +152,13 @@ checkTel:function(e) {
       content: '请正确填写您的电话号码',
       success: function(res) {
         if (res.confirm) {
-          console.log('用户点击确定')
         } else if (res.cancel) {
-          console.log('用户点击取消')
         }
       }
     })
   }
 },
  formSubmit: function(e) {
-    // console.log('form发生了submit事件，携带数据为：', e.detail.value);
-
      var that = this;
      that.setData({
          'submitAll.userName':e.detail.value.name,
