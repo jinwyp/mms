@@ -87,11 +87,12 @@ Page({
               'X-OPENID':wx.getStorageSync('accessToken'),
             },
             success: function(res) {
-              policy=res.data.policy;
-              callback=res.data.callback;
-              signature=res.data.signature;
-              OssAccessKeyId=res.data.ossAccessId;
-              console.log(res.data)
+              console.log(res);
+              policy=res.data.data.policy;
+              callback = res.data.data.callback;
+              signature = res.data.data.signature;
+              OssAccessKeyId = res.data.data.ossAccessId;
+              // console.log(res.data.data.policy)
             }
           })
           wx.chooseImage({
@@ -103,7 +104,6 @@ Page({
                 uploadImg:res.tempFilePaths.concat(that.data.uploadImg)
               })
               
-              console.log('1',res.tempFilePaths)
             },
             complete:function(res){
               var tempFilePaths = res.tempFilePaths;
@@ -124,6 +124,8 @@ Page({
                   formData: fd,
                   success: function (res) {
                     console.log(res)
+                    console.log(res.data)
+                    console.log(res.data.filename)
                   },
                   fail: function (res) {
                     console.log(res)
@@ -152,16 +154,16 @@ Page({
               'X-OPENID':wx.getStorageSync('accessToken'),
             },
             success: function(res) {
-              policy=res.data.policy;
-              callback=res.data.callback;
-              signature=res.data.signature;
-              OssAccessKeyId=res.data.ossAccessId;
+              policy = res.data.data.policy;
+              callback = res.data.data.callback;
+              signature = res.data.data.signature;
+              OssAccessKeyId = res.data.data.ossAccessId;
               console.log(res.data)
             }
           })
           wx.chooseVideo({
-            sourceType: ['album', 'camera'], // album 从相册选视频，camera 使用相机拍摄
-            maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒。最长支持60秒
+            sourceType: ['album', 'camera'], 
+            maxDuration: 60, 
             camera: ['front', 'back'],
             success: function(res){  
               that.setData({
@@ -172,7 +174,7 @@ Page({
               // fail
             },
             complete: function(res) {
-              var tempFilePaths = res.tempFilePaths;
+              var tempFilePaths = res.tempFilePath;
               console.log(tempFilePaths)
                 var fd = {
                   key: generateUUID(),
@@ -187,7 +189,10 @@ Page({
                   url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
                   filePath: tempFilePaths,
                   name: 'file',
-                  header: { "content-Type": "multipart/form-data" },
+                  header: { 
+                    "content-Type": "multipart/form-data",
+                    'X-OPENID': wx.getStorageSync('accessToken'),
+                     },
                   formData: fd,
                   success: function (res) {
                     console.log(res)
@@ -244,10 +249,10 @@ Page({
           'X-OPENID':wx.getStorageSync('accessToken'),
         },
         success: function(res) {
-          policy=res.data.policy;
-          callback=res.data.callback;
-          signature=res.data.signature;
-          OssAccessKeyId=res.data.ossAccessId;
+          policy = res.data.data.policy;
+          callback = res.data.data.callback;
+          signature = res.data.data.signature;
+          OssAccessKeyId = res.data.data.ossAccessId;
           console.log(res.data)
         }
       })
