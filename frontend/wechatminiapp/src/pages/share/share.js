@@ -64,6 +64,7 @@ Page({
   uploadfiles:function(){
    var that = this;
    var policy, callback, signature, OssAccessKeyId;
+   var suffix = ''
     wx.showActionSheet({
       itemList: ['上传照片', '上传视频'],
       success: function(res) {  
@@ -107,8 +108,9 @@ Page({
               var tempFilePaths = res.tempFilePaths;
 
               for (var i = 0; i < tempFilePaths.length; i++) {
+                suffix = res.tempFilePaths[i].split('.')[1];
                 var fd = {
-                  key: generateUUID(),
+                  key: generateUUID() + '.' + suffix,
                   policy: policy,
                   success_action_status: '200',
                   callback: callback,
@@ -177,8 +179,10 @@ Page({
             },
             complete: function(res) {
               var tempFilePaths = res.tempFilePath;
+              console.log(tempFilePaths);
+              suffix = res.tempFilePath.split('.')[1];
                 var fd = {
-                  key: generateUUID(),
+                  key: generateUUID() + '.' + suffix,
                   policy: policy,
                   success_action_status: '200',
                   callback: callback,
@@ -236,6 +240,7 @@ Page({
     }else{
       var that=this
       var policy,callback,signature,OssAccessKeyId;
+      var suffix = ''
       function generateUUID(){
           var d = new Date().getTime();
           var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -290,8 +295,9 @@ Page({
             //999
             var tempFilePaths = res.tempFilePaths;
             for (var i = 0; i < tempFilePaths.length; i++) {
+              suffix = res.tempFilePaths[i].split('.')[1];
             var fd = {
-              key: generateUUID(),
+              key: generateUUID() + '.' + suffix,
               policy: policy,
               success_action_status: '200',
               callback: callback,
