@@ -6,11 +6,13 @@
         
         <scroll-view class="items marginB " scroll-x="true">
             <radio-group class="radio-group" name="item" bindchange="radioChange">
+            <!--<scroll-view class="items marginB " scroll-x="true">-->
                 <block wx:for="{{interest}}" wx:key="{{interest}}">
                 <label data-lv="{{item.name}}" class="radio interestList {{item.name === ifChoose?'chooseY':'chooseN'}}" >
                     <radio value="{{item.name}}" checked="{{item.checked}}" />{{item.name}}
                 </label>
                 </block>
+                <!--</scroll-view>-->
             </radio-group>
 
         </scroll-view>

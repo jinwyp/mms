@@ -16,9 +16,9 @@ page{
   white-space: nowrap; 
   display: flex;
 }*/
-form{
+/*form{
   width: 100%;
-}
+}*/
 .placeholderStyle{
   color: #ccc;
   font-size: 24rpx;
