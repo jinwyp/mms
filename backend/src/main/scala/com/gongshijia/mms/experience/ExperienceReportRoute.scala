@@ -52,10 +52,8 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
     * @return
     */
   def openShareReport = get {
-    path("shareReport" / Segment / Segment) { (reportid, fromOpenId) =>
-      println("report" + reportid);
-      println("from" + fromOpenId);
-      complete(findByIdAndOpenid(reportid, fromOpenId).toResult)
+    (path("shareReport" / Segment / Segment) & openid) { (reportid, fromOpenId,currentOpenId) =>
+      complete(findByIdAndOpenid(fromOpenId=fromOpenId,currentOpenId =currentOpenId,expId = reportid).toResult)
     }
   }
 

@@ -31,9 +31,10 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
                   gender: Int, language: String, nickName: String,userName:Option[String]=None,
                   workBeg: Option[String] = None, workEnd: Option[String] = None, workAddress: Option[String] = None,
                   phone: Option[String] = None, shopName: Option[String] = None, lastUpdate: Option[Date] = None,
-                  categories: Option[List[String]]=Some(List()),wxNum:Option[String]=None,wxQrCode:Option[String]=None,workDay:Option[List[Int]]=Some(List()));
+                  categories: Option[List[String]]=Some(List()),wxNum:Option[String]=None,wxQrCode:Option[String]=None,
+                  workDay:Option[List[Int]]=Some(List()),workLon:Option[Double]=None,workLat:Option[Double]=None);
 
-  implicit val UserResponseRequest= jsonFormat20(User)
+  implicit val UserResponseRequest= jsonFormat22(User)
   // 耗材
   case class Material(name: String, count: Int)
 

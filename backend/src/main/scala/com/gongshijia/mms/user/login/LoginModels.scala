@@ -26,6 +26,8 @@ object LoginModels extends DefaultJsonProtocol {
                           phone: String,
                           shopName: String,
                           workAddress: String,
+                          workLon: Double,
+                          workLat: Double,
                           wxNum: String,
                           wxQrCode: String,
                           workDay: List[Int],
@@ -33,5 +35,5 @@ object LoginModels extends DefaultJsonProtocol {
                           workEnd: String)
   implicit val LoginRequestFormat = jsonFormat12(LoginRequest)
   implicit val LoginResponseFormat = jsonFormat1(LoginResponse)
-  implicit val UserUpdateRequestFormat= jsonFormat9(UserUpdateRequest)
+  implicit val UserUpdateRequestFormat= jsonFormat11(UserUpdateRequest)
 }
