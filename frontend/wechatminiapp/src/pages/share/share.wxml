@@ -1,7 +1,7 @@
 <!--pages/personInfo/personInfo.wxml-->
 <view class="container">
 
- <form bindsubmit="formSubmit" bindreset="formReset">
+ <form bindsubmit="formSubmit">
  <!--类别-->
         
         <scroll-view class="items marginB " scroll-x="true">
@@ -14,22 +14,20 @@
             </radio-group>
 
         </scroll-view>
-        <!--<view class="borderB borderT marginB upLoadImg">
-             <image src="{{tempFilePaths}}" bindtap="chooseimage" mode="aspecFill" class="shareImg"></image>
-             
-        </view>-->
-        
-
+       
+        <!--上传图片或者视频-->
         <view class="ulWrap contentWrap borderT marginB">
             <view class="uploadWrap">
+
                 <view class="uploadImg" wx:if="{{uploadImg.length !=0 && uploadVideo.length ===0}}">
-                  
+                  <!--上传图片-->
                     <view class="files imgWrap" wx:for="{{uploadImg}}" wx:for-index="index" wx:key="{{uploadImg}}">
                         <image src="{{item}}" data-id="{{index}}" class="uploadPic" catchtap="show"></image>
                         <text data-id="{{index}}" catchtap="delImg">x</text>
                     </view>
                     
                 </view>
+                <!--上传视频-->
                 <view class="uploadVideo" wx:if="{{uploadImg.length ===0 && uploadVideo.length !=0}}">
                     
                     <view class="files videoWrap">
@@ -39,18 +37,20 @@
                    
                 </view>
                 
-                <!--上传-->
+                <!--上传图片或者视频-->
                 <view  wx:if="{{uploadImg.length ===0 && uploadVideo.length ===0}}">
                     <view class="uploadBlock" bindtap="uploadfiles">
                         <image src="../../images/plusIcon.png"></image>
                     </view>
                 </view>
+                <!--上传图片-->
                 <view  wx:elif="{{uploadImg.length >=1}}">
                     <view class="uploadBlock" bindtap="uploadImg">
                     <image src="../../images/plusIcon.png"></image>
                         <!--<image src="../../images/uploadImg.png"></image>-->
                     </view>
                 </view>
+                <!--上传视频-->
                 <view wx:elif="{{uploadVideo.length ===1}}">
                     <!--<view class="uploadBlock" bindtap="uploadVideo">
                         <video src="../../images/plusIcon.png"></video>
@@ -78,13 +78,12 @@
         </view>
         <view class="borderB H100 " >
             <view class="form-title lineH48">体验区域：</view>
-            <!--<input name="address"/>-->
             <image src="../../images/trigger-r.png" class="trigger-r" bindtap="getLocation"></image>
             <input class="map" name="address" value="{{address}}"/>
         </view>
         <view class="borderB H100">
             <view class="form-title">体验门店(店铺)：</view>
-            <input name="name" type="text"/>
+            <input name="shop" type="text"/>
         </view>
         <view class="borderB H100">
             <view class="form-title lineH48">体验时间：</view> 
@@ -111,10 +110,9 @@
             </picker>
         </view>
         
-
          <view class="btn-area">
          <!--<navigator url="../shareSubmit/shareSubmit">-->
-            <button formType="submit">保存</button>
+            <button formType="submit" >保存</button>
             <!--</navigator>-->
         </view>
     </form>

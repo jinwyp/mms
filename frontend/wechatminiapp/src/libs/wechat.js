@@ -19,7 +19,9 @@ function request(url, data, method){
 			  },
 			  fail (e) {
 					console.log('fail',e)
+					wx.clearStorageSync()
 			    reject(e)
+					
 			  }
 	  	})
   	})

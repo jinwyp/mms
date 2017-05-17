@@ -48,24 +48,24 @@ checkbox{
   left: 8%;
 }
 .item-2{
-  padding: 25rpx 80rpx;
+  padding: 25rpx 90rpx;
   background-color: #f59181;
   top:150rpx;
   left: 34%;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
 }
 .item-3{
-  padding: 17rpx 80rpx;
+  padding: 20rpx 85rpx;
   background-color: #8dcd6f;
   top:90rpx;
-  left: 61%;
+  left: 60%;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
 }
 .item-4{
   padding: 18rpx 80rpx;
   background-color: #f2c085;
   top:320rpx;
-  left: 20%;
+  left: 18%;
 }
 .item-5{
   padding: 18rpx 80rpx;

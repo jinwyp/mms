@@ -19,7 +19,7 @@
         </view>
         <view class="borderB row H100" bindtap="getLocation">
             <view class="form-title lineH48">工作地址：</view>
-            <!--<input name="address"/>-->
+
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
             <input class="address" value="{{address}}" name="address" />
         </view>
@@ -77,14 +77,7 @@
                 </picker>     
             </view>
         </view>
-        <!--<view class="borderB row H50">
-            <picker mode="time" class="picker lineH48 borderT" value="{{time2}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
-            <image src="../../images/trigger-r.png" class="trigger-r"></image>
-                <view class="picker">
-                下班时间: {{time2}}
-                </view>
-            </picker>      
-        </view>-->
+       
         
 
     
