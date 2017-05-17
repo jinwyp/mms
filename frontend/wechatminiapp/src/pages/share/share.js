@@ -31,7 +31,9 @@ Page({
     dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(), 
    tempFilePaths:'../../images/upload.png',
    uploadImg:[],
+   backImg:[],
    uploadVideo:'',
+   backVideo: '',
    slideshow: false,
    address:'未选择',
    latitude:'',
@@ -107,6 +109,8 @@ Page({
             },
             complete:function(res){
               var tempFilePaths = res.tempFilePaths;
+
+              for (var i = 0; i < tempFilePaths.length; i++) {
                 var fd = {
                   key: generateUUID(),
                   policy: policy,
@@ -114,24 +118,27 @@ Page({
                   callback: callback,
                   signature: signature,
                   OSSAccessKeyId: OssAccessKeyId,
-                  file: tempFilePaths[0]
+                  file: tempFilePaths[i]
                 }
+
                 wx.uploadFile({
                   url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
-                  filePath: tempFilePaths[0],
+                  filePath: tempFilePaths[i],
                   name: 'file',
                   header: { "content-Type": "multipart/form-data" },
                   formData: fd,
                   success: function (res) {
-                    console.log(res)
-                    console.log(res.data)
-                    console.log(res.data.filename)
+                    var callBackName = JSON.parse(res.data).filename;
+                    var bb = [callBackName]
+                    that.setData({
+                      backImg: bb.concat(that.data.backImg)
+                    })
                   },
                   fail: function (res) {
                     console.log(res)
                   }
                 })
-             
+              }
             }
      
           })
@@ -175,7 +182,7 @@ Page({
             },
             complete: function(res) {
               var tempFilePaths = res.tempFilePath;
-              console.log(tempFilePaths)
+              // console.log(tempFilePaths)
                 var fd = {
                   key: generateUUID(),
                   policy: policy,
@@ -195,7 +202,12 @@ Page({
                      },
                   formData: fd,
                   success: function (res) {
-                    console.log(res)
+                    // console.log(res)
+                    var callBackName = JSON.parse(res.data);
+                    that.setData({
+                      backVideo: callBackName.filename.concat(that.data.backVideo)
+                    })
+
                   },
                   fail: function (res) {
                     console.log(res)
@@ -284,30 +296,37 @@ Page({
               }
             })
           }else{
+            //999
+            var tempFilePaths = res.tempFilePaths;
             for (var i = 0; i < tempFilePaths.length; i++) {
-              var fd = {
-                key: generateUUID(),
-                policy: policy,
-                success_action_status: '200',
-                callback: callback,
-                signature: signature,
-                OSSAccessKeyId: OssAccessKeyId,
-                file: tempFilePaths[i]
+            var fd = {
+              key: generateUUID(),
+              policy: policy,
+              success_action_status: '200',
+              callback: callback,
+              signature: signature,
+              OSSAccessKeyId: OssAccessKeyId,
+              file: tempFilePaths[i]
+            }
+            wx.uploadFile({
+              url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+              filePath: tempFilePaths[i],
+              name: 'file',
+              header: { "content-Type": "multipart/form-data" },
+              formData: fd,
+              success: function (res) {
+                var callBackName = JSON.parse(res.data).filename;
+                var bb = [callBackName]
+                that.setData({
+                  backImg: bb.concat(that.data.backImg)
+
+                })
+                  console.log('99',that.data.backImg)
+              },
+              fail: function (res) {
+                // console.log(res)
               }
-              console.log(fd)
-              wx.uploadFile({
-                url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
-                filePath: tempFilePaths[i],
-                name: 'file',
-                header: { "content-Type": "multipart/form-data" },
-                formData: fd,
-                success: function (res) {
-                  console.log(res)
-                },
-                fail: function (res) {
-                  console.log(res)
-                }
-              })
+            })
             }
           }
         }
@@ -434,8 +453,8 @@ Page({
     var openId = wx.getStorageSync('accessToken')
     that.setData({   
       'submitAll.category':that.data.ifChoose,
-      'submitAll.pictures':that.data.uploadImg,
-      'submitAll.videos':that.data.uploadVideo,
+      'submitAll.pictures': that.data.backImg,
+      'submitAll.videos': that.data.backVideo,
       'submitAll.feeling':e.detail.value.feeling,
       'submitAll.locationName':that.data.address,
       'submitAll.lat':that.data.latitude,
@@ -512,9 +531,9 @@ Page({
       
       if(that.data.ifSubmit === true){
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
-          wx.navigateTo({
-            url: '../shareSubmit/shareSubmit',
-          })
+          // wx.navigateTo({
+          //   url: '../shareSubmit/shareSubmit',
+          // })
           
         }).catch(Error.PromiseError)
       }
