@@ -128,10 +128,11 @@ Page({
                   formData: fd,
                   success: function (res) {
                     var callBackName = JSON.parse(res.data).filename;
-                    var bb = [callBackName]
+                    var bb = [apiPath.ossUrl+callBackName]
                     that.setData({
                       backImg: bb.concat(that.data.backImg)
                     })
+                    console.log(that.data.backImg)
                   },
                   fail: function (res) {
                     console.log(res)
@@ -203,7 +204,7 @@ Page({
                   success: function (res) {
                     var callBackName = JSON.parse(res.data).filename;
                     that.setData({
-                      backVideo: callBackName
+                      backVideo: apiPath.ossUrl + callBackName
                     })
 
                   },
@@ -314,7 +315,7 @@ Page({
               formData: fd,
               success: function (res) {
                 var callBackName = JSON.parse(res.data).filename;
-                var bb = [callBackName]
+                var bb = [apiPath.ossUrl + callBackName]
                 that.setData({
                   backImg: bb.concat(that.data.backImg)
 
