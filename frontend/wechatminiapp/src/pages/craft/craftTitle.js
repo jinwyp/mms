@@ -32,7 +32,7 @@ Page({
           }
         })
     }else{
-      var that=this,policy,callback,signature,OssAccessKeyId;
+      var that=this,policy,callback,signature,OssAccessKeyId,dirName;
       function generateUUID(){
           var d = new Date().getTime();
           var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -46,14 +46,15 @@ Page({
         url: 'http://zxy.gongshijia.com/asset/policy',
         method:'GET',
         header: {
-          'content-type': 'application/json'
+          'Content-Type': 'application/json', 'X-OPENID' :wx.getStorageSync('accessToken') 
         },
         success: function(res) {
           policy=res.data.policy;
           callback=res.data.callback;
           signature=res.data.signature;
           OssAccessKeyId=res.data.ossAccessId;
-          console.log(res.data)
+          dirName=res.data.dirName;
+          console.log(dirName)
         }
       })
 
@@ -86,7 +87,7 @@ Page({
           }else{
             for(var i=0;i<tempFilePaths.length;i++){
               var fd = {
-                key: generateUUID(),
+                key: dirName+'/'+generateUUID(),
                 policy: policy ,
                 success_action_status:'200',
                 callback: callback,

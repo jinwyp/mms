@@ -1,6 +1,7 @@
 
-var apiPrefix = 'http://hary.gongshijia.com'
+// var apiPrefix = 'http://hary.gongshijia.com'
 
+var apiPrefix = 'http://zxy.gongshijia.com'
 
 var apiPath = {
     signUpWechat : apiPrefix + '/login/login',
