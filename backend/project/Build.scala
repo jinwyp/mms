@@ -120,7 +120,7 @@ object Dependencies {
 
     // neo4j
     // "org.neo4j" % "neo4j" % neo4j,
-    "org.anormcypher" %% "anormcypher" % "0.9.1",
+    "org.anormcypher" %% "anormcypher" % "0.10.0",
 
     // mongodb
     "org.mongodb.scala" %% "mongo-scala-driver" % mongodbScala,

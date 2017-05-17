@@ -24,6 +24,6 @@ object CategoryModels extends DefaultJsonProtocol {
   case class CategoriesRequest (categories:List[String])
   implicit val CategoriesRequestFormat = jsonFormat1(CategoriesRequest)
 
-  case class CategoriesResponse(categories: List[Category])
-  implicit val CategoriesResponseFormat = jsonFormat1(CategoriesResponse)
+  case class CategoriesResponse(categories: List[Category],redirect:Option[Int]=None)
+  implicit val CategoriesResponseFormat = jsonFormat2(CategoriesResponse)
 }

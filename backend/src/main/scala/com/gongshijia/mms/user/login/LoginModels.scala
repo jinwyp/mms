@@ -20,6 +20,18 @@ object LoginModels extends DefaultJsonProtocol {
                           encryptedData: String,
                           iv: String)
   case class LoginResponse(openid: String)
+
+  case class UserUpdateRequest(
+                          userName: String,
+                          phone: String,
+                          shopName: String,
+                          workAddress: String,
+                          wxNum: String,
+                          wxQrCode: String,
+                          workDay: List[Int],
+                          workBeg: String,
+                          workEnd: String)
   implicit val LoginRequestFormat = jsonFormat12(LoginRequest)
   implicit val LoginResponseFormat = jsonFormat1(LoginResponse)
+  implicit val UserUpdateRequestFormat= jsonFormat9(UserUpdateRequest)
 }
