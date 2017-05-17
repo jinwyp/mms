@@ -15,13 +15,16 @@ function friendList (data){
     return wechat.request(apiPath.friendList, data, 'GET')
 }
 function friendDetail (data,id){
-    return wechat.request(apiPath.friendDetail+'/'+id, data, 'GET')
+    return wechat.request(apiPath.friendDetail +'/'+id, data, 'GET')
 }
-
+function craftTitleUpload (data){
+    return wechat.request(apiPath.craftTitleUpload, data, 'POST')
+}
 module.exports = {
     getIndexList : getIndexList,
     pushIndexList: pushIndexList,
     releaseReport: releaseReport,
     friendList: friendList,
-    friendDetail: friendDetail
+    friendDetail: friendDetail,
+    craftTitleUpload: craftTitleUpload,
 }

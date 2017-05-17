@@ -31,7 +31,9 @@ Page({
     dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(), 
    tempFilePaths:'../../images/upload.png',
    uploadImg:[],
+   backImg:[],
    uploadVideo:'',
+   backVideo: '',
    slideshow: false,
    address:'未选择',
    latitude:'',
@@ -87,11 +89,12 @@ Page({
               'X-OPENID':wx.getStorageSync('accessToken'),
             },
             success: function(res) {
-              policy=res.data.policy;
-              callback=res.data.callback;
-              signature=res.data.signature;
-              OssAccessKeyId=res.data.ossAccessId;
-              console.log(res.data)
+              console.log(res);
+              policy=res.data.data.policy;
+              callback = res.data.data.callback;
+              signature = res.data.data.signature;
+              OssAccessKeyId = res.data.data.ossAccessId;
+              // console.log(res.data.data.policy)
             }
           })
           wx.chooseImage({
@@ -103,10 +106,11 @@ Page({
                 uploadImg:res.tempFilePaths.concat(that.data.uploadImg)
               })
               
-              console.log('1',res.tempFilePaths)
             },
             complete:function(res){
               var tempFilePaths = res.tempFilePaths;
+
+              for (var i = 0; i < tempFilePaths.length; i++) {
                 var fd = {
                   key: generateUUID(),
                   policy: policy,
@@ -114,22 +118,27 @@ Page({
                   callback: callback,
                   signature: signature,
                   OSSAccessKeyId: OssAccessKeyId,
-                  file: tempFilePaths[0]
+                  file: tempFilePaths[i]
                 }
+
                 wx.uploadFile({
                   url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
-                  filePath: tempFilePaths[0],
+                  filePath: tempFilePaths[i],
                   name: 'file',
                   header: { "content-Type": "multipart/form-data" },
                   formData: fd,
                   success: function (res) {
-                    console.log(res)
+                    var callBackName = JSON.parse(res.data).filename;
+                    var bb = [callBackName]
+                    that.setData({
+                      backImg: bb.concat(that.data.backImg)
+                    })
                   },
                   fail: function (res) {
                     console.log(res)
                   }
                 })
-             
+              }
             }
      
           })
@@ -152,16 +161,16 @@ Page({
               'X-OPENID':wx.getStorageSync('accessToken'),
             },
             success: function(res) {
-              policy=res.data.policy;
-              callback=res.data.callback;
-              signature=res.data.signature;
-              OssAccessKeyId=res.data.ossAccessId;
+              policy = res.data.data.policy;
+              callback = res.data.data.callback;
+              signature = res.data.data.signature;
+              OssAccessKeyId = res.data.data.ossAccessId;
               console.log(res.data)
             }
           })
           wx.chooseVideo({
-            sourceType: ['album', 'camera'], // album 从相册选视频，camera 使用相机拍摄
-            maxDuration: 60, // 拍摄视频最长拍摄时间，单位秒。最长支持60秒
+            sourceType: ['album', 'camera'], 
+            maxDuration: 60, 
             camera: ['front', 'back'],
             success: function(res){  
               that.setData({
@@ -172,8 +181,8 @@ Page({
               // fail
             },
             complete: function(res) {
-              var tempFilePaths = res.tempFilePaths;
-              console.log(tempFilePaths)
+              var tempFilePaths = res.tempFilePath;
+              // console.log(tempFilePaths)
                 var fd = {
                   key: generateUUID(),
                   policy: policy,
@@ -187,10 +196,18 @@ Page({
                   url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
                   filePath: tempFilePaths,
                   name: 'file',
-                  header: { "content-Type": "multipart/form-data" },
+                  header: { 
+                    "content-Type": "multipart/form-data",
+                    'X-OPENID': wx.getStorageSync('accessToken'),
+                     },
                   formData: fd,
                   success: function (res) {
-                    console.log(res)
+                    // console.log(res)
+                    var callBackName = JSON.parse(res.data);
+                    that.setData({
+                      backVideo: callBackName.filename.concat(that.data.backVideo)
+                    })
+
                   },
                   fail: function (res) {
                     console.log(res)
@@ -244,10 +261,10 @@ Page({
           'X-OPENID':wx.getStorageSync('accessToken'),
         },
         success: function(res) {
-          policy=res.data.policy;
-          callback=res.data.callback;
-          signature=res.data.signature;
-          OssAccessKeyId=res.data.ossAccessId;
+          policy = res.data.data.policy;
+          callback = res.data.data.callback;
+          signature = res.data.data.signature;
+          OssAccessKeyId = res.data.data.ossAccessId;
           console.log(res.data)
         }
       })
@@ -279,30 +296,37 @@ Page({
               }
             })
           }else{
+            //999
+            var tempFilePaths = res.tempFilePaths;
             for (var i = 0; i < tempFilePaths.length; i++) {
-              var fd = {
-                key: generateUUID(),
-                policy: policy,
-                success_action_status: '200',
-                callback: callback,
-                signature: signature,
-                OSSAccessKeyId: OssAccessKeyId,
-                file: tempFilePaths[i]
+            var fd = {
+              key: generateUUID(),
+              policy: policy,
+              success_action_status: '200',
+              callback: callback,
+              signature: signature,
+              OSSAccessKeyId: OssAccessKeyId,
+              file: tempFilePaths[i]
+            }
+            wx.uploadFile({
+              url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+              filePath: tempFilePaths[i],
+              name: 'file',
+              header: { "content-Type": "multipart/form-data" },
+              formData: fd,
+              success: function (res) {
+                var callBackName = JSON.parse(res.data).filename;
+                var bb = [callBackName]
+                that.setData({
+                  backImg: bb.concat(that.data.backImg)
+
+                })
+                  console.log('99',that.data.backImg)
+              },
+              fail: function (res) {
+                // console.log(res)
               }
-              console.log(fd)
-              wx.uploadFile({
-                url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
-                filePath: tempFilePaths[i],
-                name: 'file',
-                header: { "content-Type": "multipart/form-data" },
-                formData: fd,
-                success: function (res) {
-                  console.log(res)
-                },
-                fail: function (res) {
-                  console.log(res)
-                }
-              })
+            })
             }
           }
         }
@@ -429,8 +453,8 @@ Page({
     var openId = wx.getStorageSync('accessToken')
     that.setData({   
       'submitAll.category':that.data.ifChoose,
-      'submitAll.pictures':that.data.uploadImg,
-      'submitAll.videos':that.data.uploadVideo,
+      'submitAll.pictures': that.data.backImg,
+      'submitAll.videos': that.data.backVideo,
       'submitAll.feeling':e.detail.value.feeling,
       'submitAll.locationName':that.data.address,
       'submitAll.lat':that.data.latitude,
@@ -507,9 +531,9 @@ Page({
       
       if(that.data.ifSubmit === true){
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
-          wx.navigateTo({
-            url: '../shareSubmit/shareSubmit',
-          })
+          // wx.navigateTo({
+          //   url: '../shareSubmit/shareSubmit',
+          // })
           
         }).catch(Error.PromiseError)
       }
