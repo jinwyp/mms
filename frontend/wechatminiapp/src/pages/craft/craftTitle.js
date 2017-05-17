@@ -1,4 +1,5 @@
 // pages/craft/craftTitle.js
+var apiPath = require("../../service/apiPath.js");
 Page({
   data:{
       name:'张三丰',
@@ -33,6 +34,7 @@ Page({
         })
     }else{
       var that=this,policy,callback,signature,OssAccessKeyId;
+      var suffix=''
       function generateUUID(){
           var d = new Date().getTime();
           var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -46,14 +48,14 @@ Page({
         url: 'http://zxy.gongshijia.com/asset/policy',
         method:'GET',
         header: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'X-OPENID':wx.getStorageSync('accessToken')
         },
         success: function(res) {
-          policy=res.data.policy;
-          callback=res.data.callback;
-          signature=res.data.signature;
-          OssAccessKeyId=res.data.ossAccessId;
-          console.log(res.data)
+          policy=res.data.data.policy;
+          callback=res.data.data.callback;
+          signature=res.data.data.signature;
+          OssAccessKeyId=res.data.data.ossAccessId;
         }
       })
 
@@ -68,7 +70,6 @@ Page({
         },
         complete:function(res){
           var tempFilePaths = res.tempFilePaths;
-          console.log(tempFilePaths)
           if(that.data.uploadImg.length>9){
               wx.showModal({
               title: '提示',
@@ -84,9 +85,11 @@ Page({
               }
             })
           }else{
+            
             for(var i=0;i<tempFilePaths.length;i++){
+              suffix=res.tempFilePaths[i].split('.')[1];
               var fd = {
-                key: generateUUID(),
+                key: generateUUID() + '.' + suffix,
                 policy: policy ,
                 success_action_status:'200',
                 callback: callback,
@@ -94,18 +97,15 @@ Page({
                 OSSAccessKeyId:OssAccessKeyId,
                 file: tempFilePaths[i]
               }
-              console.log(fd)
               wx.uploadFile({
-                url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                url: apiPath.ossUrl,
                 filePath:tempFilePaths[i],
                 name: 'file',
                 header: { "content-Type": "multipart/form-data" },
                 formData: fd,
                 success: function(res) {
-                  console.log(res)
                 },
                 fail:function(res){
-                  console.log(res)
                 }
               })
             }
