@@ -7,7 +7,8 @@ var apiPath = {
     test : apiPrefix +'/misc/comment',
     getIndexList: apiPrefix +'/category/category',
     pushIndexList: apiPrefix +'/category/saveCategories',
-    releaseReport: apiPrefix +'/report/releaseReport'
+    releaseReport: apiPrefix +'/report/releaseReport',
+    ossUrl: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/'
 }
 
 module.exports = apiPath;
