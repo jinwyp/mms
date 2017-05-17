@@ -2,6 +2,7 @@
 var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
+var apiPath = require("../../service/apiPath.js");
 
 
 var app = getApp() 
@@ -120,7 +121,7 @@ Page({
                 }
 
                 wx.uploadFile({
-                  url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                  url: apiPath.ossUrl,
                   filePath: tempFilePaths[i],
                   name: 'file',
                   header: { "content-Type": "multipart/form-data" },
@@ -191,7 +192,7 @@ Page({
                   file: tempFilePaths
                 }
                 wx.uploadFile({
-                  url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+                  url: apiPath.ossUrl,
                   filePath: tempFilePaths,
                   name: 'file',
                   header: { 
@@ -306,7 +307,7 @@ Page({
               file: tempFilePaths[i]
             }
             wx.uploadFile({
-              url: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+              url: apiPath.ossUrl,
               filePath: tempFilePaths[i],
               name: 'file',
               header: { "content-Type": "multipart/form-data" },
