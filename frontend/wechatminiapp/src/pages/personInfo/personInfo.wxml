@@ -3,7 +3,7 @@
     <form bindsubmit="formSubmit" bindreset="formReset">
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">头像</view>
-            <image src="{{tempFilePaths}}" bindtap="chooseimage" mode="aspecFill" class="personImg"></image>
+            <image src="{{head}}" bindtap="chooseimage" mode="aspecFill" class="personImg"></image>
         </view>
         <view class="borderB row borderT H100">
             <view class="form-title">姓名：</view>
@@ -29,32 +29,32 @@
         </view>
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">个人微信二维码：</view>
-            <image src="{{WXcode}}" bindtap="chooseWXcode" mode="aspecFill" class="WXcode"></image>
+            <image src="{{WXcode}}" bindtap="chooseimage" mode="aspecFill" class="WXcode"></image>
         </view>
         <view class="borderT row">
             <view class="form-title H150" >工作日：</view>
             <view class="week">
                 <checkbox-group bindchange="checkboxChange">
                     <label class="checkbox">
-                        <checkbox value="星期一"/>星期一
+                        <checkbox value="1"/>星期一
                     </label>
                     <label class="checkbox">
-                        <checkbox value="星期二"/>星期二
+                        <checkbox value="2"/>星期二
                     </label>
                     <label class="checkbox">
-                        <checkbox value="星期三"/>星期三
+                        <checkbox value="3"/>星期三
                     </label>
                     <label class="checkbox">
-                        <checkbox value="星期四"/>星期四
+                        <checkbox value="4"/>星期四
                     </label>
                     <label class="checkbox">
-                        <checkbox value="星期五"/>星期五
+                        <checkbox value="5"/>星期五
                     </label>
                     <label class="checkbox">
-                        <checkbox value="星期六"/>星期六
+                        <checkbox value="6"/>星期六
                     </label>
                     <label class="checkbox">
-                        <checkbox value="星期日"/>星期日
+                        <checkbox value="7"/>星期日
                     </label>
                 
                 </checkbox-group>

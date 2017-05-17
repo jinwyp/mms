@@ -1,6 +1,6 @@
 {
   "pages":[
-    
+    "pages/personInfo/personInfo",
     "pages/share/share",
     "pages/index/index",
      "pages/friendsExp/friendsList/friendsList",
@@ -18,7 +18,7 @@
     "pages/expDetail/expDetail",
 
 
-    "pages/personInfo/personInfo",
+    
    
     "pages/shareSubmit/shareSubmit"
 
