@@ -20,14 +20,12 @@ trait Neo4jSupport extends Core {
 
     implicit val ec = scala.concurrent.ExecutionContext.global
 
-
-      def createFriendRelationShip(fromOpenid: String, toOpenid: String, expid: String): Boolean = {
+    def createFriendRelationShip(fromOpenId: String, toOpenId: String, expId: String): Future[Boolean] = {
         Cypher(
-          s"""merge (a:User {openid:${fromOpenid}})  ON  CREATE SET  openid=${fromOpenid},createDate=timestamp();
-            |merge (b:User{ openid:${toOpenid}}) ON  CREATE SET  openid=${toOpenid},createDate=timestamp();
-            |merge (a)-[r:IS_FRIEND]->(b)
-            |on create  set (a)-[r:IS_FRIEND {expid:${expid}}]->(b)
-            |""")execute()
+          s"""merge (a:User {openid:${fromOpenId}})  ON  CREATE SET  openid=${fromOpenId}, createDate=timestamp()
+            |merge (b:User{ openid:${toOpenId}}) ON  CREATE SET  openid=${toOpenId}, createDate=timestamp()
+            |merge (a)-[r:IS_FRIEND {exp_id:${expId},createDate:timestamp}]->(b)
+            |""").executeAsync()
       }
 
   //加载我的好友

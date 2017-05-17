@@ -67,8 +67,11 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
     collection.find(equal("_id", new ObjectId(id))).first().toFuture()
   }
 
-  def findByIdAndOpenid(id: String, openid: String): Future[ExperienceReport] = {
+  def findByIdAndOpenid(fromOpenId:String,currentOpenId: String,expId:String): Future[ExperienceReport] = {
     val collection: MongoCollection[ExperienceReport] = mongoDb.getCollection(collectionName)
-    collection.find(and(equal("_id", new ObjectId(id)), equal("openid", openid))).first().toFuture()
+    for{
+     created <- createFriendRelationShip(fromOpenId=fromOpenId,toOpenId = currentOpenId,expId=expId)
+     report <- collection.find(and(equal("_id", new ObjectId(expId)), equal("openid", openid))).first().toFuture()
+    }yield report
   }
 }

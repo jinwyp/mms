@@ -82,7 +82,8 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
     val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
     val updateBson = combine( set("phone", ur.phone), set("shopName",ur.shopName),
       set("workAddress", ur.workAddress), set("wxNum", ur.wxNum), set("wxQrCode", ur.wxQrCode),
-      set("workBeg", ur.workBeg), set("workEnd", ur.workEnd),set("userName",ur.userName))
+      set("workBeg", ur.workBeg), set("workEnd", ur.workEnd),set("userName",ur.userName),
+      set("workLon",ur.workLon),set("workLat",ur.workLat))
     val updateOptions = UpdateOptions().upsert(true)
     collection.updateOne(equal("openid", openid), updateBson,updateOptions).toFuture().map(_ => true)
   }
