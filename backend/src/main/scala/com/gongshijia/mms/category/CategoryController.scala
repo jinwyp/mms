@@ -30,8 +30,18 @@ trait CategoryController extends CategoryService with LoginService {
   }
 
   //添加关注的类目
-  def handlerCategoriesToUser(openid: String, categoriesStr: List[String]): Future[Boolean] = {
+  def handlerCategoriesToUser(openid: String, categoriesStr: List[String]): Future[CategoriesResponse] = {
     val categories = defaultCategories.filter(a => categoriesStr.contains(a.name)).map(_.name)
-    addCategoriesToUser(openid, categories)
+    addCategoriesToUser(openid, categories).map{ result=>
+      if(result==true){
+        //跳转到好友列表
+        CategoriesResponse(defaultCategories,Some(1))
+      }else{
+        //跳转到收藏列表
+        CategoriesResponse(defaultCategories,Some(0))
+      }
+    }
+
+
   }
 }

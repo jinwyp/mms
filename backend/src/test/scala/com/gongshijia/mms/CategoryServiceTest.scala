@@ -1,28 +1,27 @@
 package com.gongshijia.mms
 
-import com.gongshijia.mms.category.CategoryService
-import com.gongshijia.mms.core.{MongoSupport, MongoTestSupport}
+import com.gongshijia.mms.core.{MongoTestSupport, Neo4jSupport}
+import com.gongshijia.mms.user.login.LoginService
+import org.mongodb.scala.model.{Filters, UpdateOptions}
+import org.mongodb.scala.{MongoClient, MongoCollection}
+import org.mongodb.scala.MongoCollection
+import org.mongodb.scala.bson.ObjectId
+import org.mongodb.scala.bson.collection.immutable.Document
+import org.mongodb.scala.model.Filters._
+import org.mongodb.scala.model.UpdateOptions
+import org.mongodb.scala.result.UpdateResult
 
-import scala.concurrent.{Future,Await}
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
+
 /**
   * Created by xiangyang on 2017/5/13.
   */
-object CategoryServiceTest extends App with CategoryService with MongoTestSupport with MongoSupport {
-
+object CategoryServiceTest extends App with Neo4jSupport{
   val x = "oiBDr0M-MinCSj0pVPJG3Z6kcZZw"
-  val future1: Future[Option[List[String]]] = findCategoriesForUser(x)
-  val result = Await.ready(future1, 3.seconds);
-  println(result);
-
-  //  val future2: Future[User] = findCategoriesForUser2(x)
-  //  val result2 = Await.ready(future2,3.seconds);
-  //  println(future2);
-  //  val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
-  // val a: Future[_root_.com.gongshijia.mms.CategoryServiceTest.User] = collection.find().projection(fields(exclude("avatarUrl"))).first().toFuture()
-  //  collection.find().printResults();
-
-  //    val collection: MongoCollection[OSSAsset] = mongoDb.getCollection("uploadFile_record");
-  //      collection.find().printResults()
-  println("sfsdf");
+  val id="591ad1043a4abea073a8b489"
+// findUserByOpenId(x)
+  createFriendRelationShip("a","b","1233")
+//  collection.find(Document("_id"->id)).results()
 
 }

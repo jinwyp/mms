@@ -28,11 +28,12 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
   }
 
   case class User(_id: ObjectId, openid: String, avatarUrl: String, country: String, province: String, city: String,
-                  gender: Int, language: String, nickName: String,
-                  workBeg: Option[Date] = None, workEnd: Option[Date] = None, workAddress: Option[String] = None,
+                  gender: Int, language: String, nickName: String,userName:Option[String]=None,
+                  workBeg: Option[String] = None, workEnd: Option[String] = None, workAddress: Option[String] = None,
                   phone: Option[String] = None, shopName: Option[String] = None, lastUpdate: Option[Date] = None,
-                  categories: Option[List[String]]=Some(List()));
+                  categories: Option[List[String]]=Some(List()),wxNum:Option[String]=None,wxQrCode:Option[String]=None,workDay:Option[List[Int]]=Some(List()));
 
+  implicit val UserResponseRequest= jsonFormat20(User)
   // 耗材
   case class Material(name: String, count: Int)
 
@@ -44,9 +45,9 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
   implicit val ArtFlowFormat = jsonFormat2(ArtFlow)
 
   //署名信息
-  case class SignInfo(_id: ObjectId, openid: String, checked: Int = 0, realPicture: List[String], material: List[Material]=List(), flows: List[ArtFlow]=List())
+  case class SignInfo(_id: ObjectId, openid: String, checked: Int = 0, realPicture: List[String], material: List[Material]=List(), flows: List[ArtFlow]=List(),introd:String)
 
-  implicit val SignInfoFormat= jsonFormat6(SignInfo)
+  implicit val SignInfoFormat= jsonFormat7(SignInfo)
   //评论
   case class Comments(_id: ObjectId, openid: String, createDate: Date, content: String)
 
@@ -67,8 +68,8 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
                               privacy: Int,
                               pricePrivacy: Int,
                               openid: String,
-                              signInfo: Option[List[SignInfo]]=Some(List()),
-                              comments: Option[List[Comments]]=Some(List()));
+                              signInfo: List[SignInfo],
+                              comments: List[Comments])
 
   implicit val ExperienceReportFormat = jsonFormat16(ExperienceReport)
 

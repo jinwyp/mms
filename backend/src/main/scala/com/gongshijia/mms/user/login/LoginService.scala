@@ -39,7 +39,7 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
       };
       // todo :check request with wxSession.session_key
       user = User(new ObjectId(), wxSession.openid, login.avatarUrl, login.country, login.province, login.city, login.gender, login.language, login.nickName)
-      upsertResult <- upsertUser(user)
+      upsertResult <- loginUpsertUser(user)
       // 保存session到redis
       session = Session(wxSession.session_key)
       ok: Boolean <- redisClient.setex(wxSession.openid, wxSession.expires_in, session)
@@ -52,7 +52,7 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
   }
 
 
-  def upsertUser(user: User): Future[Boolean] = {
+  def loginUpsertUser(user: User): Future[Boolean] = {
     val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
     collection.find(equal("openid", user.openid))
       .first()
@@ -77,5 +77,14 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
     collection.find(equal("openid", openid)).first().toFuture()
   }
 
+  //手艺人完善个人信息
+  def updateUserInfo(openid:String,ur: UserUpdateRequest): Future[Boolean]={
+    val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
+    val updateBson = combine( set("phone", ur.phone), set("shopName",ur.shopName),
+      set("workAddress", ur.workAddress), set("wxNum", ur.wxNum), set("wxQrCode", ur.wxQrCode),
+      set("workBeg", ur.workBeg), set("workEnd", ur.workEnd),set("userName",ur.userName))
+    val updateOptions = UpdateOptions().upsert(true)
+    collection.updateOne(equal("openid", openid), updateBson,updateOptions).toFuture().map(_ => true)
+  }
 
 }
