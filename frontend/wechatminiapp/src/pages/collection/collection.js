@@ -5,6 +5,7 @@ var Error = require('../../service/error.js');
 var apiPath = require("../../service/apiPath.js");
 Page({
   data:{
+    collect:true,
     slideshow: false,
     currentId:0,
     peopleid:'',
@@ -73,18 +74,17 @@ Page({
       success: function (res) {
         if (res.confirm) {
           wx.request({
-            url: apiPath.getCollectReport + id,
-            method: 'POST',
-            data: {
-              _id: id
-            },
-
+            url: apiPath.removeCollectReport + id,
+            method: 'GET',
             header: {
               'content-type': 'application/json',
               'X-OPENID': wx.getStorageSync('accessToken'),
             },
             success: function (res) {
-              // console.log(res.data.data);
+              that.setData({
+                collect: false
+              })
+              console.log(res);
               // console.log(res.data.data[0].category);
 
             }
@@ -95,6 +95,38 @@ Page({
       }
     })
    
+  },
+  addCollect: function (e) {
+    var that = this;
+    var id = e.target.dataset.value;
+    // console.log(id)
+    wx.showModal({
+      title: '提示',
+      content: '确定要添加收藏吗？',
+      success: function (res) {
+        if (res.confirm) {
+          wx.request({
+            url: apiPath.addReportToCollect + id,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json',
+              'X-OPENID': wx.getStorageSync('accessToken'),
+            },
+            success: function (res) {
+              console.log(res);
+              that.setData({
+                collect:true
+              })
+              // console.log(res.data.data[0].category);
+
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
   },
   onLoad:function(options){
      
