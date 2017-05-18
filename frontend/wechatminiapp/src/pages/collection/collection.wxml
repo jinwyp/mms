@@ -24,7 +24,7 @@
                             <!--判断图片-->
                             <view wx:if="{{exName.pictures != ''}}">
                                 <block wx:for="{{exName.pictures}}" wx:key="img" wx:for-index="idx">
-                                <image  src="{{item}}"  class='shareImgList' mode="aspectFill" data-id="{{idx}}" bindtap="show" data-peopleid="{{exName.id}}"></image>
+                                <image  src="{{item}}"  class='shareImgList' mode="aspectFill" data-id="{{idx}}" bindtap="show" data-peopleid="{{exName._id}}"></image>
                                 </block>
 
                             </view>
@@ -49,7 +49,7 @@
                     <view class="slideWrap" wx:if="{{peopleid}}">
                         <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
                         <block wx:for="{{experience}}" wx:key="experience">
-                           <block wx:if="{{item.id === peopleid}}">
+                           <block wx:if="{{item._id === peopleid}}">
                             <swiper-item  wx:for="{{item.pictures}}" wx:key="img">
                                 <image  src="{{item}}" mode="widthFix" class="slide-image"/>
                             </swiper-item>
@@ -58,7 +58,6 @@
                         </swiper>
                     </view>
                 </view>
-                
                 
 
             </block>  
