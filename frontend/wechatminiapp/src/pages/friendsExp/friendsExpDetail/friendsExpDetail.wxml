@@ -1,33 +1,34 @@
 <view class="contain">
     <view class="manInfo">
-        <image class="personPic" src="../../../images/meinv.jpg"></image>
+        <image class="personPic" src="{{avatarUrl}}"></image>
         <view class="personInfo">
-            <view class="personName">{{personName}} 发布</view>
-            <view class="releaseDate">{{releaseDate}}</view>     
+            <view class="personName">{{nickName}} 发布</view>
+            <view class="releaseDate">{{expTime}}</view>     
         </view>
         <view class="{{hasCollect ? 'hasCollect' : 'collectBtn'}}" bindtap="oncollect">{{collectText}}</view>
     </view>
     <view class="mesWrap">
         <!--判断视频还是图片-->
-        <block wx:if="{{!expLists.ifvideo}}"> 
+        <block wx:if="{{videos==''}}"> 
             <view class="picLists">
-                <block wx:for="{{expLists.imgs}}"  wx:key="imgs" wx:for-index="idx" >
+                <block wx:for="{{pictures}}"  wx:key="imgs" wx:for-index="idx" >
                     <image src="{{item}}" data-id="{{idx}}" data-order="1" bindtap="show"></image>
                 </block>
             </view>
         </block>
-        <block wx:if="{{expLists.ifvideo}}">
+        <block wx:if="{{videos!=''}}">
             <view class="picLists" >
-                <video src="{{item}}" controls ></video>
+                <video src="{{videos}}" controls ></video>
             </view>
         </block>
         <view class="leaveMessage">
-            {{expLists.message}}{{prder}}
+            {{feeling}}
         </view>
         
     </view>
 </view>
-<view class="contain craftManWrap">
+<!--手艺人判断-->
+<view class="contain craftManWrap" wx:if="{{signInfo.length}}">
     <view class="craftManPic">
         <image src="../../../images/meinv.jpg"></image>
     </view>
@@ -48,7 +49,7 @@
         </view>
     </view>
 </view>
-<view class="contain tpList">
+<view class="contain tpList" wx:if="{{signInfo.length}}">
     <view class="title">店内实景</view>
     <scroll-view scroll-x="true">
         <block wx:for="{{shopPics}}" wx:key="shopPics" wx:for-index="idx">
@@ -56,7 +57,7 @@
         </block>
     </scroll-view>
 </view>
-<view class="contain materialWrap">
+<view class="contain materialWrap" wx:if="{{signInfo.length}}">
     <view class="title">
         <text class="gytitle">耗材</text>
     </view>
@@ -75,8 +76,8 @@
      {{gyprocess}}
     </view>
 </view>
-<view class="commentTit">评论{{comments.length}}</view>
-<view class="commentUl">
+<view class="commentTit" wx:if="{{signInfo.length}}">评论{{comments.length}}</view>
+<view class="commentUl" wx:if="{{signInfo.length}}">
     <block wx:for="{{comments}}" wx:key="comments" >
         <view class="contain commentWrap">
             <view class="commentPic">
@@ -94,7 +95,7 @@
         </view>
     </block>
 </view>
-<view class="inputWrap">
+<view class="inputWrap" wx:if="{{signInfo.length}}">
     <input type="text" bindblur="inputFun" placeholder="" value="{{inputVal}}" />
     <button bindtap="submitMessage">发送</button>
 </view>
@@ -103,7 +104,7 @@
 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
     <view class="slideWrap">
         <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
-                <block wx:if="{{order=='1'}}" wx:for="{{expLists.imgs}}" wx:key="imgs">
+                <block wx:if="{{order=='1'}}" wx:for="{{pictures}}" wx:key="imgs">
                     <swiper-item>
                         <image src="{{item}}" mode="widthFix" class="slide-image"/>
                     </swiper-item>

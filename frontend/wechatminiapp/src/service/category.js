@@ -11,8 +11,8 @@ function pushIndexList (data){
 function releaseReport (data){
     return wechat.request(apiPath.releaseReport, data, 'POST')
 }
-function friendList (data){
-    return wechat.request(apiPath.friendList, data, 'GET')
+function friendList (data,id){
+    return wechat.request(apiPath.friendList + id, data, 'GET')
 }
 function friendDetail (data,id){
     return wechat.request(apiPath.friendDetail +'/'+id, data, 'GET')

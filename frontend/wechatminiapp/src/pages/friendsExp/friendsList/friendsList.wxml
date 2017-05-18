@@ -3,22 +3,22 @@
         <swiper-item>
             <view class="swiperContain" catchtap="jumpToDetail">
                 <view class="manInfo">
-                    <image class="personPic" src="../../../images/meinv.jpg"></image>
-                    <view class="personName">{{releaseName || 'null'}}</view>
+                    <image class="personPic" src="{{item.avatarUrl}}"></image>
+                    <view class="personName">{{item.nickName}}</view>
                     <view class="personType">{{item.category}}</view>
                 </view>
                 <view class="mesWrap">
                     <!--判断视频还是图片-->
-                    <block wx:if="{{!item.ifvideo}}"> 
+                    <block wx:if="{{item.videos==''}}"> 
                         <view class="picLists">
                             <block wx:for="{{item.imgs}}" wx:key="imgs" wx:for-index="idx">
                                 <image src="{{item}}" data-id="{{idx}}" bindtap="show"></image>
                             </block>
                         </view>
                     </block>
-                    <block wx:if="{{item.ifvideo}}">
-                        <view class="picLists" >
-                            <video src="{{item.videoUrl}}" controls ></video>
+                    <block wx:if="{{item.videos!=''}}">
+                        <view class="picLists">
+                            <video src="{{item.videos}}" controls ></video>
                         </view>
                     </block>
                     <!-- 轮播图 -->
