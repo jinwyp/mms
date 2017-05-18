@@ -11,7 +11,8 @@ var apiPath = {
     releaseReport: apiPrefix +'/report/releaseReport',
     friendList:  apiPrefix +'/report/loadFriendReport?pageSize=5&page=',
     friendDetail:  apiPrefix +'/report',
-    craftTitleUpload: apiPrefix + '/report/signReport'
+    craftTitleUpload: apiPrefix + '/report/signReport',
+    improveInfo: apiPrefix +'/user/improveInfo',
     
 }
 

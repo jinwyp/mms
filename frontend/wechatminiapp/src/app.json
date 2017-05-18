@@ -3,29 +3,13 @@
     "pages/index/index",
     "pages/friendsExp/friendsList/friendsList",
     "pages/craft/craftTitle",
-    
     "pages/share/share",
-    
-     
-                
-     
-
-      "pages/collection/collection",
-
-
-    
+    "pages/collection/collection",
     "pages/craftDetail/craftDetail",
-   "pages/friendsExp/friendsExpDetail/friendsExpDetail",
-
-    
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",  
     "pages/expDetail/expDetail",
-
-
     "pages/personInfo/personInfo",
-   
     "pages/shareSubmit/shareSubmit"
-
- 
   ],
   "window":{
     "backgroundTextStyle":"light",

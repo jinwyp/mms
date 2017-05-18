@@ -20,6 +20,9 @@ function friendDetail (data,id){
 function craftTitleUpload (data){
     return wechat.request(apiPath.craftTitleUpload, data, 'POST')
 }
+function improveInfo(data) {
+  return wechat.request(apiPath.improveInfo, data, 'POST')
+}
 module.exports = {
     getIndexList : getIndexList,
     pushIndexList: pushIndexList,
@@ -27,4 +30,5 @@ module.exports = {
     friendList: friendList,
     friendDetail: friendDetail,
     craftTitleUpload: craftTitleUpload,
+    improveInfo: improveInfo
 }
