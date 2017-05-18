@@ -4,12 +4,17 @@ var Error = require('../../../service/error.js');
 
 Page({
   data: {
+    avatarUrl:'',
+    nickName:'',
+    expTime:'',
     slideshow: false,
     isClick:false,
+    pictures:[],
+    videos:'',
+    feeling:'',
+    signInfo:[],
     currentId:0,
     collectText:"+ 收藏",
-    personName:"刘婕",
-    releaseDate:"2017-02-22 08:47:23",
     shopName:"工时期王靓店",
     shopAddress:"上海市彭浦新村",
     hasCollect:false,
@@ -64,26 +69,19 @@ Page({
     var id = options.id;
     var that = this;
     var openId = wx.getStorageSync('accessToken')
-        console.log('openId',openId);
-   
-
+  
     if (openId) {
         CategoryService.friendDetail('',id).then(function(res){
-
-          console.log(res)
-          // for(var i = 0; i<res.data.length; i++){
-          //   var friendList={
-          //     category:res.data[i].category,
-          //     imgs:[res.data[i].pictures],
-          //     message:res.data[i].feeling
-          //   };
-          //   that.data.expLists.push(friendList);
-          //   that.setData({
-          //     expLists:that.data.expLists
-          //   })
-            
-          // }
-
+          console.log(res.data.avatarUrl)
+          that.setData({
+            videos: res.data.videos,
+            avatarUrl: res.data.avatarUrl,
+            nickName: res.data.nickName,
+            expTime: res.data.expTime,
+            pictures: res.data.pictures,
+            feeling: res.data.feeling,
+            signInfo: res.data.signInfo
+          })
         }).catch(Error.PromiseError)
     }
   },
