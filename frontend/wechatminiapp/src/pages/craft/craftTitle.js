@@ -3,7 +3,8 @@ var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
 var apiPath = require("../../service/apiPath.js");
-var validation='';
+var totalVerify = false;
+var rpiId = ''
 Page({
   data:{
       name:'张三丰',
@@ -20,12 +21,10 @@ Page({
       introd:''
     },
   onLoad:function(options){
-      // var reportId = options.reportId ;暂时定死
-      var reportId = '591bbf183a4abeb009feb896' ;
       
-
-
-
+      // var reportId = options.reportId ;暂时定死
+    rpiId = '591bbf183a4abeb009feb896' ;
+    
   },
   uploadImg:function(){
     if(this.data.uploadImg.length>=9){
@@ -246,7 +245,6 @@ Page({
         this.setData({
             gyprocessList:this.data.gyprocessList
         });
-        console.log(this.data.gyprocessList)
     }
   },
   delImg:function(e){
@@ -274,21 +272,17 @@ Page({
     });
   },
   verify : function(){
+    var uploadImgStatus , costListStatus , gyprocessListStatus , introdStatus
     if(this.data.uploadImg.length < 1){
       wx.showModal({
         title: '提示',
         content: '店内实景不能为空',
         showCancel:false,
         success: function(res) {
-          if (res.confirm) {
-             uploadImgStatus = false;
-          }
-          else{
-             uploadImgStatus = true;
-          } 
+          uploadImgStatus = false;
         }
       })
-      return false;
+      return totalVerify = false;
     }
     for(var j=0;j<this.data.costList.length;j++){
       if(this.data.costList[j].name==''){
@@ -297,15 +291,10 @@ Page({
           content: '耗材不能为空',
           showCancel:false,
           success: function(res) {
-            if (res.confirm) {
-              costListStatus = false;
-            }
-            else{
-              costListStatus = true;
-            } 
+            costListStatus = false;
           }
         })
-        return false;
+          return totalVerify = false;
       }
        
     }
@@ -317,15 +306,10 @@ Page({
             content: '工艺流程不能为空',
             showCancel:false,
             success: function(res) {
-              if (res.confirm) {
-                gyprocessListStatus = false;
-              }
-              else{
-                gyprocessListStatus = true;
-              } 
+              gyprocessListStatus = false;
             }
         })
-        return false;
+          return totalVerify = false;
       }
       
     }
@@ -336,58 +320,51 @@ Page({
           content: '工艺说明不能为空',
           showCancel:false,
           success: function(res) {
-            if (res.confirm) {
-               introdStatus = false;
-            }
-            else{
-               introdStatus = true;
-            } 
+            introdStatus = false;
           }
         })
+          return totalVerify=false;
       }
-    // return uploadImgStatus && gyprocessListStatus && costListStatus && introdStatus
+      totalVerify = true
   },
   uploadBtn:function(){
     this.verify()
-    // var totalVerify=this.verify()
-    // if(totalVerify){
-    //   console.log('ok');
-    // }else{
-    //   console.log('no');
-    // }
+   
+    if(totalVerify){
+      this.setData({
+          modalHidden:false
+      });
+
+        var obj = {
+          'reportid': rpiId,
+          'realPicture': this.data.uploadPath,
+          'material' : this.data.costList,
+          'flows': this.data.gyprocessList,
+          'checked' : false,
+          'introd' : this.data.introd
+        }
+
+      var openId = wx.getStorageSync('accessToken')
+      if (openId) {
+          CategoryService.craftTitleUpload(obj).then(function(res){
+
+          }).catch(Error.PromiseError)
+      }
+    }
+
     
-
-    // this.setData({
-    //     modalHidden:false
-    // });
-    // var openId = wx.getStorageSync('accessToken')
-    //     console.log('openId',openId);
-
-    //   var obj = {
-    //     'reportid':'591bbf183a4abeb009feb896',
-    //     'realPicture': this.data.uploadPath,
-    //     'material' : this.data.costList,
-    //     'flows': this.data.gyprocessList,
-    //     'checked' : false,
-    //     'introd' : this.data.introd
-    //   }
-
-    // console.log(obj)
-
-    // if (openId) {
-    //     CategoryService.craftTitleUpload(obj).then(function(res){
-        
-    //     }).catch(Error.PromiseError)
-    // }
 
 
   },
   onShareAppMessage:function(){
+    var openId = wx.getStorageSync('accessToken')
     return {
-      title: '自定义分享标题',
-      path: '/page/craft/craftTitle',
+      title: '工时家',
+      path: '/report/shareReport/' + rpiId+ '/'+openId,
       success: function(res) {
-        console.log(res)
+        wx.navigateTo({
+          url: '/pages/friendsExp/friendsList/friendsList'
+        })
       },
       fail: function(res) {
         // 分享失败

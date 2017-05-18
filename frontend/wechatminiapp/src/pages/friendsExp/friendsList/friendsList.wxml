@@ -3,8 +3,8 @@
         <swiper-item>
             <view class="swiperContain" catchtap="jumpToDetail">
                 <view class="manInfo">
-                    <image class="personPic" src="../../../images/meinv.jpg"></image>
-                    <view class="personName">{{releaseName || 'null'}}</view>
+                    <image class="personPic" src="{{item.avatarUrl}}"></image>
+                    <view class="personName">{{item.nickname}}</view>
                     <view class="personType">{{item.category}}</view>
                 </view>
                 <view class="mesWrap">

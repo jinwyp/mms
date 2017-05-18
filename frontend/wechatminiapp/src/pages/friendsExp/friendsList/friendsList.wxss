@@ -61,6 +61,7 @@ video{
     margin-top: 40rpx;
     line-height: 1.5;
     padding-bottom: 40rpx;
+    word-break: break-all;
 }
 .collection{
     height: 20vh;

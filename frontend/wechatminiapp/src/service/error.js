@@ -1,6 +1,5 @@
 function PromiseError(error){
     console.log(error)
-    wx.clearStorageSync()
 
 }
 

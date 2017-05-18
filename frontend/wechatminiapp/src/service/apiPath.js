@@ -9,7 +9,7 @@ var apiPath = {
     getIndexList: apiPrefix +'/category/category',
     pushIndexList: apiPrefix +'/category/saveCategories',
     releaseReport: apiPrefix +'/report/releaseReport',
-    friendList:  apiPrefix +'/report/loadFriendReport?pageSize=5&page=1',
+    friendList:  apiPrefix +'/report/loadFriendReport?pageSize=5&page=',
     friendDetail:  apiPrefix +'/report',
     craftTitleUpload: apiPrefix + '/report/signReport'
     
