@@ -46,9 +46,9 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
   implicit val ArtFlowFormat = jsonFormat2(ArtFlow)
 
   //署名信息
-  case class SignInfo(_id: ObjectId, openid: String, checked: Int = 0, realPicture: List[String], material: List[Material]=List(), flows: List[ArtFlow]=List(),introd:String)
+  case class SignInfo(_id: ObjectId, openid: String,avatarUrl:String, createDate:Date,checked: Int = 0, realPicture: List[String], material: List[Material]=List(), flows: List[ArtFlow]=List(),introd:String)
 
-  implicit val SignInfoFormat= jsonFormat7(SignInfo)
+  implicit val SignInfoFormat= jsonFormat9(SignInfo)
   //评论
   case class Comments(_id: ObjectId, openid: String, createDate: Date, content: String)
 
@@ -69,11 +69,16 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
                               privacy: Int,
                               pricePrivacy: Int,
                               openid: String,
-                              signInfo: List[SignInfo],
-                              comments: List[Comments])
+                              avatarUrl: String,
+                              nickName: String,
+                              signInfo: List[SignInfo]=List(),
+                              comments: List[Comments]=List())
 
-  implicit val ExperienceReportFormat = jsonFormat16(ExperienceReport)
+  implicit val ExperienceReportFormat = jsonFormat18(ExperienceReport)
 
+  case  class CollectInfo(_id:ObjectId,openid:String,reportids:List[String])
+
+  implicit val CollectInfoFormat= jsonFormat3(CollectInfo)
 
   val codecRegistry = fromRegistries(fromProviders(
     classOf[OSSAsset], // 添加更多的models在这里
@@ -82,7 +87,8 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
     classOf[SignInfo],
     classOf[Comments],
     classOf[Material],
-    classOf[ArtFlow]
+    classOf[ArtFlow],
+    classOf[CollectInfo]
   ), DEFAULT_CODEC_REGISTRY)
 
   val mongoClient = MongoClient(coreConfig.getString("mongo.uri"))

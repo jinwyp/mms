@@ -13,47 +13,45 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
 
   //发布体验报告
   def releaseReport = (path("releaseReport") & post & openid & entity(as[ExperienceReportRequest])) {
-    (id, report) => {
-      complete(addReport(id, report).toResult)
-    }
+    (id, report) =>  complete(addReport(id, report).toResult)
   }
 
   //署名体验报告
   def signReport = (path("signReport") & post & openid & entity(as[SignInfoRequest])) {
-    (id, signInfo) => {
-      complete(addSignReport(id,signInfo).toResult)
-    }
+    (id, signInfo) =>  complete(addSignReport(id,signInfo).toResult)
   }
 
   //添加评论
   def addComment = (path("addComment") & post & openid & entity(as[CommentsRequest])) {
-    (id, comments) => {
-      complete(addComments(id, comments).toResult)
-    }
+    (id, comments) => complete(addComments(id, comments).toResult)
   }
 
   //加载好友体验报告
-  def loadFriendReport = get { (path("loadFriendReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int])) { (openid, pageSize, page) =>
-      complete(listReport(openid, pageSize, page,null).toResult)
+  def loadFriendReport = get { (path("loadFriendReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int])) {
+    (openid, pageSize, page) => complete(listReport(openid, pageSize, page,null).toResult)
     }
   }
 
 
   //加载收藏体验报告
-  def loadCollectReport = get { (path("loadCollectReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int]) & parameter("category".as[String])) { (openid, pageSize, page, category) =>
-      complete(listReport(openid, pageSize, page, category).toResult)
+  def loadCollectReport = get { (path("loadCollectReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int]) & parameter("category".as[String])) {
+    (openid, pageSize, page, category) => complete(listReport(openid, pageSize, page, category).toResult)
     }
+  }
+  //添加到收藏
+  def addCollect= (path("addReportToCollect") & get & openid & parameter("reportId")) {
+    (openId,reportId) => complete(addReportToCollect(openId,reportId))
   }
 
   /**
     * 打开分享的体验报告
-    * GET: /report/{reportid}/{from}
+    * GET: /report/shareReport/{reportid}/{from}
     *
     * @return
     */
   def openShareReport = get {
-    (path("shareReport" / Segment / Segment) & openid) { (reportid, fromOpenId,currentOpenId) =>
-      complete(findByIdAndOpenid(fromOpenId=fromOpenId,currentOpenId =currentOpenId,expId = reportid).toResult)
+    (path("shareReport" / Segment / Segment) & openid) {
+      (reportId, fromOpenId,currentOpenId) => complete(findByIdAndOpenid(fromOpenId=fromOpenId,currentOpenId =currentOpenId,reportId= reportId).toResult)
     }
   }
 
@@ -65,8 +63,8 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
     * @return
     */
   def openReport = get {
-    path(Segment) { (reportid) =>
-      complete(findById(reportid).toResult)
+    path(Segment) {
+      (reportid) => complete(findById(reportid).toResult)
     }
   }
 
@@ -81,5 +79,10 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
     }
   }
 
-  def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~ openShareReport ~ loadAllPage ~ signReport ~ addComment ~ openReport
+  def makeSureReport= get {
+    (path("makeSureReport") & openid & parameter("reportId".as[String]) & parameter("signInfoId".as[String])) { (openid,reportId,signInfoId) =>
+      complete(updateSureSignInfo(openid,reportId,signInfoId).toResult)
+    }
+  }
+  def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~ openShareReport ~ loadAllPage ~ signReport ~ addComment ~ openReport ~ makeSureReport
 }
