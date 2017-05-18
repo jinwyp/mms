@@ -11,7 +11,8 @@
         <swiper class="collectCon" bindchange="imgchange" indicatorDots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}'duration='{{duration}}' circular='{{circular}}'>
         <!--判断是否有体验手册（有）-->
             <block wx:if="{{experience.length != 0}}" >
-                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' wx:for-item="exName" >                                         <scroll-view scroll-y="true" class="scrollView">
+                <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' wx:for-item="exName" >                                     <navigator url="../friendsExp/friendsExpDetail/friendsExpDetail?id={{exName._id}}">   
+                <scroll-view scroll-y="true" class="scrollView">
                     <view class="collectItemList" >
                         <view>
                             <image src="{{exName.avatarUrl}}" class="avatar" mode="aspectFill"></image>
@@ -42,7 +43,7 @@
                     </scroll-view>
                 
                 
-                
+                </navigator> 
                 </swiper-item>
                 <!-- 轮播图 -->
                 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
