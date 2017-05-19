@@ -1,7 +1,7 @@
 <swiper bindchange="swiperChange">
     <block wx:for="{{expLists}}" wx:key="expLists">
         <swiper-item>
-            <view class="swiperContain" catchtap="jumpToDetail">
+            <view class="swiperContain">
                 <view class="manInfo">
                     <image class="personPic" src="{{item.avatarUrl}}"></image>
                     <view class="personName">{{item.nickName}}</view>
@@ -31,21 +31,27 @@
                             </swiper>
                         </view>
                     </view>
-                    <!--判断是否是手艺人-->
-                    <view class="leaveMessage" wx:if="{{!item.myself}}">
+                    <view class="leaveMessage" >
                          <navigator url="../../friendsExp/friendsExpDetail/friendsExpDetail?id={{item.hrefId}}">{{item.message}}</navigator>
                     </view>
                 </view>
-                <view class="storeInfo" wx:if="{{item.myself}}">
-                    <view class="storePic">
-                        <image src="../../../images/meinv.jpg"></image>
-                    </view>
-                    <view class="storeMan">
-                        <view class="storeManName">王健林</view>
-                        <view class="storeName">阿玛尼徐汇店</view>
-                    </view>
-                    <button class="addDetail">补充详情</button>
-                </view>
+                <!--判断是否有人署名-->
+                <block wx:if="{{item.signInfo.length}}">
+                  <scroll-view scroll-y="true" style="height: 200rpx;">
+                    <block wx:for="{{item.signInfo}}"  wx:key="signInfo">
+                      <view class="storeInfo">
+                          <view class="storePic">
+                              <image src="{{item.avatarUrl}}"></image>
+                          </view>
+                          <view class="storeMan">
+                              <view class="storeManName">{{item.userName}}</view>
+                              <view class="storeName">{{item.shopName}}</view>
+                          </view>
+                          <button class="addDetail">确认署名</button>
+                      </view>
+                    </block>
+                  </scroll-view>
+                </block>
             </view>
         </swiper-item>
     </block>

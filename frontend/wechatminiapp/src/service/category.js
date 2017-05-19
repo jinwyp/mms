@@ -23,6 +23,9 @@ function craftTitleUpload (data){
 function improveInfo(data) {
   return wechat.request(apiPath.improveInfo, data, 'POST')
 }
+function addProcess(data) {
+  return wechat.request(apiPath.addProcess, data, 'GET')
+}
 module.exports = {
     getIndexList : getIndexList,
     pushIndexList: pushIndexList,
@@ -30,5 +33,6 @@ module.exports = {
     friendList: friendList,
     friendDetail: friendDetail,
     craftTitleUpload: craftTitleUpload,
-    improveInfo: improveInfo
+    improveInfo: improveInfo,
+    addProcess: addProcess
 }

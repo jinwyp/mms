@@ -19,6 +19,7 @@ Page({
     shopAddress:"上海市彭浦新村",
     hasCollect:false,
     slideorder:true,
+    hrefId:'',
     order:"1",
     inputVal:"",
     shopPics:[
@@ -80,7 +81,8 @@ Page({
             expTime: res.data.expTime,
             pictures: res.data.pictures,
             feeling: res.data.feeling,
-            signInfo: res.data.signInfo
+            signInfo: res.data.signInfo,
+            hrefId:res.data._id
           })
         }).catch(Error.PromiseError)
     }
@@ -166,5 +168,20 @@ Page({
     this.setData({
         isClick: !this.data.isClick
     });
+  },
+  addProcess : function(){
+    var that = this 
+    CategoryService.addProcess().then(function (res) {
+      console.log("res._id+"+res._id)
+      if(res.shopName == undefined){
+        wx.navigateTo({
+          url: '/pages/personInfo/personInfo?reportId=' + that.data.hrefId
+        })
+      }else{
+        wx.navigateTo({
+          url: '/pages/craft/craftTitle?reportId=' + that.data.hrefId
+        })
+      }
+    }).catch(Error.PromiseError)
   }
 })

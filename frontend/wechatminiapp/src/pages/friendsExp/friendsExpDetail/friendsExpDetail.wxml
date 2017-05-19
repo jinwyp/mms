@@ -49,32 +49,42 @@
         </view>
     </view>
 </view>
-<view class="contain tpList" wx:if="{{signInfo.length}}">
+<view class="contain tpList" >
     <view class="title">店内实景</view>
-    <scroll-view scroll-x="true">
-        <block wx:for="{{shopPics}}" wx:key="shopPics" wx:for-index="idx">
+    <scroll-view scroll-x="true" >
+        <block wx:for="{{shopPics}}" wx:if="{{signInfo.length>0}}" wx:key="shopPics" wx:for-index="idx">
             <image src="{{item}}" data-id="{{idx}}" data-order="2" bindtap="show"></image>
+        </block>
+        <block wx:if="{{signInfo.length==0}}">
+          <image src="../../../images/defaultImg.png"></image>
         </block>
     </scroll-view>
 </view>
-<view class="contain materialWrap" wx:if="{{signInfo.length}}">
+<view class="contain materialWrap pb0" >
     <view class="title">
         <text class="gytitle">耗材</text>
     </view>
-    <view class="material">
-        <block wx:for="{{material}}" wx:key="material">
+    <view class="material" wx:if="{{signInfo.length>0}}">
+        <block wx:for="{{material}}"  wx:key="material">
             <text>{{item}}</text>
         </block>
     </view>
+    <block wx:if="{{signInfo.length==0}}">
+      <view class="nodata">暂无耗材</view>
+      <view class="autoheight"></view>
+    </block>
     <view class="title gyprocessWrap">
         <text class="gytitle">工艺流程</text>
-        <view class="costTime">
+        <view class="costTime" wx:if="{{signInfo.length>0}}">
             耗时<text>{{costTime}}</text>分钟
         </view>
     </view>
-    <view class="gyprocess">
+    <view class="gyprocess" wx:if="{{signInfo.length>0}}">
      {{gyprocess}}
     </view>
+     <block wx:if="{{signInfo.length==0}}">
+        <view class="nodata">暂无工艺流程</view>
+    </block>
 </view>
 <view class="commentTit" wx:if="{{signInfo.length}}">评论{{comments.length}}</view>
 <view class="commentUl" wx:if="{{signInfo.length}}">
@@ -99,7 +109,7 @@
     <input type="text" bindblur="inputFun" placeholder="" value="{{inputVal}}" />
     <button bindtap="submitMessage">发送</button>
 </view>
-
+<button wx:if="{{signInfo.length==0}}" class="addProcess" bindtap="addProcess">补充工艺</button>
 <!-- 轮播图 -->
 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
     <view class="slideWrap">

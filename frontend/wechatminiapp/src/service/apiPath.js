@@ -10,9 +10,10 @@ var apiPath = {
     pushIndexList: apiPrefix +'/category/saveCategories',
     releaseReport: apiPrefix +'/report/releaseReport',
     friendList:  apiPrefix +'/report/loadFriendReport?pageSize=5&page=',
-    friendDetail:  apiPrefix +'/report',
+    friendDetail:  apiPrefix +'/report/report',
     craftTitleUpload: apiPrefix + '/report/signReport',
     improveInfo: apiPrefix +'/user/improveInfo',
+    addProcess: apiPrefix +'/user/loadUserInfo'
     
 }
 

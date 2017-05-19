@@ -256,23 +256,24 @@ checkTel:function(e) {
 
      if (that.data.ifSubmit === true){
       CategoryService.improveInfo(that.data.submitAll).then(function (res) {
-        //  wx.navigateTo({
-        //    url: '../shareSubmit/shareSubmit',
-        //  })
+         wx.navigateTo({
+           url: '/pages/craft/craftTitle?reportId=' + reportId,
+         })
 
       }).catch(Error.PromiseError)
     }
   },
 
-  onLoad: function () {
-    var that = this
+  onLoad: function (option) {
+    var that = this;
+        reportId = option.reportId
     var openId = wx.getStorageSync('accessToken')
     if (openId) {
       UserService.getWXUserInfo().then(function (res) {
         that.setData({
           head: res.avatarUrl
         })
-
+        
       }).catch(Error.PromiseError)
     }
        

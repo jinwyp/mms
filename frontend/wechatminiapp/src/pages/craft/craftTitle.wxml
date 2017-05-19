@@ -1,20 +1,20 @@
 <!--pages/craft/craftTitle.wxml-->
 <view class="intergal">
     <view class="craftTitlePic">
-        <image src="../../images/meinv.jpg" bindtap="aa"></image>
+        <image src="{{avatarUrl}}" bindtap="aa"></image>
     </view>
     <view class="ulWrap">
         <view class="liWrap">
             <view class="grey">姓名：</view>
-            <view class="anonymous">{{name}}</view>
+            <view class="anonymous">{{nickName}}</view>
         </view>
         <view class="liWrap">
             <view class="grey">手机号码：</view>
-            <view class="anonymous">{{mobile}}</view>
+            <view class="anonymous">{{phone}}</view>
         </view>
         <view class="liWrap">
             <view class="grey">所在门店：</view>
-            <view class="anonymous">{{shopAddress}}</view>
+            <view class="anonymous">{{shopName}}</view>
         </view>
     </view>
     <view class="ulWrap contentWrap">

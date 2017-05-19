@@ -7,10 +7,11 @@ var totalVerify = false;
 var rpiId = ''
 Page({
   data:{
-      name:'张三丰',
-      mobile:'13045105222',
-      shopAddress:'哈尔滨市道里区',
+      nickName:'',
+      mobile:'',
+      shopName:'',
       uploadImg:[],
+      avatarUrl:'',
       costList:[{name:'',count:''}],
       range:['5','10','15','20','25','30','35','40','45','50','55','60','65','70','75','80','85','90','95','100','105','110','115','120'],
       gyprocessList:[{flow:'',duration:0}],
@@ -22,8 +23,17 @@ Page({
     },
   onLoad:function(options){
       
-      // var reportId = options.reportId ;暂时定死
-    rpiId = '591bbf183a4abeb009feb896' ;
+    rpiId = options.reportId ;
+    console.log('reportid' + rpiId)
+    var that=this;
+    CategoryService.addProcess().then(function (res) {
+      that.setData({
+        nickName: res.nickName,
+        phone: res.phone,
+        shopName: res.shopName,
+        avatarUrl: res.avatarUrl
+      })
+    }).catch(Error.PromiseError)
     
   },
   uploadImg:function(){
