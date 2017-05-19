@@ -2,47 +2,16 @@
 var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
+var apiPath = require("../../service/apiPath.js");
 Page({
   data:{
+    collect:true,
     slideshow: false,
     currentId:0,
     peopleid:'',
-    type:'造型',
-    interest:[{
-      name:"造型",
-      number:2
-    },
-    {
-      name:"美甲",
-      number:0
-    },
-    {
-      name:"服装搭配",
-      number:0
-    },
-    {
-      name:"茶艺",
-      number:0
-    }],
-    experience: [
-      // {
-      //   id:'111',
-      //   category:'造型',
-      //   name:'刘杰',
-      //   headImg:'../../images/star.png',
-      //   img:['../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg','../../images/02.jpg'],
-      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
-      // },
-      // {
-      //   id:'222',
-      //   category:'造型',
-      //   name:'刘杰2',
-      //   headImg:'../../images/star.png',
-      //   video:'../../images/star.png',
-      //   text:'此处为体验者个人观点此处为体验者个人观点此处为体验者个人观点'
-      // }
-      
-    ],
+    interest:[],
+    category:'',
+    experience: [],
     autoplay:false,//是否自动播放
     indicatorDots: false,//指示点
     interval: 2000,//图片切换间隔时间
@@ -68,21 +37,26 @@ Page({
     })
   },
   getList:function(e) {
-    var val = e.target.dataset.value
-    console.log(val)
+    var that = this;
+    var getCategory = e.target.dataset.value;
+    // console.log(getCategory)
     wx.request({
-      url: 'https://baz.ngrok.io/api/shops', //仅为示例，并非真实的接口地址
+      url: apiPath.getCollectReport + getCategory, 
+      method:'GET',
       data:{
-        val:val
+        category: getCategory
       },
+      
       header: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'X-OPENID': wx.getStorageSync('accessToken'),
       },
       success: function(res) {
-        console.log(res.data);
+        // console.log(res.data.data);
+        // console.log(res.data.data[0].category);
         that.setData({
-          type:res.data.type,
-          interest: res.data.data,
+          experience: res.data.data,
+          category: res.data.data[0].category
           
         })
         
@@ -90,14 +64,72 @@ Page({
       }
     })
   },
-  onLoad:function(options){
-    // 页面初始化 options为页面跳转所带来的参数
-    wx.setNavigationBarTitle({
-      title: '工时家',
-      success: function(res) {
-        // success
+  deleteCollect:function(e){
+    var that = this;
+    var id = e.target.dataset.value;
+    // console.log(id)
+    wx.showModal({
+      title: '提示',
+      content: '确定要取消收藏吗？',
+      success: function (res) {
+        if (res.confirm) {
+          wx.request({
+            url: apiPath.removeCollectReport + id,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json',
+              'X-OPENID': wx.getStorageSync('accessToken'),
+            },
+            success: function (res) {
+              that.setData({
+                collect: false
+              })
+              console.log(res);
+              // console.log(res.data.data[0].category);
+
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
       }
     })
+   
+  },
+  addCollect: function (e) {
+    var that = this;
+    var id = e.target.dataset.value;
+    // console.log(id)
+    wx.showModal({
+      title: '提示',
+      content: '确定要添加收藏吗？',
+      success: function (res) {
+        if (res.confirm) {
+          wx.request({
+            url: apiPath.addReportToCollect + id,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json',
+              'X-OPENID': wx.getStorageSync('accessToken'),
+            },
+            success: function (res) {
+              console.log(res);
+              that.setData({
+                collect:true
+              })
+              // console.log(res.data.data[0].category);
+
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
+  },
+  onLoad:function(options){
+     
     var that = this
     var openId = wx.getStorageSync('accessToken')
     if (openId) {
@@ -105,6 +137,21 @@ Page({
         console.log('getIndexList', res)
         that.setData({
           interest: res.data.categories
+        })
+
+      }).catch(Error.PromiseError)
+      CategoryService.loadCollectReport().then(function (res) {
+        console.log('res', res.data)
+        that.setData({
+          experience:res.data,
+          category: res.data[0].category
+          // 'experience.id': res.data._id,
+          // 'experience.category': res.data.category,
+          // 'experience.name': res.data.nickName,
+          // 'experience.headImg': res.data.avatarUrl,
+          // 'experience.img': res.data.pictures,
+          // 'experience.video': res.data.videos,
+          // 'experience.text': res.data.feeling,
         })
 
       }).catch(Error.PromiseError)

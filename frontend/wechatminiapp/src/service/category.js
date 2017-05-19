@@ -26,6 +26,9 @@ function improveInfo(data) {
 function addProcess(data) {
   return wechat.request(apiPath.addProcess, data, 'GET')
 }
+function loadCollectReport(data) {
+  return wechat.request(apiPath.loadCollectReport, data, 'GET')
+}
 module.exports = {
     getIndexList : getIndexList,
     pushIndexList: pushIndexList,
@@ -34,5 +37,6 @@ module.exports = {
     friendDetail: friendDetail,
     craftTitleUpload: craftTitleUpload,
     improveInfo: improveInfo,
-    addProcess: addProcess
+    addProcess: addProcess,
+    loadCollectReport: loadCollectReport
 }

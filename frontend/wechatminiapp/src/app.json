@@ -1,6 +1,7 @@
 {
   "pages":[
     
+ 
     "pages/friendsExp/friendsList/friendsList",
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     "pages/index/index",
