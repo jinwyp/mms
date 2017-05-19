@@ -2,7 +2,7 @@
 <view class="container">
     <scroll-view class="items" scroll-x="true">
         <block wx:for="{{interest}}" wx:key="{{interest}}">
-            <text class="interestList chooseN {{type ===item.name ? 'chooseY':'chooseN'}}" data-value="{{item.name}}" bindtap="getList">{{item.name}}</text>
+            <text class="interestList chooseN {{category ===item.name ? 'chooseY':'chooseN'}}" data-value="{{item.name}}" bindtap="getList">{{item.name}}</text>
         </block>
     </scroll-view>
 
@@ -14,28 +14,31 @@
                 <swiper-item wx:for='{{experience}}' wx:key='{{experience}}' wx:for-item="exName" >                                         <scroll-view scroll-y="true" class="scrollView">
                     <view class="collectItemList" >
                         <view>
-                            <image src="{{exName.headImg}}" class="avatar" mode="aspectFill"></image>
-                            <text class="avatarName">{{exName.name}}</text>
-                            <button class="collectP"><image class="plus" src="../../images/plus.png"></image>添加收藏</button>
+                            <image src="{{exName.avatarUrl}}" class="avatar" mode="aspectFill"></image>
+                            <text class="avatarName">{{exName.nickName}}</text>
+                            <button class="collectP" hidden="{{!collect}}"  bindtap="deleteCollect" data-value="{{exName._id}}"><image class="plus" src="../../images/subIcon.png" ></image>取消收藏</button>
+                             <button class="collectP" hidden="{{collect}}" bindtap="addCollect" data-value="{{exName._id}}"><image class="plus" src="../../images/plus.png" ></image>添加收藏</button>
+
                         </view>
                         <view class="shareImg" >
                             <!--判断图片-->
-                            <view wx:if="{{exName.img}}">
-                                <block wx:for="{{exName.img}}" wx:key="img" wx:for-index="idx">
-                                <image  src="{{item}}"  class='shareImgList' mode="aspectFill" data-id="{{idx}}" bindtap="show" data-peopleid="{{exName.id}}"></image>
+                            <view wx:if="{{exName.pictures != ''}}">
+                                <block wx:for="{{exName.pictures}}" wx:key="img" wx:for-index="idx">
+                                <image  src="{{item}}"  class='shareImgList' mode="aspectFill" data-id="{{idx}}" bindtap="show" data-peopleid="{{exName._id}}"></image>
                                 </block>
 
                             </view>
                             <!--判断video-->
                             <view wx:else>
-                                <video  class="shareVideo" id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"  ></video>
+                                <video  class="shareVideo" id="myVideo" src="{{exName.videos}}"  ></video>
                             </view>
 
                             <!--<video wx:else class="shareVideo"  src="{{item.video}}"></video>-->
                             
                         </view>
-                        
-                        <view class="shareTxt"><text>{{exName.text}}</text></view>
+                        <navigator url="../friendsExp/friendsExpDetail/friendsExpDetail?id={{exName._id}}">
+                        <view class="shareTxt"><text>{{exName.feeling}}</text></view>
+                        </navigator>
                     </view>
                     </scroll-view>
                 
@@ -47,8 +50,8 @@
                     <view class="slideWrap" wx:if="{{peopleid}}">
                         <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="#fff" current="{{currentId}}">
                         <block wx:for="{{experience}}" wx:key="experience">
-                           <block wx:if="{{item.id === peopleid}}">
-                            <swiper-item  wx:for="{{item.img}}" wx:key="img">
+                           <block wx:if="{{item._id === peopleid}}">
+                            <swiper-item  wx:for="{{item.pictures}}" wx:key="img">
                                 <image  src="{{item}}" mode="widthFix" class="slide-image"/>
                             </swiper-item>
                            </block> 
@@ -56,7 +59,6 @@
                         </swiper>
                     </view>
                 </view>
-                
                 
 
             </block>  
