@@ -10,7 +10,7 @@ Page({
    nickName:'',
    WXcode:'../../images/upload.png',
    upWXcode:'',
-   head:'../../images/upload.png',
+   head:'',
    week:'',
    time: '09:00',
    time2: '18:00',
