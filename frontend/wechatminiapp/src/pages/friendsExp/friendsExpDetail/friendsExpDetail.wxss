@@ -184,7 +184,7 @@ video{
     padding-left: 20rpx;
 }
 .materialWrap .material text{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #e9e9e9;
     padding: 40rpx 0;
     margin-left: 45rpx;
 }
@@ -205,6 +205,9 @@ video{
   padding-bottom: 0;
   border-bottom: 0;
 }
+.mb0{
+  margin-bottom: 0
+}
 .addProcess{
   width: 80%;
   background: #00696c;
@@ -221,22 +224,30 @@ video{
 }
 .materialWrap .costTime{
     display: flex;
-    flex-grow: 1;
     justify-content: flex-end;
-    padding-right: 30rpx;
     color:#959595;
     font-size: 24rpx;
     align-items: center;
+    white-space:nowrap;
+
 }
-.materialWrap .costTime text{
+.materialWrap .costTime text.red{
     color:#ff4f4f;
     font-size: 32rpx;
 }
 .materialWrap .gyprocess{
-    padding:30rpx 30rpx 0 45rpx;
+    padding:30rpx 30rpx 30rpx 45rpx;
     line-height: 1.5;
     color:#666;
     font-size: 28rpx;
+}
+.materialWrap .gyprocess .flows{
+  display: flex;
+  flex-direction: row;
+  margin-bottom:10rpx;
+}
+.materialWrap .gyprocess .flow{
+  flex-grow: 1;
 }
 .commentTit{
     font-size: 28rpx;
@@ -410,4 +421,8 @@ video{
 }
 .toggle-on:after{
 	left: 39px;
+}
+.nocomments{
+  color:#ccc;
+  font-size: 24rpx;
 }

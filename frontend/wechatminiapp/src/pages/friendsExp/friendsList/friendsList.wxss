@@ -123,6 +123,8 @@ video{
     width: 200rpx;
     height: 60rpx;
     font-size: 24rpx;
+    text-align: center;
+    line-height: 60rpx;
 }
 .slideshow{
     position: fixed;
