@@ -1,14 +1,15 @@
 {
   "pages":[
+    "pages/index/index",
+    "pages/craftDetail/craftDetail",
     
- "pages/index/index",
     "pages/friendsExp/friendsList/friendsList",
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     
     "pages/craft/craftTitle",
     "pages/share/share",
     "pages/collection/collection",
-    "pages/craftDetail/craftDetail",
+    
     
     "pages/expDetail/expDetail",
     "pages/personInfo/personInfo",
@@ -18,7 +19,7 @@
     "backgroundTextStyle":"light",
     "backgroundColor":"#f5f5f5",
     "navigationBarBackgroundColor": "#01696c",
-    "navigationBarTitleText": "mms",
+    "navigationBarTitleText": "工时家",
     "navigationBarTextStyle":"white"
   }
 }
