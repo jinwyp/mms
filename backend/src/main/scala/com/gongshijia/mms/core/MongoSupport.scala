@@ -46,13 +46,14 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
   implicit val ArtFlowFormat = jsonFormat2(ArtFlow)
 
   //署名信息
-  case class SignInfo(_id: ObjectId, openid: String,avatarUrl:String, createDate:Date,checked: Int = 0, realPicture: List[String], material: List[Material]=List(), flows: List[ArtFlow]=List(),introd:String)
+  case class SignInfo(_id: ObjectId, openid: String,avatarUrl:String,userName:String,shopName:String,workAddress:String, createDate:Date,checked: Int = 0, realPicture: List[String],
+                      material: List[Material]=List(), flows: List[ArtFlow]=List(),introd:String)
 
-  implicit val SignInfoFormat= jsonFormat9(SignInfo)
+  implicit val SignInfoFormat= jsonFormat12(SignInfo)
   //评论
-  case class Comments(_id: ObjectId, openid: String, createDate: Date, content: String)
+  case class Comments(_id: ObjectId, openid: String, nickName:String, avatarUrl:String,createDate: Date, content: String)
 
-  implicit val commentsFormat= jsonFormat4(Comments)
+  implicit val commentsFormat= jsonFormat6(Comments)
 
   // 体验报告
   case class ExperienceReport(_id: ObjectId,
@@ -72,9 +73,10 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
                               avatarUrl: String,
                               nickName: String,
                               signInfo: List[SignInfo]=List(),
-                              comments: List[Comments]=List())
+                              comments: List[Comments]=List(),
+                              checked:Int=0 )
 
-  implicit val ExperienceReportFormat = jsonFormat18(ExperienceReport)
+  implicit val ExperienceReportFormat = jsonFormat19(ExperienceReport)
 
   case  class CollectInfo(_id:ObjectId,openid:String,reportids:List[String])
 

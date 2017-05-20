@@ -38,12 +38,11 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
     * 评论内容
     *
     * @param openid
-    * @param createDate
     * @param content
     */
-  case class CommentsRequest(reportid:String,openid: String, createDate: Date, content: String)
+  case class CommentsRequest(reportid:String,openid: String, content: String)
 
-  implicit val CommentsFormat = jsonFormat4(CommentsRequest)
+  implicit val CommentsFormat = jsonFormat3(CommentsRequest)
 
   /**
     *
