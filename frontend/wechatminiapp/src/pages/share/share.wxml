@@ -81,7 +81,7 @@
         <view class="borderB H100 " bindtap="getLocation">
             <view class="form-title lineH48">体验区域：</view>
             <image src="../../images/trigger-r.png" class="trigger-r" ></image>
-            <span class="map">{{address}}</span>
+            <text class="map">{{address}}</text>
         </view>
         <view class="borderB H100">
             <view class="form-title">体验门店(店铺)：</view>

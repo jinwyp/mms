@@ -8,24 +8,7 @@ var apiPath = require("../../service/apiPath.js");
 var app = getApp() 
 Page({
   data: {
-    interest:[
-    //   {
-    //   name:"造型",
-    //   number:2
-    // },
-    // {
-    //   name:"美甲",
-    //   number:0
-    // },
-    // {
-    //   name:"服装搭配",
-    //   number:0
-    // },
-    // {
-    //   name:"茶艺",
-    //   number:0
-    // }
-    ],
+    interest:[],
     whoCanSee:['私密','好友','公开'],
     ifChoose:'造型',
     // isClick:false,
@@ -127,15 +110,23 @@ Page({
                   header: { "content-Type": "multipart/form-data" },
                   formData: fd,
                   success: function (res) {
+
+                    // var obj = res.data;
+                    // var removeStart = obj.substring(obj.indexOf('filename') + 11, obj.lenth)
+                    // var resulr = removeStart.substring(0, removeStart.indexOf('"'))
+                    // console.log(resulr)
+                    // console.log(obj)
+
                     var callBackName = JSON.parse(res.data).filename;
                     var bb = [apiPath.ossUrl+callBackName]
                     that.setData({
                       backImg: bb.concat(that.data.backImg)
                     })
                     console.log(that.data.backImg)
+                    // console.log('@@@@@',res.data)
                   },
                   fail: function (res) {
-                    console.log(res)
+                    console.log('err',res)
                   }
                 })
               }
@@ -202,7 +193,7 @@ Page({
                      },
                   formData: fd,
                   success: function (res) {
-                    var callBackName = JSON.parse(res.data).filename;
+                    var callBackName = JSON.parse(res.data+"").filename;
                     that.setData({
                       backVideo: apiPath.ossUrl + callBackName
                     })
@@ -578,7 +569,7 @@ Page({
     var openId = wx.getStorageSync('accessToken')
     if (openId) {
       CategoryService.getIndexList().then(function (res) {
-        // console.log('getIndexList', res)
+        console.log('getIndexList', res)
         that.setData({
           interest: res.data.categories
         })

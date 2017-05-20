@@ -42,6 +42,7 @@ Page({
     console.log('categories',categories);
 
     CategoryService.pushIndexList({  categories:categories }).then(function(res){
+      // console.log('res', res.data.redirect)
           if(res.data.redirect === 0){
             wx.navigateTo({
               url: '../collection/collection',
