@@ -70,7 +70,7 @@ Page({
       success: function (res) {
         if (res.confirm) {
           wx.request({
-            url: apiPath.removeCollectReport + id,
+            url: apiPath.removeCollectReport + '?reportId=' + id,
             method: 'GET',
             header: {
               'content-type': 'application/json',
@@ -102,7 +102,7 @@ Page({
       success: function (res) {
         if (res.confirm) {
           wx.request({
-            url: apiPath.addReportToCollect + id,
+            url: apiPath.addReportToCollect + '?reportId=' + id,
             method: 'GET',
             header: {
               'content-type': 'application/json',
