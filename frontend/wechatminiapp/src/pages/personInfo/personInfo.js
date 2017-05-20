@@ -131,7 +131,7 @@ Page({
                 that.setData({
                   upWXcode: apiPath.ossUrl + callBackName
                 })
-                // console.log(that.data.upWXcode)
+                console.log(that.data.upWXcode)
               },
               fail: function (res) {
                 // console.log(res)
