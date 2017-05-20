@@ -27,8 +27,11 @@ form{
     float: right;
     font-size: 14px;
     margin-top: 30rpx;
-    width: 400rpx;
+    width: 300rpx;
     text-align: right;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 .workTime{
    float: right;
