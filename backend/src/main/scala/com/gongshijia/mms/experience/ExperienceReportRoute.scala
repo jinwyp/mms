@@ -85,12 +85,15 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
       (path("report" / Segment) & openid) {
         (reportId,openId) => {
           val rs =findById(reportId).map(report=>{
-            if(report.openid==openId){
-              report
+            if(report.checked==1){
+              report.copy(signInfo=report.signInfo.filter(s=>s.checked==1).map(t=>t))
             }else{
-              report.copy(signInfo = Nil)
-            }
-          })
+              if(report.openid==openId){
+                 report
+               }else{
+                  report.copy(signInfo = Nil)
+              }
+          }})
           complete(rs.toResult)
         }
       }
