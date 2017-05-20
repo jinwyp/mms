@@ -3,11 +3,11 @@
     <form bindsubmit="formSubmit" bindreset="formReset">
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">头像</view>
-            <image src="{{head}}" bindtap="chooseimage" mode="aspecFill" class="personImg"></image>
+            <image src="{{head}}" mode="aspecFill" class="personImg"></image>
         </view>
         <view class="borderB row borderT H100">
             <view class="form-title">姓名：</view>
-            <input name="name"/>
+            <input name="name" />
         </view>
         <view class="borderB row H100">
             <view class="form-title">联系电话：</view>
@@ -21,7 +21,7 @@
             <view class="form-title lineH48">工作地址：</view>
 
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <input class="address" value="{{address}}" name="address" />
+            <span class="address">{{address}}</span>
         </view>
         <view class="borderB row H100">
             <view class="form-title">个人微信号：</view>
@@ -32,7 +32,7 @@
             <image src="{{WXcode}}" bindtap="chooseimage" mode="aspecFill" class="WXcode"></image>
         </view>
         <view class="borderT row">
-            <view class="form-title H150" >工作日：</view>
+            <span class=" day" >工作日：</span>
             <view class="week">
                 <checkbox-group bindchange="checkboxChange">
                     <label class="checkbox">

@@ -20,13 +20,13 @@ form{
 }
 .borderB input{
     display: inline-block;
-    height: 48px;
+    height: 96rpx;
     vertical-align: middle;
 }
 .address{
     float: right;
     font-size: 14px;
-    /*margin-top: 30rpx;*/
+    margin-top: 30rpx;
     width: 400rpx;
     text-align: right;
 }
@@ -34,7 +34,7 @@ form{
    float: right;
 }
 .H200{
-    height: 200rpx;
+    height: 230rpx;
 }
 .mar80{
     margin-top: 80rpx;
@@ -50,8 +50,20 @@ form{
     width: 70%;
     padding: 40rpx 0;
 }
+.checkbox{
+  display: block;
+}
+.day{
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 250rpx;
+  color: #666666;
+}
 .week checkbox-group{
-    line-height: 62rpx;
+  float: right;
+  
+    /*line-height: 62rpx;
+    margin-left: 280rpx;*/
 }
 .H50{
     height: 100rpx;

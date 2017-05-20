@@ -28,7 +28,7 @@ Page({
     ],
     whoCanSee:['私密','好友','公开'],
     ifChoose:'造型',
-    isClick:false,
+    // isClick:false,
     pricePrivacy:'0',
     index:0,
     dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(), 
@@ -429,22 +429,22 @@ Page({
     })    
   },
 
-  tapSwitch : function(){
-    // console.log(this.data.isClick)
-    this.setData({
-        isClick: !this.data.isClick
+  // tapSwitch : function(){
+  //   // console.log(this.data.isClick)
+  //   this.setData({
+  //       isClick: !this.data.isClick
         
-    });
-    if(this.data.isClick == true){
-      this.setData({
-        pricePrivacy : '1'
-      });
-    }else{
-      this.setData({
-        pricePrivacy : '0'
-    });
-    }
-  },
+  //   });
+  //   if(this.data.isClick == true){
+  //     this.setData({
+  //       pricePrivacy : '1'
+  //     });
+  //   }else{
+  //     this.setData({
+  //       pricePrivacy : '0'
+  //   });
+  //   }
+  // },
   
  formSubmit: function(e) {
     var that = this;
@@ -490,7 +490,7 @@ Page({
       }else if(that.data.submitAll.locationName === '未选择'){
           wx.showModal({
           title: '提示',
-          content: '请输入体验区域',
+          content: '请选择体验区域',
           success: function(res) {
             if (res.confirm) {
             } else if (res.cancel) {
