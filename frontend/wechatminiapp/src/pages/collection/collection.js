@@ -43,10 +43,6 @@ Page({
     wx.request({
       url: apiPath.getCollectReport + getCategory, 
       method:'GET',
-      data:{
-        category: getCategory
-      },
-      
       header: {
           'content-type': 'application/json',
           'X-OPENID': wx.getStorageSync('accessToken'),

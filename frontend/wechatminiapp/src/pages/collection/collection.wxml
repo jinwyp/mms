@@ -16,8 +16,8 @@
                         <view>
                             <image src="{{exName.avatarUrl}}" class="avatar" mode="aspectFill"></image>
                             <text class="avatarName">{{exName.nickName}}</text>
-                            <button class="collectP" hidden="{{!collect}}"  bindtap="deleteCollect" data-value="{{exName._id}}">取消收藏</button>
-                             <button class="collectP" hidden="{{collect}}" bindtap="addCollect" data-value="{{exName._id}}">添加收藏</button>
+                            <button class="collectP" hidden="{{!collect}}"  bindtap="deleteCollect" data-value="{{exName._id}}"><image src="../../images/subtract.png" class="plus"></image>取消收藏</button>
+                             <button class="collectP" hidden="{{collect}}" bindtap="addCollect" data-value="{{exName._id}}"><image src="../../images/plus.png" class="plus"></image>添加收藏</button>
 
                         </view>
                         <view class="shareImg" >
