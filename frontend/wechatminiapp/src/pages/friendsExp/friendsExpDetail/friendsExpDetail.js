@@ -118,18 +118,14 @@ Page({
   },
   submitMessage:function(){
     var that=this;
-    var commentInfo= [{
-      commentsName:"匿名",
-      time:"xxxx-xx-xx",
-      content:this.data.inputVal
-    }]
+   
     var data={
       "reportid": this.data.hrefId,
       "openid": wx.getStorageSync('accessToken'),
       "content": this.data.inputVal
     }
     if(this.data.inputVal.length){
-      var newArray = this.data.comments.concat(commentInfo);
+      
       CategoryService.addComment(data).then(function (res) {
         wx.showToast({
           title: '提交中',
@@ -138,10 +134,18 @@ Page({
           mask: true
         })
         if(res.success){
+          var commentInfo = [{
+            nickName: res.data.nickName,
+            createDate: res.data.createDate,
+            content: res.data.content,
+            avatarUrl: res.data.avatarUrl
+          }]
+          var newArray = that.data.comments.concat(commentInfo);
           wx.hideToast();
           that.setData({
             comments: newArray
           })
+          console.log(that.data.comments)
         }else{
           wx.showModal({
             title: '提示',

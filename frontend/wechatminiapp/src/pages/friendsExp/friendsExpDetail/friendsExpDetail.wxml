@@ -96,11 +96,11 @@
       <block wx:for="{{comments}}" wx:key="comments" >
           <view class="contain commentWrap">
               <view class="commentPic">
-                  <image src="../../../images/meinv.jpg"></image>
+                  <image src="{{item.avatarUrl}}"></image>
               </view>
               <view class="commentInfoWrap">
                   <view class="commentInfo">
-                      <text class="name">{{item.name || 'null'}}</text>
+                      <text class="name">{{item.nickName}}</text>
                       <text class="time">{{item.createDate}}</text>
                   </view>
                   <view class="commentMessage">
