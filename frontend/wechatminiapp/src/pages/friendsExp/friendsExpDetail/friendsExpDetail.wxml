@@ -91,7 +91,7 @@
     </block>
 </view>
 <view class="commentTit" wx:if="{{checked != 0}}">评论{{comments.length}}</view>
-<view class="commentUl" wx:if="{{signInfo.length}}">
+<view class="commentUl" wx:if="{{checked != 0}}">
   <block wx:if="{{comments.length>0}}">
       <block wx:for="{{comments}}" wx:key="comments" >
           <view class="contain commentWrap">
