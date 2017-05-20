@@ -143,22 +143,22 @@ Page({
     })
  } ,
 
-checkTel:function(e) {
-  var tel = e.detail.value;
-  var mobile = /^0?(13[0-9]|17[0-9]|15[0-9]|18[0-9]|14[57])[0-9]{8}$/;
-  if(!mobile.test(tel)){
-    wx.showModal({
-      title: '提示',
-      content: '请正确填写您的电话号码',
-      success: function(res) {
-        if (res.confirm) {
-        } else if (res.cancel) {
+  checkTel:function(e) {
+    var tel = e.detail.value;
+    var mobile = /^0?(13[0-9]|17[0-9]|15[0-9]|18[0-9]|14[57])[0-9]{8}$/;
+    if(!mobile.test(tel)){
+      wx.showModal({
+        title: '提示',
+        content: '请正确填写您的电话号码',
+        success: function(res) {
+          if (res.confirm) {
+          } else if (res.cancel) {
+          }
         }
-      }
-    })
-  }
-},
- formSubmit: function(e) {
+      })
+    }
+  },
+  formSubmit: function(e) {
      var that = this;
      that.setData({
          'submitAll.userName':e.detail.value.name,
@@ -270,11 +270,21 @@ checkTel:function(e) {
     var openId = wx.getStorageSync('accessToken')
     if (openId) {
       UserService.getWXUserInfo().then(function (res) {
+        console.log(res)
         that.setData({
           head: res.avatarUrl
         })
         
       }).catch(Error.PromiseError)
+      wx.request({
+        url: apiPath.addProcess + openId,
+        header: {
+          'content-type': 'application/json'
+        }, 'X-OPENID': wx.getStorageSync('accessToken'),
+        success: function (res) {
+          console.log(res)
+        }
+      })
     }
        
   }

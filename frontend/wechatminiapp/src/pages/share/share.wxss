@@ -5,6 +5,9 @@
     border-bottom: 1px solid #dedede;
 
 }
+form{
+  width: 100%;
+}
 .interestList{
     padding: 14rpx 30rpx;
     margin: 0 0 0 25rpx;
@@ -60,9 +63,15 @@ textarea{
 .map{
     float: right;
     font-size: 14px;
-    /*margin-top: 30rpx;*/
-    width: 400rpx;
+    margin-top: 30rpx;
+    width: 300rpx;
     text-align: right;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.shop{
+  width: 300rpx;
 }
 .H150{
      height: 150rpx;
@@ -82,7 +91,10 @@ textarea{
     line-height: 120rpx;
 }
 .lineH48{
-    line-height: 48px;
+    line-height: 40px;
+}
+.lineH45{
+    line-height: 43px;
 }
 /*上传*/
 .uploadWrap{
@@ -164,27 +176,25 @@ textarea{
 .marginB100{
     margin-bottom: 30rpx;
 }
-.price{
+/*.price{
     width:150rpx;
-	height: 60rpx;
+	  height: 60rpx;
     border-radius: 5px;
     border: 1px solid #e4e4e4;
     margin: 17rpx 0 0 50rpx;
-    display: inline-block;
-    
-   
+    display: inline-block; 
 }
 .price image{
     width: 32rpx;
     height: 32rpx;
     margin: 15rpx 8rpx 0 8rpx;
 }
-.price input{
+.priceInput{
     width: 100rpx;
     height: 55rpx;
     vertical-align: middle;
-    margin-top: -5rpx;
-}
+    margin-top: -5rpx;   
+}*/
 /*switch*/
 .confirmBtnWrap{
     float: right;
