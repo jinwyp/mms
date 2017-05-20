@@ -90,10 +90,6 @@ Page({
 
        }).catch(Error.PromiseError)
      }
-   },1000)
-   
-
-    
-   
+   },1000) 
   }
 })

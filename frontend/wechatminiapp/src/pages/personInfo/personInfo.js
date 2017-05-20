@@ -256,9 +256,13 @@ Page({
 
      if (that.data.ifSubmit === true){
       CategoryService.improveInfo(that.data.submitAll).then(function (res) {
-         wx.navigateTo({
-           url: '/pages/craft/craftTitle?reportId=' + reportId,
-         })
+        if (reportId!=undefined){
+          wx.navigateTo({
+            url: '/pages/craft/craftTitle?reportId=' + reportId,
+          })
+      
+        }
+         
 
       }).catch(Error.PromiseError)
     }
@@ -266,7 +270,10 @@ Page({
 
   onLoad: function (option) {
     var that = this;
-        reportId = option.reportId
+    if (option.reportId!=undefined){
+      reportId = option.reportId
+    }
+       
     var openId = wx.getStorageSync('accessToken')
     if (openId) {
       UserService.getWXUserInfo().then(function (res) {
