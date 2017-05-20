@@ -368,6 +368,7 @@ Page({
   },
   onShareAppMessage:function(){
     var openId = wx.getStorageSync('accessToken')
+    console.log('/report/shareReport/' + rpiId + '/' + openId)
     return {
       title: '工时家',
       path: '/report/shareReport/' + rpiId+ '/'+openId,
