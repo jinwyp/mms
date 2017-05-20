@@ -30,21 +30,20 @@
 <!--手艺人判断-->
 <view class="contain craftManWrap" wx:if="{{signInfo.length}}">
     <view class="craftManPic">
-        <image src="../../../images/meinv.jpg"></image>
+        <image src="{{signInfo[0].avatarUrl}}"></image>
     </view>
     <view class="craftManInfo">
-        <view class="nameWrap">
+        <view class="nameWrap" >
             <text class="nameInfo">手艺人：</text>
-            <text class="nameDetail">{{personName}}</text>
-            <text class="position">3km</text>
+            <text class="nameDetail">{{signInfo[0].userName}} </text>
         </view>
         <view class="craftManControl">
             <view class="wrap">
-                <view class="craftManDetail">{{shopName}}</view>
-                <view class="craftManDetail">{{shopAddress}}</view>
+                <view class="craftManDetail">{{signInfo[0].shopName}}</view>
+                <view class="craftManDetail">{{signInfo[0].workAddress}}</view>
             </view>
             <view class="confirmBtnWrap">
-                <view class="switch {{isClick ? 'toggle-on' : 'toggle-off'}}" bindtap="tapSwitch">是他</view>
+                <view wx:if="{{checked == 0}}" class="switch {{isClick ? 'toggle-on' : 'toggle-off'}}" bindtap="tapSwitch">是他</view>
             </view>
         </view>
     </view>
@@ -52,7 +51,7 @@
 <view class="contain tpList" >
     <view class="title">店内实景</view>
     <scroll-view scroll-x="true" >
-        <block wx:for="{{shopPics}}" wx:if="{{signInfo.length>0}}" wx:key="shopPics" wx:for-index="idx">
+        <block wx:for="{{signInfo[0].realPicture}}" wx:if="{{signInfo.length>0}}" wx:key="realPicture" wx:for-index="idx">
             <image src="{{item}}" data-id="{{idx}}" data-order="2" bindtap="show"></image>
         </block>
         <block wx:if="{{signInfo.length==0}}">
@@ -60,13 +59,13 @@
         </block>
     </scroll-view>
 </view>
-<view class="contain materialWrap pb0" >
+<view class="contain materialWrap pb0 mb0" >
     <view class="title">
         <text class="gytitle">耗材</text>
     </view>
     <view class="material" wx:if="{{signInfo.length>0}}">
-        <block wx:for="{{material}}"  wx:key="material">
-            <text>{{item}}</text>
+        <block wx:for="{{signInfo[0].material}}"  wx:key="material">
+            <text>{{item.name}}</text>
         </block>
     </view>
     <block wx:if="{{signInfo.length==0}}">
@@ -75,38 +74,51 @@
     </block>
     <view class="title gyprocessWrap">
         <text class="gytitle">工艺流程</text>
-        <view class="costTime" wx:if="{{signInfo.length>0}}">
-            耗时<text>{{costTime}}</text>分钟
-        </view>
+        
     </view>
     <view class="gyprocess" wx:if="{{signInfo.length>0}}">
-     {{gyprocess}}
+        <view class="flows" wx:for="{{signInfo[0].flows}}" wx:key="flows">
+            <view class="flow">{{item.flow}}</view>
+            <view class="costTime">
+              <text>耗时</text>
+              <text class="red">{{item.duration}}</text>
+              <text>分钟</text>
+            </view>
+        </view> 
     </view>
      <block wx:if="{{signInfo.length==0}}">
         <view class="nodata">暂无工艺流程</view>
     </block>
 </view>
-<view class="commentTit" wx:if="{{signInfo.length}}">评论{{comments.length}}</view>
-<view class="commentUl" wx:if="{{signInfo.length}}">
-    <block wx:for="{{comments}}" wx:key="comments" >
+<view class="commentTit" wx:if="{{checked != 0}}">评论{{comments.length}}</view>
+<view class="commentUl" wx:if="{{checked != 0}}">
+  <block wx:if="{{comments.length>0}}">
+      <block wx:for="{{comments}}" wx:key="comments" >
+          <view class="contain commentWrap">
+              <view class="commentPic">
+                  <image src="{{item.avatarUrl}}"></image>
+              </view>
+              <view class="commentInfoWrap">
+                  <view class="commentInfo">
+                      <text class="name">{{item.nickName}}</text>
+                      <text class="time">{{item.createDate}}</text>
+                  </view>
+                  <view class="commentMessage">
+                      {{item.content}}
+                  </view>
+              </view>
+          </view>
+      </block>
+  </block>
+  <block wx:if="{{comments.length==0}}">
         <view class="contain commentWrap">
-            <view class="commentPic">
-                <image src="../../../images/meinv.jpg"></image>
-            </view>
-            <view class="commentInfoWrap">
-                <view class="commentInfo">
-                    <text class="name">{{item.commentsName}}</text>
-                    <text class="time">{{item.time}}</text>
-                </view>
-                <view class="commentMessage">
-                    {{item.message}}
-                </view>
-            </view>
+            <view class="nocomments">暂无评论</view>   
         </view>
-    </block>
+  </block>
+    
 </view>
-<view class="inputWrap" wx:if="{{signInfo.length}}">
-    <input type="text" bindblur="inputFun" placeholder="" value="{{inputVal}}" />
+<view class="inputWrap" wx:if="{{checked != 0}}">
+    <input type="text" bindinput="inputFun" placeholder="" value="{{inputVal}}" />
     <button bindtap="submitMessage">发送</button>
 </view>
 <button wx:if="{{signInfo.length==0}}" class="addProcess" bindtap="addProcess">补充工艺</button>
@@ -119,7 +131,7 @@
                         <image src="{{item}}" mode="widthFix" class="slide-image"/>
                     </swiper-item>
                 </block>
-                <block wx:if="{{order=='2'}}" wx:for="{{shopPics}}" wx:key="shopPics">
+                <block wx:if="{{order=='2'}}" wx:for="{{signInfo[0].realPicture}}" wx:key="realPicture">
                     <swiper-item>
                         <image src="{{item}}" mode="widthFix" class="slide-image"/>
                     </swiper-item>

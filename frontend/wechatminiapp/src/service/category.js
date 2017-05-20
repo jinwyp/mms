@@ -29,6 +29,19 @@ function addProcess(data) {
 function loadCollectReport(data) {
   return wechat.request(apiPath.loadCollectReport, data, 'GET')
 }
+function handlerMakeSureReport(data) {
+  return wechat.request(apiPath.handlerMakeSureReport, data, 'GET')
+}
+function addReportToCollect(data) {
+  return wechat.request(apiPath.addReportToCollect, data, 'GET')
+}
+function addComment(data) {
+  return wechat.request(apiPath.addComment, data, 'POST')
+}
+function makeSureReport(data) {
+  return wechat.request(apiPath.makeSureReport, data, 'GET')
+}
+
 module.exports = {
     getIndexList : getIndexList,
     pushIndexList: pushIndexList,
@@ -38,5 +51,9 @@ module.exports = {
     craftTitleUpload: craftTitleUpload,
     improveInfo: improveInfo,
     addProcess: addProcess,
-    loadCollectReport: loadCollectReport
+    loadCollectReport: loadCollectReport,
+    handlerMakeSureReport: handlerMakeSureReport,
+    addReportToCollect: addReportToCollect,
+    makeSureReport: makeSureReport,
+    addComment: addComment
 }

@@ -20,17 +20,17 @@ trait Neo4jSupport extends Core {
 
     implicit val ec = scala.concurrent.ExecutionContext.global
 
+  //创建好友关系
     def createFriendRelationShip(fromOpenId: String, toOpenId: String, expId: String): Future[Boolean] = {
-        Cypher(
-          s"""merge (a:User {openid:${fromOpenId}})  ON  CREATE SET  openid=${fromOpenId}, createDate=timestamp()
-            |merge (b:User{ openid:${toOpenId}}) ON  CREATE SET  openid=${toOpenId}, createDate=timestamp()
-            |merge (a)-[r:IS_FRIEND {exp_id:${expId},createDate:timestamp}]->(b)
-            |""").executeAsync()
+      Cypher(s"""merge (a:User {openid: "${fromOpenId}" })  ON  CREATE SET  a.openid="${fromOpenId}", a.createDate=timestamp()
+                 merge (b:User {openid: "${toOpenId} "  })  ON  CREATE SET  b.openid="${toOpenId}",   b.createDate=timestamp()
+                 create (a)-[r:SHARED {expId:"${expId}",createDate:timestamp()}] ->(b) """ ).executeAsync()
+
       }
 
   //加载我的好友
     def loadMyFriend(openid: String): Seq[String] = {
-      val req= Cypher(s"MATCH (u:User{ openid:${openid} })-[r:IS_FRIEND]->(f:User) RETURN f.openid")
+      val req= Cypher(s"""MATCH (u:User{ openid:"${openid}" })-[r:SHARED]->(f:User) RETURN distinct f.openid""")
       val stream: Seq[CypherResultRow] = req()
       stream.map(row => { row[String]("f.openid") }).toList
     }

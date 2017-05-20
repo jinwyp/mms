@@ -38,12 +38,11 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
     * 评论内容
     *
     * @param openid
-    * @param createDate
     * @param content
     */
-  case class CommentsRequest(reportid:String,openid: String, createDate: Date, content: String)
+  case class CommentsRequest(reportid:String,openid: String, content: String)
 
-  implicit val CommentsFormat = jsonFormat4(CommentsRequest)
+  implicit val CommentsFormat = jsonFormat3(CommentsRequest)
 
   /**
     *
@@ -54,7 +53,7 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
     * @param material    耗材
     * @param flows       工艺流程
     */
-  case class SignInfoRequest(reportid: String,  checked: Boolean=false, realPicture: List[String], material: List[MaterialRequest], flows: List[ArtFlowRequest],introd:String)
+  case class SignInfoRequest(reportid: String,  checked: Boolean=false,realPicture: List[String], material: List[MaterialRequest], flows: List[ArtFlowRequest],introd:String)
 
   implicit val SignInfoRequestFormat = jsonFormat6(SignInfoRequest)
 
@@ -92,5 +91,8 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
 
   implicit val ExperienceReportRequestFormat = jsonFormat14(ExperienceReportRequest)
 
+  case  class CollectInfoRequest(openid:String,reportids:List[String])
+
+  implicit val CollectInfoRequestFormat= jsonFormat2(CollectInfoRequest)
 
 }

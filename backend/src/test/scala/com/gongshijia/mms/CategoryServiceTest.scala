@@ -1,27 +1,18 @@
 package com.gongshijia.mms
 
-import com.gongshijia.mms.core.{MongoTestSupport, Neo4jSupport}
-import com.gongshijia.mms.user.login.LoginService
-import org.mongodb.scala.model.{Filters, UpdateOptions}
-import org.mongodb.scala.{MongoClient, MongoCollection}
-import org.mongodb.scala.MongoCollection
+import com.gongshijia.mms.core.{MongoSupport, MongoTestSupport}
+import com.gongshijia.mms.experience.ExperienceReportController
 import org.mongodb.scala.bson.ObjectId
-import org.mongodb.scala.bson.collection.immutable.Document
-import org.mongodb.scala.model.Filters._
-import org.mongodb.scala.model.UpdateOptions
-import org.mongodb.scala.result.UpdateResult
-
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration._
 
 /**
   * Created by xiangyang on 2017/5/13.
   */
-object CategoryServiceTest extends App with Neo4jSupport{
-  val x = "oiBDr0M-MinCSj0pVPJG3Z6kcZZw"
-  val id="591ad1043a4abea073a8b489"
-// findUserByOpenId(x)
-  createFriendRelationShip("a","b","1233")
-//  collection.find(Document("_id"->id)).results()
+object CategoryServiceTest extends App with MongoTestSupport with MongoSupport with ExperienceReportController {
+  val oid = "oiBDr0M-MinCSj0pVPJG3Z6kcZZw"
+  val reportId:String = "591d1b703a4abedc2844e746"
+  val signId = "591d7815289bbf20eb742546"
+//  updateSureSignInfo(oid, reportId,signId)
+  //  val collection: MongoCollection[ExperienceReport] = mongoDb.getCollection("exp_report")
+  //  collection.find(and(equal("_id", new ObjectId(reportId)), equal("openid", x))).first().printResults()
 
 }

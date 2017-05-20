@@ -7,12 +7,13 @@ Page({
   data: {
     slideshow: false,
     currentId:0,
-    expLists: []
+    expLists: [],
+    current:0
   },
   onLoad : function(){
     var that = this
     var openId = wx.getStorageSync('accessToken')
-        console.log('openId1',openId);
+        console.log('openId',openId);
    
 
     if (openId) {
@@ -30,7 +31,8 @@ Page({
               nickName: res.data[i].nickName,
               avatarUrl: res.data[i].avatarUrl,
               videos:res.data[i].videos,
-              signInfo: res.data[i].signInfo
+              signInfo: res.data[i].signInfo,
+              current: that.data.current
             };
             that.data.expLists.push(friendList);
             that.setData({
@@ -61,7 +63,9 @@ Page({
     var current=e.detail.current,
         listsLen=this.data.expLists.length,
         that=this;
-
+        this.setData({
+          current: current
+        })
         // 判断是否滑到最后一个
         if(current==listsLen-1){
           CategoryService.friendList('', imgIndex).then(function (res) {
@@ -85,12 +89,19 @@ Page({
                 };
                 that.data.expLists.push(newobj);
                 that.setData({
-                  expLists: that.data.expLists
+                  expLists: that.data.expLists,
+                  current:that.data.current
                 })
               }
               imgIndex = imgIndex+1;
             }
           }).catch(Error.PromiseError)
         }
+  },
+  named:function(e){
+   var url=e.target.dataset.url,that=this;
+    wx.navigateTo({
+      url: url
+    })
   }
 })
