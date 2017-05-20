@@ -78,17 +78,22 @@ Page({
   },
   onLoad: function () {
     var that = this
-    var openId = wx.getStorageSync('accessToken')
-        console.log('openId',openId)
-    if (openId) {
-        CategoryService.getIndexList().then(function(res){
-          console.log('getIndexList',res)
-          that.setData({
-            interest:res.data.categories
-          })
+   setTimeout(function(){
+     var openId = wx.getStorageSync('accessToken')
+     console.log('openId', openId)
+     if (openId) {
+       CategoryService.getIndexList().then(function (res) {
+         console.log('getIndexList', res)
+         that.setData({
+           interest: res.data.categories
+         })
 
-        }).catch(Error.PromiseError)
-    }
+       }).catch(Error.PromiseError)
+     }
+   },1000)
+   
+
+    
    
   }
 })

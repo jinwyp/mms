@@ -221,5 +221,10 @@ Page({
         })
       }
     }).catch(Error.PromiseError)
+  },
+  craftDetail : function(){
+    wx.navigateTo({
+      url: '/pages/craftDetail/craftDetail'
+    })
   }
 })
