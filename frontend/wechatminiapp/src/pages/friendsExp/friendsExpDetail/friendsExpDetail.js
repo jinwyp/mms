@@ -41,7 +41,6 @@ Page({
   
     if (openId && id) {
         CategoryService.friendDetail('',id).then(function(res){
-          console.log(res.data.avatarUrl)
           that.setData({
             videos: res.data.videos,
             avatarUrl: res.data.avatarUrl,
@@ -55,7 +54,6 @@ Page({
             checked:res.data.checked,
             shopName: res.data.shopName,
             locationName: res.data.locationName,
-            signId:res.data.signInfo[0]._id
           })
         }).catch(Error.PromiseError)
     }
@@ -66,7 +64,6 @@ Page({
         signInfoId: pid
       }
       CategoryService.makeSureReport(mkdata).then(function (res) {
-        console.log(res.data.avatarUrl)
         that.setData({
           videos: res.data.videos,
           avatarUrl: res.data.avatarUrl,
@@ -210,7 +207,6 @@ Page({
   addProcess : function(){
     var that = this 
     CategoryService.addProcess().then(function (res) {
-      console.log("res._id+"+res._id)
       if(res.shopName == undefined){
         wx.navigateTo({
           url: '/pages/personInfo/personInfo?reportId=' + that.data.hrefId
