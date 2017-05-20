@@ -32,10 +32,14 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
       (openid, pageSize, pageNum) => {
         val rs = listReport(openid = openid, pageSize = pageSize, pageNum = pageNum, category = null) map { reports=>
           reports.map( t =>
-            if(t.openid==openid){
-                t
+            if(t.checked==1){
+              t.copy(signInfo=Nil)
             }else{
-              t.copy(signInfo = Nil)
+              if(t.openid==openid){
+                t
+              }else{
+                t.copy(signInfo = Nil)
+              }
             }
           )
         }
