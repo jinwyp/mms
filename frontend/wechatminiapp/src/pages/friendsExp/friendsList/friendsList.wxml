@@ -47,7 +47,7 @@
                               <view class="storeManName">{{item.userName}}</view>
                               <view class="storeName">{{item.shopName}}</view>
                           </view>
-                          <button class="addDetail">确认署名</button>
+                          <button class="addDetail" bindtap="named" data-current="{{current}}" data-url="../../friendsExp/friendsExpDetail/friendsExpDetail?pid={{item._id}}&id={{expLists[current].hrefId}}">确认署名</button>
                       </view>
                     </block>
                   </scroll-view>
