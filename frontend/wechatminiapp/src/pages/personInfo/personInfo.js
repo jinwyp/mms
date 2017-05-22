@@ -7,16 +7,10 @@ var apiPath = require("../../service/apiPath.js");
 var app = getApp() 
 Page({
   data: {
-   nickName:'',
-  //  WXcode:'../../images/upload.png',
-  //  upWXcode:'',
+  //  nickName:'',
+   wxQrCode: '../../images/upload.png',
    head:'',
    week:'',
-  //  time: '09:00',
-  //  time2: '18:00',
-  //  latitude:'',
-  //  longitude:'',
-  //  tel:'',
    ischeck1:false,
    ischeck2: false,
    ischeck3:false,
@@ -24,8 +18,8 @@ Page({
    ischeck5: false,
    ischeck6: false,
    ischeck7: false,
-   address:'请选择',
-   submitAll:[{
+  //  address:'请选择',
+   submitAll:{
       userName:'',
       phone:'',
       shopName:'',
@@ -33,12 +27,12 @@ Page({
       workLat:'',
       workLon:'',
       wxNum:'',
-      wxQrCode:'',
+      wxQrCode:'../../images/upload.png',
       workDay:[],
       workBeg: '09:00',
       workEnd: '18:00'
 
-  }],
+  },
    ifSubmit: false
   }, 
   //  时间选择
@@ -170,14 +164,8 @@ Page({
          'submitAll.userName':e.detail.value.name,
          'submitAll.phone':e.detail.value.tel,
          'submitAll.shopName':e.detail.value.shopName,
-        //  'submitAll.workAddress':that.data.address,
-        //  'submitAll.workLat':that.data.latitude,
-        //  'submitAll.workLon':that.data.longitude,
          'submitAll.wxNum':e.detail.value.wx,
-        //  'submitAll.wxQrCode': that.data.upWXcode,
          'submitAll.workDay':that.data.week,
-        //  'submitAll.workBeg':that.data.time,
-        //  'submitAll.workEnd':that.data.time2
      })
      console.log(that.data.submitAll)
      var all = that.data.submitAll;
@@ -272,9 +260,9 @@ Page({
         success: function (res) {
           console.log(res)
           that.setData({
-            head: res.data.avatarUrl,
-            nickName: res.data.nickName,
-            address: res.data.nickName,
+            // head: res.data.avatarUrl,
+            // nickName: res.data.nickName,
+            // address: res.data.nickName,
           })
         }
       })
@@ -292,8 +280,7 @@ Page({
       })
     }).catch(Error.PromiseError)
 
-    if (openId) {
-      
+    if (openId) { 
       wx.request({
         url: apiPath.addProcess,
         method:'GET',
@@ -302,43 +289,45 @@ Page({
           'X-OPENID': wx.getStorageSync('accessToken'),
         }, 
         success: function (res) {
-          console.log(res.data.workDay)
+          console.log('aaa',res.data)
           var workDay = res.data.workDay;
-          for (var i = 0; i < workDay.length;i++){
-            if (workDay[i] == 1){
-              that.setData({
-                ischeck1: true,
-              })
-            } else if (workDay[i] == 2){
-              that.setData({
-                ischeck2: true,
-              })
-            }else if (workDay[i] == 3) {
-              that.setData({
-                ischeck3: true,
-              })
-            } else if (workDay[i] == 4) {
-              that.setData({
-                ischeck4: true,
-              })
-            } else if (workDay[i] == 5) {
-              that.setData({
-                ischeck5: true,
-              })
-            } else if (workDay[i] == 6) {
-              that.setData({
-                ischeck6: true,
-              })
-            } else if (workDay[i] == 7) {
-              that.setData({
-                ischeck7: true,
-              })
+          if (workDay){
+            for (var i = 0; i < workDay.length;i++){
+              if (workDay[i] == 1){
+                that.setData({
+                  ischeck1: true,
+                })
+              } else if (workDay[i] == 2){
+                that.setData({
+                  ischeck2: true,
+                })
+              }else if (workDay[i] == 3) {
+                that.setData({
+                  ischeck3: true,
+                })
+              } else if (workDay[i] == 4) {
+                that.setData({
+                  ischeck4: true,
+                })
+              } else if (workDay[i] == 5) {
+                that.setData({
+                  ischeck5: true,
+                })
+              } else if (workDay[i] == 6) {
+                that.setData({
+                  ischeck6: true,
+                })
+              } else if (workDay[i] == 7) {
+                that.setData({
+                  ischeck7: true,
+                })
+              }
             }
+            that.setData({
+              submitAll: res.data,
+            })
           }
-          that.setData({
-            submitAll: res.data,
-            
-          })
+          
           console.log(that.data.submitAll)
         }
       })

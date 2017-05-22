@@ -7,7 +7,7 @@
         </view>
         <view class="borderB row borderT H100">
             <view class="form-title">姓名：</view>
-            <input name="name" value="{{submitAll.nickName}}"/>
+            <input name="name" value="{{submitAll.userName}}"/>
         </view>
         <view class="borderB row H100">
             <view class="form-title">联系电话：</view>
