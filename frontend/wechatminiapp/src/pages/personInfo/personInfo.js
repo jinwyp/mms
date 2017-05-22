@@ -17,6 +17,14 @@ Page({
    latitude:'',
    longitude:'',
    tel:'',
+   ischeck1:false,
+   ischeck2: false,
+   ischeck3:false,
+   ischeck4:false,
+   ischeck5: false,
+   ischeck6: false,
+   ischeck7: false,
+
    address:'请选择',
    submitAll:[{
       userName:'',
@@ -131,7 +139,7 @@ Page({
                 that.setData({
                   upWXcode: apiPath.ossUrl + callBackName
                 })
-                // console.log(that.data.upWXcode)
+                console.log(that.data.upWXcode)
               },
               fail: function (res) {
                 // console.log(res)
@@ -255,34 +263,84 @@ Page({
      
 
      if (that.data.ifSubmit === true){
-      CategoryService.improveInfo(that.data.submitAll).then(function (res) {
-         wx.navigateTo({
-           url: '/pages/craft/craftTitle?reportId=' + reportId,
-         })
-
-      }).catch(Error.PromiseError)
+       wx.request({
+         url: apiPath.improveInfo,
+        method:'POST',
+        header: {
+          'content-type': 'application/json',
+          'X-OPENID': wx.getStorageSync('accessToken'),
+        }, 
+        data: that.data.submitAll,
+        success: function (res) {
+          console.log(res)
+          that.setData({
+            head: res.data.avatarUrl,
+            nickName: res.data.nickName,
+            address: res.data.nickName,
+          })
+        }
+      })
     }
   },
 
   onLoad: function (option) {
     var that = this;
-        reportId = option.reportId
+        // reportId = option.reportId
     var openId = wx.getStorageSync('accessToken')
     if (openId) {
-      UserService.getWXUserInfo().then(function (res) {
-        console.log(res)
-        that.setData({
-          head: res.avatarUrl
-        })
+      // UserService.getWXUserInfo().then(function (res) {
+      //   console.log(res)
+      //   that.setData({
+      //     head: res.avatarUrl
+      //   })
         
-      }).catch(Error.PromiseError)
+      // }).catch(Error.PromiseError)
       wx.request({
-        url: apiPath.addProcess + openId,
+        url: apiPath.addProcess,
+        method:'GET',
         header: {
-          'content-type': 'application/json'
-        }, 'X-OPENID': wx.getStorageSync('accessToken'),
+          'content-type': 'application/json',
+          'X-OPENID': wx.getStorageSync('accessToken'),
+        }, 
         success: function (res) {
-          console.log(res)
+          console.log(res.data.workDay)
+          var workDay = res.data.workDay;
+          for (var i = 0; i < workDay.length;i++){
+            if (workDay[i] == 1){
+              that.setData({
+                ischeck1: true,
+              })
+            } else if (workDay[i] == 2){
+              that.setData({
+                ischeck2: true,
+              })
+            }else if (workDay[i] == 3) {
+              that.setData({
+                ischeck3: true,
+              })
+            } else if (workDay[i] == 4) {
+              that.setData({
+                ischeck4: true,
+              })
+            } else if (workDay[i] == 5) {
+              that.setData({
+                ischeck5: true,
+              })
+            } else if (workDay[i] == 6) {
+              that.setData({
+                ischeck6: true,
+              })
+            } else if (workDay[i] == 7) {
+              that.setData({
+                ischeck7: true,
+              })
+            }
+          }
+          that.setData({
+            submitAll: res.data,
+            
+          })
+          console.log(that.data.submitAll)
         }
       })
     }

@@ -353,6 +353,7 @@ Page({
           'checked' : false,
           'introd' : this.data.introd
         }
+        console.log(obj)
 
       var openId = wx.getStorageSync('accessToken')
       if (openId) {

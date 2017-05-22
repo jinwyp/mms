@@ -16,7 +16,7 @@ App({
 
 
     var accessToken = wx.getStorageSync('accessToken')
-    // console.log("accessToken",accessToken)
+    console.log("accessToken",accessToken)
 
     if(!accessToken){
 
@@ -29,7 +29,7 @@ App({
           return UserService.signUp(result)
 
       }).then(function(resultUserToken){
-
+        console.log(resultUserToken+"@")
         if(typeof resultUserToken.error === 'undefined'){
              that.globalData.accessToken = resultUserToken.data.openid
             // that.globalData.userId = resultUserToken._id
@@ -41,6 +41,7 @@ App({
        
       }).catch(Error.PromiseError)
     }
+    console.log(accessToken+"@@")
   },
   
   globalData:{
