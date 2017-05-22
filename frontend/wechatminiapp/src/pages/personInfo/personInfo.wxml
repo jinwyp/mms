@@ -3,7 +3,7 @@
     <form bindsubmit="formSubmit" bindreset="formReset">
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">头像</view>
-            <image src="{{submitAll.avatarUrl}}" mode="aspecFill" class="personImg"></image>
+            <image src="{{head}}" mode="aspecFill" class="personImg"></image>
         </view>
         <view class="borderB row borderT H100">
             <view class="form-title">姓名：</view>
@@ -63,13 +63,13 @@
         <view class="row borderT borderB H200">
             <view class="form-title mar80">工作时间：</view>
             <view class="workTime">
-                <picker mode="time" class="picker lineH48" value="{{time}}" name="timePicker1" start="09:00" end="23:00" bindchange="bindTimeChange">
+                <picker mode="time" class="picker lineH48" value="{{submitAll.workBeg}}" name="timePicker1" start="09:00" end="23:00" bindchange="bindTimeChange">
                 <image src="../../images/trigger-r.png" class="trigger-r"></image>
                     <view class="time">
                     上班时间: {{submitAll.workBeg}}
                     </view>
                 </picker> 
-                <picker mode="time" class="picker lineH48 borderT" value="{{time2}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
+                <picker mode="time" class="picker lineH48 borderT" value="{{submitAll.workEnd}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
                 <image src="../../images/trigger-r.png" class="trigger-r"></image>
                     <view class="time">
                     下班时间: {{submitAll.workEnd}}

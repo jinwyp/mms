@@ -36,8 +36,54 @@ form{
 .workTime{
    float: right;
 }
-.H200{
-    height: 230rpx;
+/*.H200{
+    height: 200rpx;
+}*/
+
+@media screen and (max-width: 320px) {
+    .H200{
+      height: 230rpx;
+    }
+    .week{
+      width: 75%;
+    }
+    .H150{
+       padding-top: 6px;
+    }
+    .day{
+      padding-top: 230rpx;
+    }
+}
+@media screen and (min-width: 375px) {
+    .H200{
+      height: 200rpx;
+    }
+    .week{
+      width: 78%;
+    }
+    .H150{
+       padding-top: 8px;
+    }
+    .day{
+      padding-top: 200rpx;
+    }
+}
+@media screen and (min-width: 414px) {
+    .H200{
+      height: 180rpx;
+    }
+    .week{
+      width: 80%;
+    }
+    .H150{
+       padding-top: 8px;
+    }
+    .day{
+      padding-top: 200rpx;
+    }
+    .form-title{
+      margin-top: 5rpx;
+    }
 }
 .mar80{
     margin-top: 80rpx;
@@ -50,7 +96,6 @@ form{
 }
 .week{
     display: inline-block;
-    width: 70%;
     padding: 40rpx 0;
 }
 .checkbox{
@@ -59,7 +104,7 @@ form{
 .day{
   display: inline-block;
   vertical-align: top;
-  padding-top: 250rpx;
+  /*padding-top: 250rpx;*/
   color: #666666;
 }
 .week checkbox-group{
@@ -74,7 +119,7 @@ form{
 }
 .H150{
      height: 150rpx;
-     padding-top: 10px;
+    
 }
 .H100{
     height: 100rpx;

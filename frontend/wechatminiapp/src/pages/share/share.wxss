@@ -1,4 +1,28 @@
 /* pages/personInfo/personInfo.wxss */
+@media screen and (max-width: 320px) {
+    .lineH48{
+      line-height: 100rpx;
+    }
+    .lineH45{
+      line-height: 100rpx;
+    }
+}
+@media screen and (min-width: 375px) {
+    .lineH48{
+      line-height: 100rpx;
+    }
+     .lineH45{
+      line-height: 100rpx;
+    }
+}
+@media screen and (min-width: 414px) {
+    .lineH48{
+      line-height: 100rpx;
+    }
+     .lineH45{
+      line-height: 90rpx;
+    }
+}
 .items{
     height: 120rpx;
     background-color: #ffffff;
@@ -90,12 +114,12 @@ textarea{
 .lineH120{
     line-height: 120rpx;
 }
-.lineH48{
+/*.lineH48{
     line-height: 40px;
-}
-.lineH45{
+}*/
+/*.lineH45{
     line-height: 40px;
-}
+}*/
 /*上传*/
 .uploadWrap{
     padding:32rpx 28rpx 32rpx 28rpx;

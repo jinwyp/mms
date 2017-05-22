@@ -8,15 +8,15 @@ var app = getApp()
 Page({
   data: {
    nickName:'',
-   WXcode:'../../images/upload.png',
-   upWXcode:'',
+  //  WXcode:'../../images/upload.png',
+  //  upWXcode:'',
    head:'',
    week:'',
-   time: '09:00',
-   time2: '18:00',
-   latitude:'',
-   longitude:'',
-   tel:'',
+  //  time: '09:00',
+  //  time2: '18:00',
+  //  latitude:'',
+  //  longitude:'',
+  //  tel:'',
    ischeck1:false,
    ischeck2: false,
    ischeck3:false,
@@ -24,20 +24,19 @@ Page({
    ischeck5: false,
    ischeck6: false,
    ischeck7: false,
-
    address:'请选择',
    submitAll:[{
       userName:'',
       phone:'',
       shopName:'',
-      workAddress:'',
+      workAddress:'请选择',
       workLat:'',
       workLon:'',
       wxNum:'',
       wxQrCode:'',
       workDay:[],
-      workBeg:'',
-      workEndl:''
+      workBeg: '09:00',
+      workEnd: '18:00'
 
   }],
    ifSubmit: false
@@ -46,12 +45,12 @@ Page({
   //时间选择
   bindTimeChange: function(e) {
     this.setData({
-      time: e.detail.value
+      'submitAll.workBeg': e.detail.value
     })
   },
   bindTimeChange2: function(e) {
     this.setData({
-      time2: e.detail.value
+      'submitAll.workEnd': e.detail.value
     })
   },
   // checkbox
@@ -70,9 +69,9 @@ Page({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
         success: function (res) {
           that.setData({
-            latitude : res.latitude,
-            longitude : res.longitude,
-            address : res.address
+            'submitAll.workLat' : res.latitude,
+            'submitAll.workLon' : res.longitude,
+            'submitAll.workAddress' : res.address
           })
             
         }
@@ -137,9 +136,8 @@ Page({
               success: function (res) {
                 var callBackName = JSON.parse(res.data).filename;
                 that.setData({
-                  upWXcode: apiPath.ossUrl + callBackName
+                  'submitAll.wxQrCode': apiPath.ossUrl + callBackName
                 })
-                console.log(that.data.upWXcode)
               },
               fail: function (res) {
                 // console.log(res)
@@ -172,14 +170,14 @@ Page({
          'submitAll.userName':e.detail.value.name,
          'submitAll.phone':e.detail.value.tel,
          'submitAll.shopName':e.detail.value.shopName,
-         'submitAll.workAddress':that.data.address,
-         'submitAll.workLat':that.data.latitude,
-         'submitAll.workLon':that.data.longitude,
+        //  'submitAll.workAddress':that.data.address,
+        //  'submitAll.workLat':that.data.latitude,
+        //  'submitAll.workLon':that.data.longitude,
          'submitAll.wxNum':e.detail.value.wx,
-         'submitAll.wxQrCode': that.data.upWXcode,
+        //  'submitAll.wxQrCode': that.data.upWXcode,
          'submitAll.workDay':that.data.week,
-         'submitAll.workBeg':that.data.time,
-         'submitAll.workEnd':that.data.time2
+        //  'submitAll.workBeg':that.data.time,
+        //  'submitAll.workEnd':that.data.time2
      })
      console.log(that.data.submitAll)
      var all = that.data.submitAll;
@@ -287,14 +285,15 @@ Page({
     var that = this;
         // reportId = option.reportId
     var openId = wx.getStorageSync('accessToken')
+    UserService.getWXUserInfo().then(function (res) {
+      console.log(res)
+      that.setData({
+        head: res.avatarUrl
+      })
+    }).catch(Error.PromiseError)
+
     if (openId) {
-      // UserService.getWXUserInfo().then(function (res) {
-      //   console.log(res)
-      //   that.setData({
-      //     head: res.avatarUrl
-      //   })
-        
-      // }).catch(Error.PromiseError)
+      
       wx.request({
         url: apiPath.addProcess,
         method:'GET',
