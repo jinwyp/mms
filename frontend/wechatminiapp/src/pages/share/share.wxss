@@ -1,5 +1,5 @@
 /* pages/personInfo/personInfo.wxss */
-@media screen and (max-width: 320px) {
+/*@media screen and (max-width: 320px) {
     .lineH48{
       line-height: 100rpx;
     }
@@ -22,7 +22,13 @@
      .lineH45{
       line-height: 90rpx;
     }
-}
+}*/
+  .lineH48{
+    line-height: 100rpx;
+  }
+  .lineH45{
+    line-height: 100rpx;
+  }
 .items{
     height: 120rpx;
     background-color: #ffffff;
@@ -82,11 +88,11 @@ textarea{
 }
 .picker{
     float: right;
-    font-size: 16px;
+    font-size: 32rpx;
 }
 .map{
     float: right;
-    font-size: 14px;
+    font-size: 28rpx;
     margin-top: 30rpx;
     width: 300rpx;
     text-align: right;
@@ -99,7 +105,7 @@ textarea{
 }
 .H150{
      height: 150rpx;
-     padding-top: 10px;
+     padding-top: 20rpx;
 }
 .H100{
     height: 100rpx;
@@ -179,10 +185,10 @@ textarea{
 }*/
 
 .trigger-r{
-    width: 20px;
-    height: 20px;
+    width: 40rpx;
+    height: 40rpx;
     float: right;
-    margin-top: 28rpx;
+    margin-top: 30rpx;
 }
 .btn-area{
     
@@ -227,12 +233,12 @@ textarea{
 .switch {
     position: relative;
     overflow: hidden;
-	width:90px;
-	height: 32px;
-	border-radius: 16px;
-    line-height: 32px;
+	width:180rpx;
+	height: 64rpx;
+	border-radius: 32rpx;
+    line-height: 64rpx;
     color:#fff;
-    padding-left: 8px;
+    padding-left: 16rpx;
     font-size: 30rpx;
 }
 
@@ -240,7 +246,7 @@ textarea{
     content: "";
     position: absolute;
     background-color: #fff;
-    border-radius: 15px;
+    border-radius: 30rpx;
     transition: all ease-out 0.3s;
     -webkit-transition: all 0.3s;
 }
@@ -250,8 +256,8 @@ textarea{
 	display: inline-block;
 	content: "";
 	margin-top: 1px;
-	height: 30px;
-	width: 30px;
+	height: 60rpx;
+	width: 60rpx;
 	background: red;
 	border-radius: 50%;
 	background-color: #fff;

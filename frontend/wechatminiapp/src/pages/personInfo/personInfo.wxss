@@ -25,7 +25,7 @@ form{
 }
 .address{
     float: right;
-    font-size: 14px;
+    font-size: 32rpx;
     margin-top: 30rpx;
     width: 300rpx;
     text-align: right;
@@ -40,7 +40,7 @@ form{
     height: 200rpx;
 }*/
 
-@media screen and (max-width: 320px) {
+/*@media screen and (max-width: 320px) {
     .H200{
       height: 230rpx;
     }
@@ -84,12 +84,27 @@ form{
     .form-title{
       margin-top: 5rpx;
     }
-}
+}*/
+  .H200{
+    height: 200rpx;
+  }
+  .week{
+    width: 78%;
+  }
+  .H150{
+      padding-top: 16rpx;
+  }
+  .day{
+    padding-top: 200rpx;
+  }
+  .form-title{
+    margin-top: 5rpx;
+  }
 .mar80{
     margin-top: 80rpx;
 }
 .picker{ 
-    font-size: 16px;
+    font-size: 32rpx;
 }
 .time{
     display: inline-block;
@@ -135,7 +150,7 @@ form{
     line-height: 120rpx;
 }
 .lineH48{
-    line-height: 48px;
+    line-height: 96rpx;
 }
 .personImg,.chooseimage{
     width: 100rpx;
@@ -151,8 +166,8 @@ form{
     border: 1px solid #e4e4e4;
 }
 .trigger-r{
-    width: 20px;
-    height: 20px;
+    width: 40rpx;
+    height: 40rpx;
     float: right;
     margin-top: 28rpx;
 }
