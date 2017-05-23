@@ -92,8 +92,8 @@ textarea{
 }
 .map{
     float: right;
-    font-size: 28rpx;
-    margin-top: 30rpx;
+    font-size: 32rpx;
+    margin-top: 28rpx;
     width: 300rpx;
     text-align: right;
     white-space:nowrap;
