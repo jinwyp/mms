@@ -62,20 +62,20 @@ Page({
           });
           return uuid;
       };
-      wx.request({
-        url: 'http://zxy.gongshijia.com/asset/policy',
-        method:'GET',
-        header: {
-          'content-type': 'application/json',
-          'X-OPENID':wx.getStorageSync('accessToken')
-        },
-        success: function(res) {
-          policy=res.data.data.policy;
-          callback=res.data.data.callback;
-          signature=res.data.data.signature;
-          OssAccessKeyId=res.data.data.ossAccessId;
-        }
-      })
+      // wx.request({
+      //   url: 'http://zxy.gongshijia.com/asset/policy',
+      //   method:'GET',
+      //   header: {
+      //     'content-type': 'application/json',
+      //     'X-OPENID':wx.getStorageSync('accessToken')
+      //   },
+      //   success: function(res) {
+      //     policy=res.data.data.policy;
+      //     callback=res.data.data.callback;
+      //     signature=res.data.data.signature;
+      //     OssAccessKeyId=res.data.data.ossAccessId;
+      //   }
+      // })
 
       wx.chooseImage({
         count: 9, // 默认9
@@ -103,18 +103,38 @@ Page({
               }
             })
           }else{
-            for(var i=0;i<tempFilePaths.length;i++){
-              suffix=res.tempFilePaths[i].split('.')[1];
-              var fd = {
-                key: generateUUID() + '.' + suffix,
-                policy: policy ,
-                success_action_status:'200',
-                callback: callback,
-                signature:signature,
-                OSSAccessKeyId:OssAccessKeyId,
-                file: tempFilePaths[i]
-              }
+            // for(var i=0;i<tempFilePaths.length;i++){
+            //   suffix=res.tempFilePaths[i].split('.')[1];
+            //   var fd = {
+            //     'key': generateUUID() + '.' + suffix,
+            //     'policy': policy ,
+            //     'success_action_status':'200',
+            //     'callback': callback,
+            //     'signature':signature,
+            //     'OSSAccessKeyId':OssAccessKeyId,
+            //     'file': tempFilePaths[i]
+            //   }
+            //   wx.uploadFile({
+            //     url: apiPath.ossUrl,
+            //     filePath:tempFilePaths[i],
+            //     name: 'file',
+            //     header: { "content-Type": "multipart/form-data" },
+            //     formData: fd,
+            //     success: function(res) {
+            //       console.log(res)
+            //       var myFileName = apiPath.ossUrl + JSON.parse(res.data).filename;
+                 
+            //       console.log(myFileName)
+            //       that.data.uploadPath.push(myFileName)
+            //     },
+            //     fail:function(res){
+            //       console.log(res)
+            //     }
+            //   })
+            // }
+            for (var i = 0; i < tempFilePaths.length; i++){
               wx.uploadFile({
+<<<<<<< HEAD
                 url: apiPath.ossUrl,
                 filePath:tempFilePaths[i],
                 // name: 'file',
@@ -123,10 +143,20 @@ Page({
                 success: function(res) {
                 
                   var myFileName = apiPath.ossUrl + JSON.parse(res.data).filename;
+=======
+                url: 'http://zxy.gongshijia.com/asset/upload',
+                filePath: tempFilePaths[i],
+                name: 'file',
+                header: { "content-Type": "multipart/form-data" },
+                success: function (res) {
+                  console.log(res)
+                  var myFileName = JSON.parse(res.data).data;
+>>>>>>> 548736abf0fef006da87c677c4688fc60c287670
                   console.log(myFileName)
                   that.data.uploadPath.push(myFileName)
                 },
-                fail:function(res){
+                fail: function (res) {
+                  console.log(res)
                 }
               })
             }
@@ -354,7 +384,6 @@ Page({
           'checked' : false,
           'introd' : this.data.introd
         }
-        console.log(obj)
 
       var openId = wx.getStorageSync('accessToken')
       if (openId) {
@@ -370,7 +399,6 @@ Page({
   },
   onShareAppMessage:function(){
     var openId = wx.getStorageSync('accessToken')
-    console.log('/report/shareReport/' + rpiId + '/' + openId)
     return {
       title: '工时家',
       path: '/report/shareReport/' + rpiId+ '/'+openId,

@@ -31,8 +31,8 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
                   gender: Int, language: String, nickName: String,userName:Option[String]=None,
                   workBeg: Option[String] = None, workEnd: Option[String] = None, workAddress: Option[String] = None,
                   phone: Option[String] = None, shopName: Option[String] = None, lastUpdate: Option[Date] = None,
-                  categories: Option[List[String]]=Some(List()),wxNum:Option[String]=None,wxQrCode:Option[String]=None,
-                  workDay:Option[List[Int]]=Some(List()),workLon:Option[Double]=None,workLat:Option[Double]=None);
+                  categories: List[String]=List(),wxNum:Option[String]=None,wxQrCode:Option[String]=None,
+                  workDay:List[Int]=List(),workLon:Option[Double]=None,workLat:Option[Double]=None);
 
   implicit val UserResponseRequest= jsonFormat22(User)
   // 耗材
@@ -78,7 +78,11 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
 
   implicit val ExperienceReportFormat = jsonFormat19(ExperienceReport)
 
-  case  class CollectInfo(_id:ObjectId,openid:String,reportids:List[String])
+  case class CollectReport(reportId:String,category:String)
+
+  implicit val CollectReportFormat= jsonFormat2(CollectReport)
+
+  case  class CollectInfo(_id:ObjectId,openid:String,reportList:List[CollectReport])
 
   implicit val CollectInfoFormat= jsonFormat3(CollectInfo)
 
@@ -90,7 +94,8 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
     classOf[Comments],
     classOf[Material],
     classOf[ArtFlow],
-    classOf[CollectInfo]
+    classOf[CollectInfo],
+    classOf[CollectReport]
   ), DEFAULT_CODEC_REGISTRY)
 
   val mongoClient = MongoClient(coreConfig.getString("mongo.uri"))

@@ -25,29 +25,94 @@ form{
 }
 .address{
     float: right;
-    font-size: 14px;
-    margin-top: 30rpx;
-    width: 400rpx;
+    font-size: 32rpx;
+    margin-top: 28rpx;
+    width: 300rpx;
     text-align: right;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    color: #666666;
 }
 .workTime{
    float: right;
 }
-.H200{
-    height: 230rpx;
+/*.H200{
+    height: 200rpx;
+}*/
+
+/*@media screen and (max-width: 320px) {
+    .H200{
+      height: 230rpx;
+    }
+    .week{
+      width: 75%;
+    }
+    .H150{
+       padding-top: 6px;
+    }
+    .day{
+      padding-top: 230rpx;
+    }
 }
+@media screen and (min-width: 375px) {
+    .H200{
+      height: 200rpx;
+    }
+    .week{
+      width: 78%;
+    }
+    .H150{
+       padding-top: 8px;
+    }
+    .day{
+      padding-top: 200rpx;
+    }
+}
+@media screen and (min-width: 414px) {
+    .H200{
+      height: 180rpx;
+    }
+    .week{
+      width: 80%;
+    }
+    .H150{
+       padding-top: 8px;
+    }
+    .day{
+      padding-top: 200rpx;
+    }
+    .form-title{
+      margin-top: 5rpx;
+    }
+}*/
+  .H200{
+    height: 200rpx;
+  }
+  .week{
+    width: 78%;
+  }
+  .H150{
+      padding-top: 16rpx;
+  }
+  .day{
+    padding-top: 200rpx;
+  }
+  .form-title{
+    margin-top: 5rpx;
+  }
 .mar80{
     margin-top: 80rpx;
 }
 .picker{ 
-    font-size: 16px;
+    font-size: 32rpx;
+    color: #666666;
 }
 .time{
     display: inline-block;
 }
 .week{
     display: inline-block;
-    width: 70%;
     padding: 40rpx 0;
 }
 .checkbox{
@@ -56,11 +121,13 @@ form{
 .day{
   display: inline-block;
   vertical-align: top;
-  padding-top: 250rpx;
+  /*padding-top: 250rpx;*/
   color: #666666;
 }
 .week checkbox-group{
   float: right;
+  font-size: 32rpx;
+  color: #666666;
   
     /*line-height: 62rpx;
     margin-left: 280rpx;*/
@@ -71,7 +138,7 @@ form{
 }
 .H150{
      height: 150rpx;
-     padding-top: 10px;
+    
 }
 .H100{
     height: 100rpx;
@@ -87,7 +154,7 @@ form{
     line-height: 120rpx;
 }
 .lineH48{
-    line-height: 48px;
+    line-height: 96rpx;
 }
 .personImg,.chooseimage{
     width: 100rpx;
@@ -101,10 +168,11 @@ form{
     height: 100rpx;
     float: right;
     border: 1px solid #e4e4e4;
+    margin-top: 8rpx;
 }
 .trigger-r{
-    width: 20px;
-    height: 20px;
+    width: 40rpx;
+    height: 40rpx;
     float: right;
     margin-top: 28rpx;
 }

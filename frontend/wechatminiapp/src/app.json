@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/personInfo/personInfo",
     "pages/index/index",
     "pages/craftDetail/craftDetail",
     
@@ -12,7 +13,7 @@
     
     
     "pages/expDetail/expDetail",
-    "pages/personInfo/personInfo",
+    
     "pages/shareSubmit/shareSubmit"
   ],
   "window":{

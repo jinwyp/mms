@@ -7,54 +7,54 @@
         </view>
         <view class="borderB row borderT H100">
             <view class="form-title">姓名：</view>
-            <input name="name" />
+            <input name="name" value="{{submitAll.userName}}"/>
         </view>
         <view class="borderB row H100">
             <view class="form-title">联系电话：</view>
-            <input name="tel" type="number" value="{{tel}}" bindblur="checkTel"/>
+            <input name="tel" type="number" value="{{submitAll.phone}}" bindblur="checkTel"/>
         </view>
         <view class="borderB row H100">
             <view class="form-title">商号名称：</view>
-            <input name="shopName"/>
+            <input name="shopName" value="{{submitAll.shopName}}"/>
         </view>
         <view class="borderB row H100" bindtap="getLocation">
             <view class="form-title lineH48">工作地址：</view>
 
             <image src="../../images/trigger-r.png" class="trigger-r"></image>
-            <span class="address">{{address}}</span>
+            <span class="address">{{submitAll.workAddress}}</span>
         </view>
         <view class="borderB row H100">
             <view class="form-title">个人微信号：</view>
-            <input name="wx"/>
+            <input name="wx" value="{{submitAll.wxNum}}"/>
         </view>
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">个人微信二维码：</view>
-            <image src="{{WXcode}}" bindtap="chooseimage" mode="aspecFill" class="WXcode"></image>
+            <image src="{{submitAll.wxQrCode}}" bindtap="chooseimage" mode="aspecFill" class="WXcode"></image>
         </view>
         <view class="borderT row">
             <span class=" day" >工作日：</span>
             <view class="week">
                 <checkbox-group bindchange="checkboxChange">
                     <label class="checkbox">
-                        <checkbox value="1"/>星期一
+                        <checkbox value="1" checked="{{ischeck1}}"/>星期一
                     </label>
                     <label class="checkbox">
-                        <checkbox value="2"/>星期二
+                        <checkbox value="2" checked="{{ischeck2}}"/>星期二
                     </label>
                     <label class="checkbox">
-                        <checkbox value="3"/>星期三
+                        <checkbox value="3" checked="{{ischeck3}}"/>星期三
                     </label>
                     <label class="checkbox">
-                        <checkbox value="4"/>星期四
+                        <checkbox value="4" checked="{{ischeck4}}"/>星期四
                     </label>
                     <label class="checkbox">
-                        <checkbox value="5"/>星期五
+                        <checkbox value="5" checked="{{ischeck5}}"/>星期五
                     </label>
                     <label class="checkbox">
-                        <checkbox value="6"/>星期六
+                        <checkbox value="6" checked="{{ischeck6}}"/>星期六
                     </label>
                     <label class="checkbox">
-                        <checkbox value="7"/>星期日
+                        <checkbox value="7" checked="{{ischeck7}}"/>星期日
                     </label>
                 
                 </checkbox-group>
@@ -63,16 +63,16 @@
         <view class="row borderT borderB H200">
             <view class="form-title mar80">工作时间：</view>
             <view class="workTime">
-                <picker mode="time" class="picker lineH48" value="{{time}}" name="timePicker1" start="09:00" end="23:00" bindchange="bindTimeChange">
+                <picker mode="time" class="picker lineH48" value="{{submitAll.workBeg}}" name="timePicker1" start="09:00" end="23:00" bindchange="bindTimeChange">
                 <image src="../../images/trigger-r.png" class="trigger-r"></image>
                     <view class="time">
-                    上班时间: {{time}}
+                    上班时间: {{submitAll.workBeg}}
                     </view>
                 </picker> 
-                <picker mode="time" class="picker lineH48 borderT" value="{{time2}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
+                <picker mode="time" class="picker lineH48 borderT" value="{{submitAll.workEnd}}" name="timePicker2" start="09:00" end="23:00" bindchange="bindTimeChange2">
                 <image src="../../images/trigger-r.png" class="trigger-r"></image>
                     <view class="time">
-                    下班时间: {{time2}}
+                    下班时间: {{submitAll.workEnd}}
                     </view>
                 </picker>     
             </view>

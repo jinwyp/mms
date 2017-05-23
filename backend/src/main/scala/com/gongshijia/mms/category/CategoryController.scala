@@ -14,11 +14,11 @@ trait CategoryController extends CategoryService with LoginService {
   def handlerUserCategoriesGet(openid: String)(implicit ec: ExecutionContext): Future[CategoriesResponse] = {
 
     findUserByOpenId(openid) map { u =>
-      if (u.categories == null || u.categories.size==0) {
+      if (u.categories == Nil) {
         CategoriesResponse(defaultCategories)
       } else {
         val arts = defaultCategories.map(a =>
-          if (u.categories.get.contains(a.name)) {
+          if (u.categories.contains(a.name)) {
             a.copy(checked = true)
           } else {
             a
