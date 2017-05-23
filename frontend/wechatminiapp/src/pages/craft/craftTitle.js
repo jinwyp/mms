@@ -117,10 +117,11 @@ Page({
               wx.uploadFile({
                 url: apiPath.ossUrl,
                 filePath:tempFilePaths[i],
-                name: 'file',
+                // name: 'file',
                 header: { "content-Type": "multipart/form-data" },
                 formData: fd,
                 success: function(res) {
+                
                   var myFileName = apiPath.ossUrl + JSON.parse(res.data).filename;
                   console.log(myFileName)
                   that.data.uploadPath.push(myFileName)

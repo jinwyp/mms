@@ -15,38 +15,38 @@ App({
     // wx.setStorageSync('logs', logs)
 
 
-    var accessToken = wx.getStorageSync('accessToken')
-    console.log("accessToken",accessToken)
+  //   var accessToken = wx.getStorageSync('accessToken')
+  //   console.log("accessToken",accessToken)
 
-    if(!accessToken){
+  //   if(!accessToken){
 
-      UserService.getWXUserInfo().then(function(result){
+  //     UserService.getWXUserInfo().then(function(result){
 
-          if(!that.globalData.userInfo){
-            that.globalData.userInfo = result
-          }
+  //         if(!that.globalData.userInfo){
+  //           that.globalData.userInfo = result
+  //         }
 
-          return UserService.signUp(result)
+  //         return UserService.signUp(result)
 
-      }).then(function(resultUserToken){
-        console.log(resultUserToken+"@")
-        if(typeof resultUserToken.error === 'undefined'){
-             that.globalData.accessToken = resultUserToken.data.openid
-            // that.globalData.userId = resultUserToken._id
+  //     }).then(function(resultUserToken){
+  //       console.log(resultUserToken+"@")
+  //       if(typeof resultUserToken.error === 'undefined'){
+  //            that.globalData.accessToken = resultUserToken.data.openid
+  //           // that.globalData.userId = resultUserToken._id
 
-            wx.setStorageSync('accessToken', resultUserToken.data.openid)
-        }else{
-          wx.clearStorageSync()
-        }
+  //           wx.setStorageSync('accessToken', resultUserToken.data.openid)
+  //       }else{
+  //         wx.clearStorageSync()
+  //       }
        
-      }).catch(Error.PromiseError)
-    }
-    console.log(accessToken+"@@")
-  },
-  
-  globalData:{
-    userInfo : null,
-    userId : null,
-    accessToken : ''
+  //     }).catch(Error.PromiseError)
+  //   }
+  //   console.log(accessToken+"@@")
   }
+  
+  // globalData:{
+  //   userInfo : null,
+  //   userId : null,
+  //   accessToken : ''
+  // }
 })

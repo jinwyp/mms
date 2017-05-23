@@ -45,16 +45,7 @@ Page({
       // console.log('res', res.data.redirect)
           if(res.data.redirect === 0){
             wx.navigateTo({
-              url: '../collection/collection',
-              // success: function(res){
-              //   // success
-              // },
-              // fail: function(res) {
-              //   // fail
-              // },
-              // complete: function(res) {
-              //   // complete
-              // }
+              url: '../collection/collection'
             })
           }else if(res.data.redirect === 1){
             wx.navigateTo({
@@ -78,19 +69,35 @@ Page({
 
   },
   onLoad: function () {
-    var that = this
-   setTimeout(function(){
-     var openId = wx.getStorageSync('accessToken')
-     console.log('openId', openId)
-     if (openId) {
-       CategoryService.getIndexList().then(function (res) {
-         console.log('getIndexList', res)
-         that.setData({
-           interest: res.data.categories
-         })
-
-       }).catch(Error.PromiseError)
-     }
-   },1000) 
+    var that = this;
+  
+    UserService.getWXUserInfo().then(function (result) {
+      if (!that.globalData.userInfo) {
+        that.globalData.userInfo = result
+      }
+      return UserService.signUp(result)
+    }).then(function (resultUserToken) {
+      if (typeof resultUserToken.error === 'undefined') {
+        that.globalData.accessToken = resultUserToken.data.openid
+        wx.setStorageSync('accessToken', resultUserToken.data.openid)
+      } else {
+        wx.clearStorageSync()
+      }
+    }).then(function(){
+      var openId = wx.getStorageSync('accessToken')
+      if (openId) {
+        CategoryService.getIndexList().then(function (res) {
+          console.log('getIndexList', res)
+          that.setData({
+            interest: res.data.categories
+          })
+        }).catch(Error.PromiseError)
+      }
+    }).catch(Error.PromiseError)
+  },
+  globalData: {
+    userInfo: null,
+    userId: null,
+    accessToken: ''
   }
 })
