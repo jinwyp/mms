@@ -89,6 +89,7 @@ textarea{
 .picker{
     float: right;
     font-size: 32rpx;
+    color: #666666;
 }
 .map{
     float: right;
@@ -99,6 +100,7 @@ textarea{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    color: #666666;
 }
 .shop{
   width: 300rpx;
