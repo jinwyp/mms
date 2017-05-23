@@ -93,7 +93,9 @@ Page({
           })
         }).catch(Error.PromiseError)
       }
+      return null;
     }).catch(Error.PromiseError)
+    
   },
   globalData: {
     userInfo: null,
