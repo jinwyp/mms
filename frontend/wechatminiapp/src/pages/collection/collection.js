@@ -16,7 +16,7 @@ Page({
     indicatorDots: false,//指示点
     interval: 2000,//图片切换间隔时间
     duration: 500,//每个图片滑动速度,
-    circular:true,//是否采用衔接滑动
+    circular:false,//是否采用衔接滑动
   },
   show: function (e) {
     var that = this;

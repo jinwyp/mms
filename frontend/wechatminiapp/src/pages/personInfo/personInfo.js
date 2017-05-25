@@ -85,52 +85,55 @@ Page({
       });
       return uuid;
     };
-    wx.request({
-      url: 'http://zxy.gongshijia.com/asset/policy',
-      method: 'GET',
-      header: {
-        'content-type': 'application/json',
-        'X-OPENID': wx.getStorageSync('accessToken'),
-      },
-      success: function (res) {
-        policy = res.data.data.policy;
-        callback = res.data.data.callback;
-        signature = res.data.data.signature;
-        OssAccessKeyId = res.data.data.ossAccessId;
-      }
-    })
+    // wx.request({
+    //   url: 'http://zxy.gongshijia.com/asset/policy',
+    //   method: 'GET',
+    //   header: {
+    //     'content-type': 'application/json',
+    //     'X-OPENID': wx.getStorageSync('accessToken'),
+    //   },
+    //   success: function (res) {
+    //     policy = res.data.data.policy;
+    //     callback = res.data.data.callback;
+    //     signature = res.data.data.signature;
+    //     OssAccessKeyId = res.data.data.ossAccessId;
+    //   }
+    // })
 
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
+        console.log('res', res.tempFilePaths[0])
         that.setData({
-          WXcode: res.tempFilePaths
+          'submitAll.wxQrCode': res.tempFilePaths[0]
         })
       },
       complete: function (res) {
-            var tempFilePaths = res.tempFilePaths;
-            suffix = res.tempFilePaths[0].split('.')[1];
-            var fd = {
-              key: generateUUID() + '.' + suffix,
-              policy: policy,
-              success_action_status: '200',
-              callback: callback,
-              signature: signature,
-              OSSAccessKeyId: OssAccessKeyId,
-              file: tempFilePaths[0]
-            }
+            var tempFilePaths = res.tempFilePaths[0];
+            // suffix = res.tempFilePaths[0].split('.')[1];
+            // var fd = {
+            //   key: generateUUID() + '.' + suffix,
+            //   policy: policy,
+            //   success_action_status: '200',
+            //   callback: callback,
+            //   signature: signature,
+            //   OSSAccessKeyId: OssAccessKeyId,
+            //   file: tempFilePaths[0]
+            // }
+            console.log('tempFilePaths', tempFilePaths)
             wx.uploadFile({
-              url: apiPath.ossUrl,
+              url: 'http://zxy.gongshijia.com/asset/upload',
               filePath: tempFilePaths[0],
               name: 'file',
               header: { "content-Type": "multipart/form-data" },
-              formData: fd,
+              // formData: fd,
               success: function (res) {
-                var callBackName = JSON.parse(res.data).filename;
+                var callBackName = JSON.parse(res.data).data;
+                console.log('0000',callBackName)
                 that.setData({
-                  'submitAll.wxQrCode': apiPath.ossUrl + callBackName
+                  'submitAll.wxQrCode': callBackName
                 })
               },
               fail: function (res) {

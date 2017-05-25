@@ -64,20 +64,20 @@ Page({
               });
               return uuid;
           };
-          wx.request({
-            url: 'http://zxy.gongshijia.com/asset/policy',
-            method:'GET',
-            header: {
-              'content-type': 'application/json',
-              'X-OPENID':wx.getStorageSync('accessToken'),
-            },
-            success: function(res) {
-              policy=res.data.data.policy;
-              callback = res.data.data.callback;
-              signature = res.data.data.signature;
-              OssAccessKeyId = res.data.data.ossAccessId;
-            }
-          })
+          // wx.request({
+          //   url: 'http://zxy.gongshijia.com/asset/policy',
+          //   method:'GET',
+          //   header: {
+          //     'content-type': 'application/json',
+          //     'X-OPENID':wx.getStorageSync('accessToken'),
+          //   },
+          //   success: function(res) {
+          //     policy=res.data.data.policy;
+          //     callback = res.data.data.callback;
+          //     signature = res.data.data.signature;
+          //     OssAccessKeyId = res.data.data.ossAccessId;
+          //   }
+          // })
           wx.chooseImage({
             count: 9, // 默认9
             sizeType: ['original', 'compressed'], 
@@ -86,44 +86,29 @@ Page({
               that.setData({
                 uploadImg:res.tempFilePaths.concat(that.data.uploadImg)
               })
+              console.log('sss',that.data.uploadImg)
               
             },
             complete:function(res){
               var tempFilePaths = res.tempFilePaths;
 
               for (var i = 0; i < tempFilePaths.length; i++) {
-                suffix = res.tempFilePaths[i].split('.')[1];
-                var fd = {
-                  key: generateUUID() + '.' + suffix,
-                  policy: policy,
-                  success_action_status: '200',
-                  callback: callback,
-                  signature: signature,
-                  OSSAccessKeyId: OssAccessKeyId,
-                  file: tempFilePaths[i]
-                }
-
+                
                 wx.uploadFile({
-                  url: apiPath.ossUrl,
+                  url: 'http://zxy.gongshijia.com/asset/upload',
                   filePath: tempFilePaths[i],
                   name: 'file',
                   header: { "content-Type": "multipart/form-data" },
-                  formData: fd,
+                  // formData: fd,
                   success: function (res) {
-
-                    // var obj = res.data;
-                    // var removeStart = obj.substring(obj.indexOf('filename') + 11, obj.lenth)
-                    // var resulr = removeStart.substring(0, removeStart.indexOf('"'))
-                    // console.log(resulr)
-                    // console.log(obj)
-
-                    var callBackName = JSON.parse(res.data).filename;
-                    var bb = [apiPath.ossUrl+callBackName]
-                    that.setData({
-                      backImg: bb.concat(that.data.backImg)
-                    })
-                    console.log(that.data.backImg)
-                    // console.log('@@@@@',res.data)
+                    var callBackName = JSON.parse(res.data).data;
+                    // var bb = [apiPath.ossUrl+callBackName]
+                    // that.setData({
+                    //   backImg: callBackName.concat(that.data.backImg)
+                    // })
+                    that.data.backImg.push(callBackName)
+                    console.log('0000',that.data.backImg)
+                    console.log('@@@@@', callBackName)
                   },
                   fail: function (res) {
                     console.log('err',res)
@@ -144,20 +129,20 @@ Page({
               });
               return uuid;
           };
-          wx.request({
-            url: 'http://zxy.gongshijia.com/asset/policy',
-            method:'GET',
-            header: {
-              'content-type': 'application/json',
-              'X-OPENID':wx.getStorageSync('accessToken'),
-            },
-            success: function(res) {
-              policy = res.data.data.policy;
-              callback = res.data.data.callback;
-              signature = res.data.data.signature;
-              OssAccessKeyId = res.data.data.ossAccessId;
-            }
-          })
+          // wx.request({
+          //   url: 'http://zxy.gongshijia.com/asset/policy',
+          //   method:'GET',
+          //   header: {
+          //     'content-type': 'application/json',
+          //     'X-OPENID':wx.getStorageSync('accessToken'),
+          //   },
+          //   success: function(res) {
+          //     policy = res.data.data.policy;
+          //     callback = res.data.data.callback;
+          //     signature = res.data.data.signature;
+          //     OssAccessKeyId = res.data.data.ossAccessId;
+          //   }
+          // })
           wx.chooseVideo({
             sourceType: ['album', 'camera'], 
             maxDuration: 60, 
@@ -172,34 +157,35 @@ Page({
             },
             complete: function(res) {
               var tempFilePaths = res.tempFilePath;
-              console.log(tempFilePaths);
-              suffix = res.tempFilePath.split('.')[1];
-                var fd = {
-                  key: generateUUID() + '.' + suffix,
-                  policy: policy,
-                  success_action_status: '200',
-                  callback: callback,
-                  signature: signature,
-                  OSSAccessKeyId: OssAccessKeyId,
-                  file: tempFilePaths
-                }
+              console.log('v', tempFilePaths);
+              // suffix = res.tempFilePath.split('.')[1];
+              //   var fd = {
+              //     key: generateUUID() + '.' + suffix,
+              //     policy: policy,
+              //     success_action_status: '200',
+              //     callback: callback,
+              //     signature: signature,
+              //     OSSAccessKeyId: OssAccessKeyId,
+              //     file: tempFilePaths
+              //   }
                 wx.uploadFile({
-                  url: apiPath.ossUrl,
+                  url: 'http://zxy.gongshijia.com/asset/upload',
                   filePath: tempFilePaths,
                   name: 'file',
                   header: { 
-                    "content-Type": "multipart/form-data",
-                    'X-OPENID': wx.getStorageSync('accessToken'),
+                    "content-Type": "multipart/form-data"
                      },
-                  formData: fd,
+                  // formData: fd,
                   success: function (res) {
-                    var callBackName = JSON.parse(res.data+"").filename;
+                    console.log('vvv', res)
+                    var callBackName = JSON.parse(res.data+"").data;
                     that.setData({
-                      backVideo: apiPath.ossUrl + callBackName
+                      backVideo:  callBackName
                     })
 
                   },
                   fail: function (res) {
+                    console.log(res)
                   }
                 })
               
@@ -243,20 +229,20 @@ Page({
           });
           return uuid;
       };
-      wx.request({
-        url: 'http://zxy.gongshijia.com/asset/policy',
-        method:'GET',
-        header: {
-          'content-type': 'application/json',
-          'X-OPENID':wx.getStorageSync('accessToken'),
-        },
-        success: function(res) {
-          policy = res.data.data.policy;
-          callback = res.data.data.callback;
-          signature = res.data.data.signature;
-          OssAccessKeyId = res.data.data.ossAccessId;
-        }
-      })
+      // wx.request({
+      //   url: 'http://zxy.gongshijia.com/asset/policy',
+      //   method:'GET',
+      //   header: {
+      //     'content-type': 'application/json',
+      //     'X-OPENID':wx.getStorageSync('accessToken'),
+      //   },
+      //   success: function(res) {
+      //     policy = res.data.data.policy;
+      //     callback = res.data.data.callback;
+      //     signature = res.data.data.signature;
+      //     OssAccessKeyId = res.data.data.ossAccessId;
+      //   }
+      // })
 
       wx.chooseImage({
         count: 9, 
@@ -288,29 +274,32 @@ Page({
             //999
             var tempFilePaths = res.tempFilePaths;
             for (var i = 0; i < tempFilePaths.length; i++) {
-              suffix = res.tempFilePaths[i].split('.')[1];
-            var fd = {
-              key: generateUUID() + '.' + suffix,
-              policy: policy,
-              success_action_status: '200',
-              callback: callback,
-              signature: signature,
-              OSSAccessKeyId: OssAccessKeyId,
-              file: tempFilePaths[i]
-            }
+            //   suffix = res.tempFilePaths[i].split('.')[1];
+            // var fd = {
+            //   key: generateUUID() + '.' + suffix,
+            //   policy: policy,
+            //   success_action_status: '200',
+            //   callback: callback,
+            //   signature: signature,
+            //   OSSAccessKeyId: OssAccessKeyId,
+            //   file: tempFilePaths[i]
+            // }
             wx.uploadFile({
-              url: apiPath.ossUrl,
+              url: 'http://zxy.gongshijia.com/asset/upload',
               filePath: tempFilePaths[i],
               name: 'file',
               header: { "content-Type": "multipart/form-data" },
-              formData: fd,
+              // formData: fd,
               success: function (res) {
-                var callBackName = JSON.parse(res.data).filename;
-                var bb = [apiPath.ossUrl + callBackName]
-                that.setData({
-                  backImg: bb.concat(that.data.backImg)
+                console.log('res',res)
+                var callBackName = JSON.parse(res.data).data;
+                // var bb = [apiPath.ossUrl + callBackName]
+                // that.setData({
+                //   backImg: callBackName.concat(that.data.backImg)
 
-                })
+                // })
+                console.log('res2', callBackName)
+                that.data.backImg.push(callBackName)
               },
               fail: function (res) {
                 // console.log(res)
@@ -567,6 +556,7 @@ Page({
   onLoad: function () {
     var that = this
     var openId = wx.getStorageSync('accessToken')
+    console.log('openId',openId)
     if (openId) {
       CategoryService.getIndexList().then(function (res) {
         console.log('getIndexList', res)
