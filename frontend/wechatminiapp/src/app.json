@@ -1,7 +1,7 @@
 {
   "pages":[
-    "pages/craft/craftTitle",
     "pages/index/index",
+    "pages/craft/craftTitle",
     "pages/personInfo/personInfo",
     
     "pages/craftDetail/craftDetail",
