@@ -97,9 +97,7 @@ Page({
                 header: { "content-Type": "multipart/form-data" },
                 success: function (res) {
                   var format = JSON.parse(res.data).data.split(".")[1];
-                  console.log(format,"format")
                   var myFileName = generateUUID(JSON.parse(res.data).data)+'.'+format;
-                  console.log('myFileName',myFileName)
                   that.data.uploadPath.push(myFileName)
                 },
                 fail: function (res) {
