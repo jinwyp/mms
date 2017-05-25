@@ -29,7 +29,7 @@
         </view>
         <view class="borderB row H150 marginB">
             <view class="form-title lineH120">个人微信二维码：</view>
-            <image src="{{submitAll.wxQrCode}}" bindtap="chooseimage" mode="aspecFill" class="WXcode"></image>
+            <image src="{{wxQrCode}}" bindtap="chooseimage" mode="aspecFill" class="WXcode"></image>
         </view>
         <view class="borderT row">
             <span class=" day" >工作日：</span>

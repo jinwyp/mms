@@ -101,11 +101,9 @@ Page({
                   header: { "content-Type": "multipart/form-data" },
                   // formData: fd,
                   success: function (res) {
-                    var callBackName = JSON.parse(res.data).data;
-                    // var bb = [apiPath.ossUrl+callBackName]
-                    // that.setData({
-                    //   backImg: callBackName.concat(that.data.backImg)
-                    // })
+                    // var callBackName = JSON.parse(res.data).data;
+                    var format = JSON.parse(res.data).data.split(".")[1];
+                    var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                     that.data.backImg.push(callBackName)
                     console.log('0000',that.data.backImg)
                     console.log('@@@@@', callBackName)
@@ -177,8 +175,10 @@ Page({
                      },
                   // formData: fd,
                   success: function (res) {
-                    console.log('vvv', res)
-                    var callBackName = JSON.parse(res.data+"").data;
+                    // console.log('vvv', res)
+                    // var callBackName = JSON.parse(res.data+"").data;
+                    var format = JSON.parse(res.data).data.split(".")[1];
+                    var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                     that.setData({
                       backVideo:  callBackName
                     })
@@ -292,13 +292,10 @@ Page({
               // formData: fd,
               success: function (res) {
                 console.log('res',res)
-                var callBackName = JSON.parse(res.data).data;
-                // var bb = [apiPath.ossUrl + callBackName]
-                // that.setData({
-                //   backImg: callBackName.concat(that.data.backImg)
-
-                // })
-                console.log('res2', callBackName)
+                // var callBackName = JSON.parse(res.data).data;
+                var format = JSON.parse(res.data).data.split(".")[1];
+                var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
+                // console.log('res2', callBackName)
                 that.data.backImg.push(callBackName)
               },
               fail: function (res) {

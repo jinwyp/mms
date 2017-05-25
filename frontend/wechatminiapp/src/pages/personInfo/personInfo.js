@@ -54,7 +54,7 @@ Page({
       return parseInt(value,10)
     })
       this.setData({
-        week: bb
+        'submitAll.workDay': bb
       })
   },
   getLocation:function() {
@@ -107,7 +107,7 @@ Page({
       success: function (res) {
         console.log('res', res.tempFilePaths[0])
         that.setData({
-          'submitAll.wxQrCode': res.tempFilePaths[0]
+          wxQrCode: res.tempFilePaths[0]
         })
       },
       complete: function (res) {
@@ -125,13 +125,16 @@ Page({
             console.log('tempFilePaths', tempFilePaths)
             wx.uploadFile({
               url: 'http://zxy.gongshijia.com/asset/upload',
-              filePath: tempFilePaths[0],
+              filePath: tempFilePaths,
               name: 'file',
               header: { "content-Type": "multipart/form-data" },
               // formData: fd,
               success: function (res) {
-                var callBackName = JSON.parse(res.data).data;
-                console.log('0000',callBackName)
+                console.log('111', res)
+                var format = JSON.parse(res.data).data.split(".")[1];
+                var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
+                // var callBackName = JSON.parse(res.data).data;
+                console.log('0000', callBackName)
                 that.setData({
                   'submitAll.wxQrCode': callBackName
                 })
@@ -168,7 +171,7 @@ Page({
          'submitAll.phone':e.detail.value.tel,
          'submitAll.shopName':e.detail.value.shopName,
          'submitAll.wxNum':e.detail.value.wx,
-         'submitAll.workDay':that.data.week,
+        //  'submitAll.workDay':that.data.week,
      })
      console.log(that.data.submitAll)
      var all = that.data.submitAll;
@@ -233,7 +236,7 @@ Page({
            }
          }
        })
-     } else if (all.workDay === '') {
+     } else if (all.workDay === null) {
        wx.showModal({
          title: '提示',
          content: '请选择工作日',
@@ -274,7 +277,7 @@ Page({
 
   onLoad: function (option) {
     var that = this;
-        // reportId = option.reportId
+        // reportId = option.reportId || ''
     var openId = wx.getStorageSync('accessToken')
     UserService.getWXUserInfo().then(function (res) {
       console.log(res)
@@ -292,7 +295,7 @@ Page({
           'X-OPENID': wx.getStorageSync('accessToken'),
         }, 
         success: function (res) {
-          console.log('aaa',res.data)
+          // console.log('aaa',res.data)
           var workDay = res.data.workDay;
           if (workDay){
             for (var i = 0; i < workDay.length;i++){
@@ -328,6 +331,7 @@ Page({
             }
             that.setData({
               submitAll: res.data,
+              wxQrCode: res.data.wxQrCode
             })
           }
           
