@@ -62,21 +62,7 @@ Page({
           });
           return uuid;
       };
-      // wx.request({
-      //   url: 'http://zxy.gongshijia.com/asset/policy',
-      //   method:'GET',
-      //   header: {
-      //     'content-type': 'application/json',
-      //     'X-OPENID':wx.getStorageSync('accessToken')
-      //   },
-      //   success: function(res) {
-      //     policy=res.data.data.policy;
-      //     callback=res.data.data.callback;
-      //     signature=res.data.data.signature;
-      //     OssAccessKeyId=res.data.data.ossAccessId;
-      //   }
-      // })
-
+  
       wx.chooseImage({
         count: 9, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -110,9 +96,10 @@ Page({
                 name: 'file',
                 header: { "content-Type": "multipart/form-data" },
                 success: function (res) {
-                  console.log(res)
-                  var myFileName = JSON.parse(res.data).data;
-                  console.log(myFileName)
+                  var format = JSON.parse(res.data).data.split(".")[1];
+                  console.log(format,"format")
+                  var myFileName = generateUUID(JSON.parse(res.data).data)+'.'+format;
+                  console.log('myFileName',myFileName)
                   that.data.uploadPath.push(myFileName)
                 },
                 fail: function (res) {
