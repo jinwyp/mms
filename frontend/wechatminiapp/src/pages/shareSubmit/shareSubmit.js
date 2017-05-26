@@ -4,8 +4,8 @@ Page({
   
   onShareAppMessage: function () {
     return {
-      title: 'mms',
-      desc:"mms",
+      title: '工时家',
+      desc:"工时家",
       path: '/pages/index/index',
       success: function(res) {
         // 分享成功

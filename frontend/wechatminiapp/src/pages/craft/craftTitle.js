@@ -346,14 +346,14 @@ Page({
     var openId = wx.getStorageSync('accessToken')
     return {
       title: '工时家',
-      path: '/report/shareReport/' + rpiId+ '/'+openId,
+      // path: '/report/shareReport/' + rpiId+ '/'+openId,
+      path:'/pages/friendsExp/friendsList/friendsList',
       success: function(res) {
         wx.navigateTo({
           url: '/pages/friendsExp/friendsList/friendsList'
         })
       },
       fail: function(res) {
-        // 分享失败
       }
     }
   }
