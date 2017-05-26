@@ -83,23 +83,26 @@ Page({
     }
   },
   oncollect:function(){
+    var data = {
+      reportId: this.data.hrefId
+    }
     if(!this.data.hasCollect){
       this.setData({
-          collectText:'已收藏',
-          hasCollect:true
-        })
-  
-      var data={
-        reportId: this.data.hrefId
-      }
-        CategoryService.addReportToCollect(data).then(function (res) {
-          console.log(res);
-        }).catch(Error.PromiseError)
+        collectText:'已收藏',
+        hasCollect:true
+      })
+      CategoryService.addReportToCollect(data).then(function (res) {
+        console.log(res);
+      }).catch(Error.PromiseError)
     }else{
+
       this.setData({
           collectText:'+ 收藏',
           hasCollect:false
-        })
+        });
+      CategoryService.removeCollectReport(data).then(function (res) {
+        console.log(res);
+      }).catch(Error.PromiseError)
     }
   },
   show: function (e) {
@@ -130,7 +133,7 @@ Page({
         wx.showToast({
           title: '提交中',
           icon: 'loading',
-          duration: 5000,
+          duration: 1000,
           mask: true
         })
         if(res.success){
