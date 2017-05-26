@@ -6,7 +6,7 @@ Page({
     return {
       title: 'mms',
       desc:"mms",
-      path: '/page/index/index',
+      path: '/pages/index/index',
       success: function(res) {
         // 分享成功
       },
