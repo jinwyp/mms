@@ -36,9 +36,6 @@ Page({
     var that = this;
     var openId = wx.getStorageSync('accessToken')
 
-    console.log(options.id + '@@')
-    console.log(options.pid + '@@')
-  
     if (openId && id) {
         CategoryService.friendDetail('',id).then(function(res){
           that.setData({
@@ -225,9 +222,10 @@ Page({
       }
     }).catch(Error.PromiseError)
   },
-  craftDetail : function(){
+  craftDetail : function(e){
+    var openid = e.currentTarget.dataset.openid;
     wx.navigateTo({
-      url: '/pages/craftDetail/craftDetail'
+      url: '/pages/craftDetail/craftDetail?openid=' + openid
     })
   }
 })

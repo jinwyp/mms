@@ -1,40 +1,38 @@
 <view class="craftWrap">
     <view class="craftPic">
-        <image src="../../images/meinv.jpg"></image>
+        <image src="{{avatarUrl}}"></image>
     </view>
     <view class="craftInfo">
-        <view class="name">刘杰</view>
-        <view class="type">
-            <text>花艺</text>
-        </view>
-        <view class="wxnum">微信号：liujie33333333</view>
+        <view class="name">{{userName}}</view>
+        <block wx:for="{{categories}}" wx:key="categories" >
+          <view class="type">
+            <text>{{item}}</text>
+          </view>
+        </block>
+        <view class="wxnum">微信号：{{wxNum}}</view>
     </view>
 </view>
 <view class="craftTypeDetail">
     <view class="crafrList">
         <image src="../../images/icon-house.png"></image>
-        <text class="name">顶尖沙龙美发</text>
+        <text class="name">{{shopName}}</text>
     </view>
     <view class="crafrList">
         <image src="../../images/icon-location.png" class="location"></image>
-        <text class="normal">上海市闵行区申北路209号</text>
+        <text class="normal">{{workAddress}}</text>
     </view>
     <view class="crafrList">
         <image src="../../images/icon-tele.png"></image>
-        <text class="normal">联系电话：15000000000</text>
+        <text class="normal">联系电话：{{phone}}</text>
     </view>
     <view class="crafrList">
         <image src="../../images/icon-clock.png"></image>
-        <text class="normal">上班时间： 09:00 - 20:30</text>
+        <text class="normal">上班时间： {{workBeg}} - {{workEnd}}</text>
     </view>
     <view class="weekInfo">
-        <text>周一</text>
-        <text class="disable">周二</text>
-        <text>周三</text>
-        <text>周四</text>
-        <text>周五</text>
-        <text>周六</text>
-        <text>周日</text>
+        <block wx:for="{{day}}" wx:key="day">
+            <text class="{{item.checked ? '' : 'disable'}}">{{item.name}}</text>
+        </block>
     </view>
 </view>
-<button class="editBtn">编辑</button>
+<button class="editBtn" bindtap="editBtn">编辑</button>

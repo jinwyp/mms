@@ -20,6 +20,7 @@
     color:#3b3b3b;
     font-size: 28rpx;
     margin:0;
+    word-break:break-all;
 }
 .craftWrap .craftInfo .type{
     color:#fff;
@@ -28,6 +29,7 @@
     font-size: 24rpx;
     padding: 10rpx 20rpx;
     border-radius: 20rpx;
+    margin-right: 6rpx;
 }
 .craftWrap .craftInfo .wxnum{
     color:#959595;

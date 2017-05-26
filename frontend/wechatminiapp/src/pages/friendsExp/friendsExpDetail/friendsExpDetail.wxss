@@ -125,7 +125,7 @@ video{
 }
 .craftManInfo .craftManDetail{
     color:#ccc;
-    margin-top: 16rpx;
+    margin-top: 8rpx;
 }
 .craftManControl{
     display: flex;

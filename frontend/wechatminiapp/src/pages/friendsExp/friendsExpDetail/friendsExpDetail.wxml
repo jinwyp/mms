@@ -29,7 +29,7 @@
 </view>
 <!--手艺人判断-->
 <view class="contain craftManWrap" wx:if="{{signInfo.length}}">
-    <view class="craftManPic" bindtap="craftDetail">
+    <view class="craftManPic" bindtap="craftDetail" data-openid="{{signInfo[0].openid}}">
         <image src="{{signInfo[0].avatarUrl}}"></image>
     </view>
     <view class="craftManInfo">

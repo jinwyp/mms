@@ -270,6 +270,13 @@ Page({
             // nickName: res.data.nickName,
             // address: res.data.nickName,
           })
+          // 从署名页面来
+          if (reportId != '' || reportId != undefined) {
+            wx.navigateTo({
+              url: '/pages/craft/craftTitle?reportId=' + reportId,
+            })
+
+          }
         }
       })
     }
@@ -277,7 +284,9 @@ Page({
 
   onLoad: function (option) {
     var that = this;
-        // reportId = option.reportId || ''
+    if (option.reportId != undefined || option.reportId!='') {
+        reportId = option.reportId
+      }
     var openId = wx.getStorageSync('accessToken')
     UserService.getWXUserInfo().then(function (res) {
       console.log(res)
