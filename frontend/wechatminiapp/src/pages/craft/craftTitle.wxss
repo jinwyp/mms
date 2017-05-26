@@ -50,7 +50,7 @@
 }
 .contentWrap .title .contit{
     color:#333;
-    font-size: 28rpx;
+    font-size: 32rpx;
     padding-left: 28rpx;
     border-left: 4rpx solid #ff4a4e;
     flex-grow: 1;
