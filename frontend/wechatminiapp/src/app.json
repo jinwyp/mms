@@ -1,17 +1,27 @@
 {
   "pages":[
+<<<<<<< HEAD
     "pages/share/share",
     "pages/index/index",
    
     "pages/personInfo/personInfo",
     "pages/collection/collection",
    
-    "pages/craftDetail/craftDetail",
+=======
     
+    "pages/index/index",
+    "pages/friendsExp/friendsExpDetail/friendsExpDetail",
+    "pages/craft/craftTitle",
+    "pages/personInfo/personInfo",
+>>>>>>> c64981b1b3b6bf631c5b485e280b3699bad0d971
+    "pages/craftDetail/craftDetail",
     "pages/friendsExp/friendsList/friendsList",
+<<<<<<< HEAD
     "pages/friendsExp/friendsExpDetail/friendsExpDetail",
     
     "pages/craft/craftTitle",
+=======
+>>>>>>> c64981b1b3b6bf631c5b485e280b3699bad0d971
     
    
     
