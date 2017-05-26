@@ -14,7 +14,7 @@ Page({
     // isClick:false,
     pricePrivacy:'0',
     index:0,
-    dateValue:new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate(), 
+    dateValue:new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate(), 
    tempFilePaths:'../../images/upload.png',
    uploadImg:[],
    backImg:[],
