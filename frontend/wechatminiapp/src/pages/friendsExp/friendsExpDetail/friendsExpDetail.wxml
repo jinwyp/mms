@@ -121,7 +121,10 @@
     <input type="text" bindinput="inputFun" placeholder="" value="{{inputVal}}" />
     <button bindtap="submitMessage">发送</button>
 </view>
-<button wx:if="{{signInfo.length==0}}" class="addProcess" bindtap="addProcess">补充工艺</button>
+<view class="addProcessWrap">
+  <button wx:if="{{signInfo.length==0}}" class="addProcess" bindtap="addProcess">补充工艺</button>
+</view>
+
 <!-- 轮播图 -->
 <view class="slideshow" hidden="{{!slideshow}}" bindtap="hide">
     <view class="slideWrap">
