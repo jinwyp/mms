@@ -13,7 +13,7 @@ var apiPath = {
     friendDetail:  apiPrefix +'/report/report',
     craftTitleUpload: apiPrefix + '/report/signReport',
     improveInfo: apiPrefix +'/user/improveInfo',
-    addProcess: apiPrefix +'/user/loadUserInfo',
+    addProcess: apiPrefix +'/user/loadUserInfoByOpenId?openid=',
     loadCollectReport: apiPrefix + '/report/loadCollectReport?category=茶艺',
     getCollectReport: apiPrefix + '/report/loadCollectReport?category=',
     removeCollectReport: apiPrefix + '/report/removeCollectReport',

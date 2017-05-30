@@ -210,7 +210,9 @@ Page({
                 signInfoId: that.data.signId._id
               }
               CategoryService.handlerMakeSureReport(data).then(function (res) {
-                console.log(res)
+                wx.navigateTo({
+                  url: '/pages/friendsExp/friendsList/friendsList'
+                })
               }).catch(Error.PromiseError)
 
           } else if (res.cancel) {

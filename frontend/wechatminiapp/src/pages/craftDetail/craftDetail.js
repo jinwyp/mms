@@ -37,7 +37,7 @@ Page({
     var openid = options.openid;
     var that = this;
     var accessToken = wx.getStorageSync('accessToken')
-    CategoryService.addProcess('', openid).then(function (res) {
+    CategoryService.addProcess(openid).then(function (res) {
       that.setData({
         userName:res.userName,
         categories: res.categories,

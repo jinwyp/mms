@@ -24,7 +24,7 @@ function improveInfo(data) {
   return wechat.request(apiPath.improveInfo, data, 'POST')
 }
 function addProcess(data) {
-  return wechat.request(apiPath.addProcess, data, 'GET')
+  return wechat.request(apiPath.addProcess+data, data, 'GET')
 }
 function loadCollectReport(data) {
   return wechat.request(apiPath.loadCollectReport, data, 'GET')
