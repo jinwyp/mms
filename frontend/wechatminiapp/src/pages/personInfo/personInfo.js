@@ -63,8 +63,8 @@ Page({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
         success: function (res) {
           that.setData({
-            'submitAll.workLat' : res.latitude,
-            'submitAll.workLon' : res.longitude,
+            'submitAll.workLat' : res.latitude*1,
+            'submitAll.workLon' : res.longitude*1,
             'submitAll.workAddress' : res.address
           })
             
