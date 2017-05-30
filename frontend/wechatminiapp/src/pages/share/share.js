@@ -90,6 +90,9 @@ Page({
               
             },
             complete:function(res){
+              wx.showLoading({
+                title: '上传中',
+              })
               var tempFilePaths = res.tempFilePaths;
               console.log('sss1', tempFilePaths)
               for (var i = 0; i < tempFilePaths.length; i++) {
@@ -111,6 +114,13 @@ Page({
                     that.data.backImg.push(callBackName)
                     console.log('0000',that.data.backImg)
                     console.log('@@@@@', callBackName)
+                    if (i = tempFilePaths.length){
+                      wx.showToast({
+                        title: '上传成功',
+                        icon: 'success',
+                        duration: 1000
+                      })
+                    }
                   },
                   fail: function (res) {
                     console.log('err',res)
@@ -158,6 +168,9 @@ Page({
               // fail
             },
             complete: function(res) {
+              wx.showLoading({
+                title: '上传中',
+              })
               var tempFilePaths = res.tempFilePath;
               console.log('v', tempFilePaths);
               // suffix = res.tempFilePath.split('.')[1];
@@ -185,6 +198,11 @@ Page({
                     // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                     that.setData({
                       backVideo:  callBackName
+                    })
+                    wx.showToast({
+                      title: '上传成功',
+                      icon: 'success',
+                      duration: 1000
                     })
 
                   },
@@ -259,6 +277,9 @@ Page({
           })
         },
         complete:function(res){
+          wx.showLoading({
+            title: '上传中',
+          })
           var tempFilePaths = res.tempFilePaths;
           if(that.data.uploadImg.length>9){
               wx.showModal({
@@ -301,6 +322,13 @@ Page({
                 // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                 // console.log('res2', callBackName)
                 that.data.backImg.push(callBackName)
+                if (i = tempFilePaths.length) {
+                  wx.showToast({
+                    title: '上传成功',
+                    icon: 'success',
+                    duration: 1000
+                  })
+                }
               },
               fail: function (res) {
                 // console.log(res)
