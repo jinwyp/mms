@@ -72,20 +72,26 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
       }
 
   }
+
   def findUserByOpenId(openid: String): Future[User] = {
     val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
-    collection.find(equal("openid", openid)).first().toFuture()
+    collection.find(equal("openid", openid)).first().toFuture().map { t=>
+      t.copy(wxQrCode = t.wxQrCode match{
+        case Some(str) => Some(localossHost.concat(str))
+        case None=> None
+      })
+    }
   }
 
   //手艺人完善个人信息
-  def updateUserInfo(openid:String,ur: UserUpdateRequest): Future[Boolean]={
+  def updateUserInfo(openid: String, ur: UserUpdateRequest): Future[Boolean] = {
     val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
-    val updateBson = combine( set("phone", ur.phone), set("shopName",ur.shopName),
+    val updateBson = combine(set("phone", ur.phone), set("shopName", ur.shopName),
       set("workAddress", ur.workAddress), set("wxNum", ur.wxNum), set("wxQrCode", ur.wxQrCode),
-      set("workBeg", ur.workBeg), set("workEnd", ur.workEnd),set("userName",ur.userName),
-      set("workLon",ur.workLon),set("workLat",ur.workLat),set("workDay",ur.workDay))
+      set("workBeg", ur.workBeg), set("workEnd", ur.workEnd), set("userName", ur.userName),
+      set("workLon", ur.workLon), set("workLat", ur.workLat), set("workDay", ur.workDay))
     val updateOptions = UpdateOptions().upsert(true)
-    collection.updateOne(equal("openid", openid), updateBson,updateOptions).toFuture().map(_ => true)
+    collection.updateOne(equal("openid", openid), updateBson, updateOptions).toFuture().map(_ => true)
   }
 
 }
