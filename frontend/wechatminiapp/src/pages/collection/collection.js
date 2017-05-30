@@ -11,6 +11,7 @@ Page({
     peopleid:'',
     interest:[],
     category:'',
+    index:0,
     experience: [],
     autoplay:false,//是否自动播放
     indicatorDots: false,//指示点
@@ -39,7 +40,12 @@ Page({
   getList:function(e) {
     var that = this;
     var getCategory = e.target.dataset.value;
-    // console.log(getCategory)
+    // var getIdx = e.target.dataset.idx;
+    that.setData({
+      index: e.target.dataset.idx
+    })
+    console.log(getCategory)
+    console.log(that.data.index)
     wx.request({
       url: apiPath.getCollectReport + getCategory, 
       method:'GET',
@@ -52,8 +58,8 @@ Page({
         // console.log(res.data.data[0].category);
         that.setData({
           experience: res.data.data,
-          category: res.data.data[0].category
-          
+          category: res.data.data[0].category,
+        
         })
         
         

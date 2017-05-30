@@ -506,8 +506,9 @@ Page({
       
       if(that.data.ifSubmit === true){
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
+          console.log(res.data)
           wx.navigateTo({
-            url: '../shareSubmit/shareSubmit',
+            url: '../shareSubmit/shareSubmit?id=' + res.data,
           })
           
         }).catch(Error.PromiseError)

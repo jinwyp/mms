@@ -1,8 +1,8 @@
 <!--pages/collection/collection.wxml-->
 <view class="container">
     <scroll-view class="items" scroll-x="true">
-        <block wx:for="{{interest}}" wx:key="{{interest}}">
-            <text class="interestList chooseN {{category ===item.name ? 'chooseY':'chooseN'}}" data-value="{{item.name}}" bindtap="getList">{{item.name}}</text>
+        <block wx:for="{{interest}}" wx:for-index="idx" wx:key="{{interest}}">
+            <text class="interestList  chooseN {{idx === index ? 'chooseY':'chooseN'}}" data-value="{{item.name}}" data-idx="{{idx}}" bindtap="getList">{{item.name}}</text>
         </block>
     </scroll-view>
 
