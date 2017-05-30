@@ -38,6 +38,8 @@ Page({
 
     if (openId && fromdata) {
       CategoryService.friendShareDetail(id + '/' + fromdata).then(function (res) {
+        console.log(id,'id')
+        console.log(formdata,'formdata')
         console.log(res.data,'fenxiang data')
       }).catch(Error.PromiseError)
     }
