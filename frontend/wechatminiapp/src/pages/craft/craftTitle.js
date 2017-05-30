@@ -26,7 +26,7 @@ Page({
     rpiId = options.reportId ;
     console.log('reportid' + rpiId)
     var that=this;
-    CategoryService.addProcess().then(function (res) {
+    CategoryService.addProcess('').then(function (res) {
       that.setData({
         nickName: res.nickName,
         phone: res.phone,
