@@ -60,7 +60,9 @@ Page({
             checked:res.data.checked,
             shopName: res.data.shopName,
             locationName: res.data.locationName,
-            signId: res.data.signInfo[0]
+            signId: res.data.signInfo[0],
+            currentOpenId: res.data.openid,
+            selfId:wx.getStorageSync('accessToken')
           })
         }).catch(Error.PromiseError)
     }
@@ -85,7 +87,9 @@ Page({
           checked: res.data.checked,
           shopName: res.data.shopName,
           locationName: res.data.locationName,
-          signId: res.data.signInfo[0]
+          signId: res.data.signInfo[0],
+          currentOpenId: res.data.openid,
+          selfId: wx.getStorageSync('accessToken')
         })
       }).catch(Error.PromiseError)
     }

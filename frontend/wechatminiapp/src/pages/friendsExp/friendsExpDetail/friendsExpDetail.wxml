@@ -121,7 +121,7 @@
     <input type="text" bindinput="inputFun" placeholder="" value="{{inputVal}}" />
     <button bindtap="submitMessage">发送</button>
 </view>
-<view class="addProcessWrap">
+<view class="addProcessWrap" wx:if="{{currentOpenId!=selfId}}">
   <button wx:if="{{signInfo.length==0}}" class="addProcess" bindtap="addProcess">补充工艺</button>
 </view>
 
