@@ -13,4 +13,8 @@ trait AppConfig extends Core {
   //
   val appId = coreConfig.getString("wx.appId")
   val appSecret = coreConfig.getString("wx.appSecret")
+
+  val fileRoot= coreConfig.getString("localoss.root")
+  val localossHost= coreConfig.getString("localoss.ossHost").concat("asset/static/")
+
 }
