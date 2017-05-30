@@ -22,8 +22,8 @@ Page({
    backVideo: '',
    slideshow: false,
    address:'未选择',
-   latitude:'',
-   longitude:'',
+   latitude:null,
+   longitude:null,
    price:'',
    submitAll:[{
      category:'',
@@ -31,8 +31,8 @@ Page({
      videos:'',
      feeling:'',
      locationName:'',
-     lat:'',
-     lon:'',
+     lat:null,
+     lon:null,
      shopName:'',
      expTime:'',
      expPrice:0,
@@ -390,8 +390,8 @@ Page({
             that.setData({
               // address : res.address.slice(0,13)+'...',
               address : res.address,
-              latitude : res.latitude,
-              longitude : res.longitude
+              latitude : res.latitude*1,
+              longitude : res.longitude*1
             })
             // wx.openLocation({
             //   latitude:latitude,
@@ -511,9 +511,9 @@ Page({
       if(that.data.ifSubmit === true){
         var accessToken = wx.getStorageSync('accessToken')
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
-          wx.navigateTo({
-            url: '../shareSubmit/shareSubmit?id=' + res.data + '&from=' + accessToken,
-          })
+          // wx.navigateTo({
+          //   url: '../shareSubmit/shareSubmit?id=' + res.data + '&from=' + accessToken,
+          // })
           
         }).catch(Error.PromiseError)
       }
