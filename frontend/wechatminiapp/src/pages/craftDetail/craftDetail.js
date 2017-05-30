@@ -63,7 +63,7 @@ Page({
     
   },
   editBtn:function(){
-    wx.navigateTo({
+    wx.redirectTo({
       url: "/pages/personInfo/personInfo?craftId=" + currentcraftDetailId
     })
   }
