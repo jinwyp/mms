@@ -20,7 +20,8 @@ var apiPath = {
     addReportToCollect: apiPrefix + '/report/addReportToCollect',
     handlerMakeSureReport: apiPrefix + '/report/handlerMakeSureReport',
     addComment: apiPrefix+ '/report/addComment',
-    makeSureReport: apiPrefix + '/report/makeSureReport'
+    makeSureReport: apiPrefix + '/report/makeSureReport',
+    friendShareDetail: apiPrefix + '/report/createSharedRelationShip/'
 }
 
 module.exports = apiPath;

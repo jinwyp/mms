@@ -32,9 +32,15 @@ Page({
   },
   onLoad:function(options){
 
-    var id = options.id,pid = options.pid;
+    var id = options.id,pid = options.pid,fromdata = options.from;
     var that = this;
     var openId = wx.getStorageSync('accessToken')
+
+    if (openId && fromdata) {
+      CategoryService.friendShareDetail(id + '/' + fromdata).then(function (res) {
+        console.log(res.data,'fenxiang data')
+      }).catch(Error.PromiseError)
+    }
 
     if (openId && id) {
         CategoryService.friendDetail('',id).then(function(res){
