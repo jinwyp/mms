@@ -278,13 +278,14 @@ Page({
           if(res.data){
             // 从署名页面来
             if (reportJumpId != '') {
-              wx.navigateTo({
+              wx.redirectTo({
                 url: '/pages/craft/craftTitle?reportId=' + reportJumpId
               })
             }
             //从手艺人信息页面来
             if (craftJumpId != ''){
-              wx.navigateTo({
+            
+              wx.redirectTo({
                 url: '/pages/craftDetail/craftDetail?openid=' + craftJumpId
               })
               console.log('ssss')
