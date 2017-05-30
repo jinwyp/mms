@@ -5,7 +5,7 @@
             <view class="personName">{{nickName}} 发布</view>
             <view class="releaseDate">{{expTime}}</view>     
         </view>
-        <view class="{{hasCollect ? 'hasCollect' : 'collectBtn'}}" bindtap="oncollect">{{collectText}}</view>
+        <view class="{{hasCollect ? 'hasCollect' : 'collectBtn'}}"  wx:if="{{signInfo.length}}" bindtap="oncollect">{{collectText}}</view>
     </view>
     <view class="mesWrap">
         <!--判断视频还是图片-->

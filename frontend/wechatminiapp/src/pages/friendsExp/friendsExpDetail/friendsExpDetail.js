@@ -51,6 +51,7 @@ Page({
             checked:res.data.checked,
             shopName: res.data.shopName,
             locationName: res.data.locationName,
+            signId: res.data.signInfo[0]._id
           })
         }).catch(Error.PromiseError)
     }

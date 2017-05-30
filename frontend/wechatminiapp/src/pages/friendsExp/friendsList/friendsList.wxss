@@ -125,6 +125,7 @@ video{
     font-size: 24rpx;
     text-align: center;
     line-height: 60rpx;
+    outline: none;
 }
 .slideshow{
     position: fixed;
@@ -148,4 +149,8 @@ video{
 .slideshow image{
     width: 100%;
     vertical-align: middle;
+}
+button:after{
+  content: '';
+  display: none;
 }
