@@ -94,7 +94,7 @@ textarea{
 .map{
     float: right;
     font-size: 32rpx;
-    margin-top: 28rpx;
+    /*margin-top: 20rpx;*/
     width: 300rpx;
     text-align: right;
     white-space:nowrap;
@@ -117,7 +117,7 @@ textarea{
     color: #666666;
     display: inline-block;
     vertical-align: middle; 
-    margin-right:  60rpx;  
+    margin-right:  30rpx;  
 }
 .lineH120{
     line-height: 120rpx;
