@@ -1,13 +1,15 @@
 package com.gongshijia.mms.category
 
+import com.gongshijia.mms.core.Neo4jSupport
 import com.gongshijia.mms.user.login.LoginService
 
+import scala.async.Async.{async, await}
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by hary on 2017/5/12.
   */
-trait CategoryController extends CategoryService with LoginService {
+trait CategoryController extends CategoryService with LoginService with Neo4jSupport {
 
   import CategoryModels._
 
@@ -32,16 +34,19 @@ trait CategoryController extends CategoryService with LoginService {
   //添加关注的类目
   def handlerCategoriesToUser(openid: String, categoriesStr: List[String]): Future[CategoriesResponse] = {
     val categories = defaultCategories.filter(a => categoriesStr.contains(a.name)).map(_.name)
-    addCategoriesToUser(openid, categories).map{ result=>
-      if(result==true){
-        //跳转到好友列表
-        CategoriesResponse(defaultCategories,Some(1))
-      }else{
-        //跳转到收藏列表
-        CategoriesResponse(defaultCategories,Some(0))
+    async {
+      if (await(addCategoriesToUser(openid, categories))) {
+        if (loadMyFriend(openid).size == 0) {
+          //到收藏页面
+          CategoriesResponse(defaultCategories, Some(0))
+        } else {
+          // 到好友页面
+          CategoriesResponse(defaultCategories, Some(1))
+        }
+      } else {
+        CategoriesResponse(defaultCategories, Some(0))
       }
     }
-
-
   }
+
 }

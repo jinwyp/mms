@@ -30,16 +30,14 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
   def loadFriendReport = get {
     (path("loadFriendReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int])) {
       (openid, pageSize, pageNum) => {
-        val rs = listReport(openid = openid, pageSize = pageSize, pageNum = pageNum, category = null) map { reports=>
+          val rs = findFriendReport(openid = openid, pageSize = pageSize, pageNum = pageNum) map { reports=>
           reports.map( t =>
-            if(t.checked==1){
-              t.copy(signInfo=Nil)
+            if(t.checked==0 && t.openid==openid){
+              t
+            }else if(t.checked==1){
+              t.copy(signInfo=t.signInfo.filter(_.checked==1))
             }else{
-              if(t.openid==openid){
-                t
-              }else{
-                t.copy(signInfo = Nil)
-              }
+              t.copy(signInfo = Nil)
             }
           )
         }
@@ -48,6 +46,62 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
     }
   }
 
+
+  /**
+    * 打开分享的体验报告
+    * GET: /report/shareReport/{reportid}/{from}
+    *
+    * @return
+    */
+  def openShareReport = get {
+    (path("shareReport" / Segment / Segment) & openid) {
+      (reportId, fromOpenId, currentOpenId) => complete(findByIdAndOpenId(fromOpenId = fromOpenId, currentOpenId = currentOpenId, reportId = reportId).toResult)
+    }
+  }
+
+
+  /**
+    * 打开体验报告
+    * GET: /report/{reportid}
+    *
+    * @return
+    */
+  def openReport = get {
+    (path("report" / Segment) & openid) {
+      (reportId,openId) => {
+        val rs =findById(reportId).map(report=>{
+          if(report.checked==1){
+            report.copy(signInfo=report.signInfo.filter(s=>s.checked==1).map(t=>t))
+          }else{
+            if(report.openid==openId){
+              report
+            }else{
+              report.copy(signInfo = Nil)
+            }
+          }})
+        complete(rs.toResult)
+      }
+    }
+  }
+
+  //加载确认署名信息
+  def loadMakeSureReport= get {
+    (path("makeSureReport") & openid & parameter("reportId".as[String]) & parameter("signInfoId".as[String])) {
+      (openId, reportId, signInfoId) => {
+        val rs =findByIdAndOpenId(openId,reportId).map(report=>{
+          report.copy(signInfo=report.signInfo.filter(s=>s._id.toString.equals(signInfoId)).map(t=>t))
+        })
+        complete(rs.toResult)
+      }
+    }
+  }
+
+  //处理署名请求
+  def handlerMakeSureReport = get {
+    (path("handlerMakeSureReport") & openid & parameter("reportId".as[String]) & parameter("signInfoId".as[String])) { (openid, reportId, signInfoId) =>
+      complete(makeSureSignInfo(openid, reportId, signInfoId).toResult)
+    }
+  }
 
     //加载收藏体验报告
     def loadCollectReport = get {
@@ -66,61 +120,6 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
       (openId, reportId) => complete(removeCollectReport(openId, reportId).toResult)
     }
 
-    /**
-      * 打开分享的体验报告
-      * GET: /report/shareReport/{reportid}/{from}
-      *
-      * @return
-      */
-    def openShareReport = get {
-      (path("shareReport" / Segment / Segment) & openid) {
-        (reportId, fromOpenId, currentOpenId) => complete(findByIdAndOpenId(fromOpenId = fromOpenId, currentOpenId = currentOpenId, reportId = reportId).toResult)
-      }
-    }
-
-
-    /**
-      * 打开体验报告
-      * GET: /report/{reportid}
-      *
-      * @return
-      */
-    def openReport = get {
-      (path("report" / Segment) & openid) {
-        (reportId,openId) => {
-          val rs =findById(reportId).map(report=>{
-            if(report.checked==1){
-              report.copy(signInfo=report.signInfo.filter(s=>s.checked==1).map(t=>t))
-            }else{
-              if(report.openid==openId){
-                 report
-               }else{
-                  report.copy(signInfo = Nil)
-              }
-          }})
-          complete(rs.toResult)
-        }
-      }
-    }
-
-     //加载确认署名信息
-    def loadMakeSureReport= get {
-      (path("makeSureReport") & openid & parameter("reportId".as[String]) & parameter("signInfoId".as[String])) {
-        (openId, reportId, signInfoId) => {
-          val rs =findByIdAndOpenId(openId,reportId).map(report=>{
-           report.copy(signInfo=report.signInfo.filter(s=>s._id.toString.equals(signInfoId)).map(t=>t))
-          })
-          complete(rs.toResult)
-        }
-        }
-      }
-
-  //处理署名请求
-    def handlerMakeSureReport = get {
-      (path("handlerMakeSureReport") & openid & parameter("reportId".as[String]) & parameter("signInfoId".as[String])) { (openid, reportId, signInfoId) =>
-        complete(updateSureSignInfo(openid, reportId, signInfoId).toResult)
-      }
-    }
 
     def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~ openShareReport ~ signReport ~ addComment ~ openReport ~ loadMakeSureReport ~ handlerMakeSureReport ~ addCollect ~ removeCollect
   }

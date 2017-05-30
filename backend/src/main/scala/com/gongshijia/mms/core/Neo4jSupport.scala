@@ -30,8 +30,8 @@ trait Neo4jSupport extends Core {
 
   //加载我的好友
     def loadMyFriend(openid: String): Seq[String] = {
-      val req= Cypher(s"""MATCH (u:User{ openid:"${openid}" })-[r:SHARED]->(f:User) RETURN distinct f.openid""")
+      val req= Cypher(s"""MATCH (u:User{ openid:"${openid}" })-[r:SHARED]-(f:User) RETURN distinct f.openid""")
       val stream: Seq[CypherResultRow] = req()
-      stream.map(row => { row[String]("f.openid") }).toList
+      stream.map(row => { row[String]("f.openid") })
     }
 }

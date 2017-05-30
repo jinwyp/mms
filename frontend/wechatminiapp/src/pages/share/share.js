@@ -91,16 +91,17 @@ Page({
             },
             complete:function(res){
               var tempFilePaths = res.tempFilePaths;
-
+              console.log('sss2', tempFilePaths)
               for (var i = 0; i < tempFilePaths.length; i++) {
                 
                 wx.uploadFile({
-                  url: 'http://zxy.gongshijia.com/asset/upload',
+                  url: apiPath.ossUrl,
+                  // url: 'http://gongshijia.com.ngrok.io',
                   filePath: tempFilePaths[i],
                   name: 'file',
                   header: { "content-Type": "multipart/form-data" },
-                  // formData: fd,
                   success: function (res) {
+                    console.log('res',res)
                     // var callBackName = JSON.parse(res.data).data;
                     var format = JSON.parse(res.data).data.split(".")[1];
                     var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;

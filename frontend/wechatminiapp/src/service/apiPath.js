@@ -1,9 +1,9 @@
 
-var apiPrefix = 'http://zxy.gongshijia.com'
-//  var apiPrefix = 'http://gongshijia.com.ngrok.io'
+// var apiPrefix = 'http://zxy.gongshijia.com'
+ var apiPrefix = 'http://gongshijia.com.ngrok.io'
 
 var apiPath = {
-    ossUrl: 'https://gsjtest.oss-cn-shanghai.aliyuncs.com/',
+    ossUrl: apiPrefix+'/asset/upload',
     signUpWechat : apiPrefix + '/user/login/login',
     test : apiPrefix +'/misc/comment',
     getIndexList: apiPrefix +'/category/category',
