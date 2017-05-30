@@ -44,8 +44,8 @@ Page({
     that.setData({
       index: e.target.dataset.idx
     })
-    console.log(getCategory)
-    console.log(that.data.index)
+    // console.log(getCategory)
+    // console.log(that.data.index)
     wx.request({
       url: apiPath.getCollectReport + getCategory, 
       method:'GET',
