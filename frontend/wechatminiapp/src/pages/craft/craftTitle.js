@@ -91,7 +91,7 @@ Page({
           }else{
             for (var i = 0; i < tempFilePaths.length; i++){
               wx.uploadFile({
-                url: 'http://zxy.gongshijia.com/asset/upload',
+                url: apiPath.ossUrl,
                 filePath: tempFilePaths[i],
                 name: 'file',
                 header: { "content-Type": "multipart/form-data" },
