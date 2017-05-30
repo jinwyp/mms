@@ -86,7 +86,7 @@ Page({
         }
       }).then(function(){
         that.login()
-        return null
+        return null;
       }).catch(Error.PromiseError)
     }else{
       that.login()
