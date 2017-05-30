@@ -91,9 +91,13 @@ Page({
             },
             complete:function(res){
               var tempFilePaths = res.tempFilePaths;
-              console.log('sss2', tempFilePaths)
+              console.log('sss1', tempFilePaths)
               for (var i = 0; i < tempFilePaths.length; i++) {
-                
+                // console.log('tempFilePaths[i]', tempFilePaths[i])
+                // var format = tempFilePaths[i].split(".")[1];
+                // var callBackName = generateUUID(tempFilePaths[i]) + '.' + format;
+                // console.log('sss2', format)
+                // console.log('sss2', callBackName)
                 wx.uploadFile({
                   url: apiPath.ossUrl,
                   filePath: tempFilePaths[i],
@@ -101,9 +105,9 @@ Page({
                   header: { "content-Type": "multipart/form-data" },
                   success: function (res) {
                     console.log('res',res)
-                    // var callBackName = JSON.parse(res.data).data;
-                    var format = JSON.parse(res.data).data.split(".")[1];
-                    var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
+                    var callBackName = JSON.parse(res.data).data;
+                    // var format = JSON.parse(res.data).data.split(".")[1];
+                    // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                     that.data.backImg.push(callBackName)
                     console.log('0000',that.data.backImg)
                     console.log('@@@@@', callBackName)
@@ -176,9 +180,9 @@ Page({
                   // formData: fd,
                   success: function (res) {
                     // console.log('vvv', res)
-                    // var callBackName = JSON.parse(res.data+"").data;
-                    var format = JSON.parse(res.data).data.split(".")[1];
-                    var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
+                    var callBackName = JSON.parse(res.data+"").data;
+                    // var format = JSON.parse(res.data).data.split(".")[1];
+                    // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                     that.setData({
                       backVideo:  callBackName
                     })
@@ -292,9 +296,9 @@ Page({
               // formData: fd,
               success: function (res) {
                 console.log('res',res)
-                // var callBackName = JSON.parse(res.data).data;
-                var format = JSON.parse(res.data).data.split(".")[1];
-                var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
+                var callBackName = JSON.parse(res.data).data;
+                // var format = JSON.parse(res.data).data.split(".")[1];
+                // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                 // console.log('res2', callBackName)
                 that.data.backImg.push(callBackName)
               },
