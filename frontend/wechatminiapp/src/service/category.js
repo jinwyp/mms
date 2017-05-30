@@ -35,6 +35,9 @@ function handlerMakeSureReport(data) {
 function addReportToCollect(data) {
   return wechat.request(apiPath.addReportToCollect, data, 'GET')
 }
+function removeCollectReport(data) {
+  return wechat.request(apiPath.removeCollectReport, data, 'GET')
+}
 function addComment(data) {
   return wechat.request(apiPath.addComment, data, 'POST')
 }
@@ -63,5 +66,6 @@ module.exports = {
     makeSureReport: makeSureReport,
     addComment: addComment,
     friendShareDetail: friendShareDetail,
-    craftDetail: craftDetail
+    craftDetail: craftDetail,
+    removeCollectReport: removeCollectReport
 }

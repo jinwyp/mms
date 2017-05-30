@@ -92,6 +92,7 @@ Page({
             complete:function(res){
               wx.showLoading({
                 title: '上传中',
+                mask: true
               })
               var tempFilePaths = res.tempFilePaths;
               console.log('sss1', tempFilePaths)
@@ -170,6 +171,7 @@ Page({
             complete: function(res) {
               wx.showLoading({
                 title: '上传中',
+                mask: true
               })
               var tempFilePaths = res.tempFilePath;
               console.log('v', tempFilePaths);
@@ -279,6 +281,7 @@ Page({
         complete:function(res){
           wx.showLoading({
             title: '上传中',
+            mask: true
           })
           var tempFilePaths = res.tempFilePaths;
           if(that.data.uploadImg.length>9){
