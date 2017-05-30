@@ -96,7 +96,6 @@ Page({
                 
                 wx.uploadFile({
                   url: apiPath.ossUrl,
-                  // url: 'http://gongshijia.com.ngrok.io',
                   filePath: tempFilePaths[i],
                   name: 'file',
                   header: { "content-Type": "multipart/form-data" },
@@ -168,7 +167,7 @@ Page({
               //     file: tempFilePaths
               //   }
                 wx.uploadFile({
-                  url: 'http://zxy.gongshijia.com/asset/upload',
+                  url: apiPath.ossUrl,
                   filePath: tempFilePaths,
                   name: 'file',
                   header: { 
@@ -286,7 +285,7 @@ Page({
             //   file: tempFilePaths[i]
             // }
             wx.uploadFile({
-              url: 'http://zxy.gongshijia.com/asset/upload',
+              url: apiPath.ossUrl,
               filePath: tempFilePaths[i],
               name: 'file',
               header: { "content-Type": "multipart/form-data" },

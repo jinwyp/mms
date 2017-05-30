@@ -124,7 +124,7 @@ Page({
             // }
             console.log('tempFilePaths', tempFilePaths)
             wx.uploadFile({
-              url: 'http://zxy.gongshijia.com/asset/upload',
+              url: apiPath.ossUrl,
               filePath: tempFilePaths,
               name: 'file',
               header: { "content-Type": "multipart/form-data" },
