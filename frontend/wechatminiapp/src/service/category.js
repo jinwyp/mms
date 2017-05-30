@@ -41,6 +41,9 @@ function addComment(data) {
 function makeSureReport(data) {
   return wechat.request(apiPath.makeSureReport, data, 'GET')
 }
+function friendShareDetail(data) {
+  return wechat.request(apiPath.friendShareDetail + data, data, 'GET')
+}
 
 module.exports = {
     getIndexList : getIndexList,
@@ -55,5 +58,6 @@ module.exports = {
     handlerMakeSureReport: handlerMakeSureReport,
     addReportToCollect: addReportToCollect,
     makeSureReport: makeSureReport,
-    addComment: addComment
+    addComment: addComment,
+    friendShareDetail: friendShareDetail
 }
