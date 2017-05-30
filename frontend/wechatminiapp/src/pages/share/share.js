@@ -508,7 +508,11 @@ Page({
         var accessToken = wx.getStorageSync('accessToken')
         CategoryService.releaseReport(that.data.submitAll).then(function(res){
           wx.navigateTo({
+<<<<<<< HEAD
             url: '../shareSubmit/shareSubmit?id=' + res.data + '&from=' + accessToken,
+=======
+            url: 'pages/shareSubmit/shareSubmit?id=' + res.data,
+>>>>>>> efd514e186cf2530fcc37d1d9a1b3242ad3089a0
           })
           
         }).catch(Error.PromiseError)

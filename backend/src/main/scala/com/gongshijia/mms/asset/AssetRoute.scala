@@ -1,16 +1,14 @@
 package com.gongshijia.mms.asset
 
-import java.io.{File, FileOutputStream, InputStream}
-import java.nio.file.Paths
-import java.util.concurrent.CompletionStage
+import java.io.{File, FileOutputStream}
 
 import akka.http.scaladsl.server.Directives.{complete, get, path, _}
 import akka.stream.IOResult
-import akka.stream.scaladsl.{FileIO, Keep, RunnableGraph, Sink, Source, StreamConverters}
+import akka.stream.scaladsl.{Keep, Sink, Source, StreamConverters}
 import akka.util.ByteString
 import com.gongshijia.mms.asset.AssetModels.OSSResponse
-import com.gongshijia.mms.core.{AppConfig, Core, HttpSupport}
-import org.apache.commons.io.{FileUtils, IOUtils}
+import com.gongshijia.mms.core.{Core, HttpSupport}
+import org.apache.commons.io.FileUtils
 
 import scala.concurrent.Future
 import scala.tools.nsc.interpreter.OutputStream
@@ -33,7 +31,7 @@ trait AssetRoute extends Core with HttpSupport with AssetController {
   def mockOss = path("oss") {
 
     extractRequest { req =>
-      req.headers.foreach( h => log.info("got header: {} -> {}", h.name(), h.value()))
+      req.headers.foreach(h => log.info("got header: {} -> {}", h.name(), h.value()))
       formFieldMap { (vars: Map[String, String]) =>
         val file = vars("file")
         log.info("oss got: {}", vars - "file")

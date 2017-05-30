@@ -2,13 +2,13 @@ package com.gongshijia.mms.experience
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.gongshijia.mms.core.HttpSupport
+import com.gongshijia.mms.core.{HttpSupport, Neo4jSupport}
 import com.gongshijia.mms.experience.ExperienceReportModels.{CommentsRequest, ExperienceReportRequest, SignInfoRequest}
 
 /**
   * Created by xiangyang on 2017/5/13.
   */
-trait ExperienceReportRoute extends ExperienceReportController with HttpSupport {
+trait ExperienceReportRoute extends ExperienceReportController with HttpSupport with Neo4jSupport{
 
 
   //发布体验报告
@@ -30,66 +30,48 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
   def loadFriendReport = get {
     (path("loadFriendReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int])) {
       (openid, pageSize, pageNum) => {
-          val rs = findFriendReport(openid = openid, pageSize = pageSize, pageNum = pageNum) map { reports=>
-          reports.map( t =>
-            if(t.checked==0 && t.openid==openid){
-              t
-            }else if(t.checked==1){
-              t.copy(signInfo=t.signInfo.filter(_.checked==1))
-            }else{
-              t.copy(signInfo = Nil)
-            }
-          )
+        val rs = findFriendReport(openid = openid, pageSize = pageSize, pageNum = pageNum) map {
+          case t: ExperienceReport if (t.checked == 0 && t.openid == openid) => t
+          case t: ExperienceReport if (t.checked == 1) => t.copy(signInfo = t.signInfo.filter(_.checked==1))
+          case t:ExperienceReport  =>  t.copy(signInfo=Nil)
         }
         complete(rs.toResult)
       }
     }
   }
 
-
-  /**
-    * 打开分享的体验报告
-    * GET: /report/shareReport/{reportid}/{from}
-    *
-    * @return
-    */
-  def openShareReport = get {
-    (path("shareReport" / Segment / Segment) & openid) {
-      (reportId, fromOpenId, currentOpenId) => complete(findByIdAndOpenId(fromOpenId = fromOpenId, currentOpenId = currentOpenId, reportId = reportId).toResult)
-    }
-  }
-
-
-  /**
-    * 打开体验报告
-    * GET: /report/{reportid}
-    *
-    * @return
-    */
+  //加载体验报告详情
   def openReport = get {
     (path("report" / Segment) & openid) {
-      (reportId,openId) => {
-        val rs =findById(reportId).map(report=>{
-          if(report.checked==1){
-            report.copy(signInfo=report.signInfo.filter(s=>s.checked==1).map(t=>t))
-          }else{
-            if(report.openid==openId){
-              report
-            }else{
-              report.copy(signInfo = Nil)
-            }
-          }})
+      (reportId, openId) => {
+        val rs = findById(reportId).map {
+          case t: ExperienceReport if (t.checked == 0) => t.copy(signInfo = Nil)
+          case t: ExperienceReport if (t.checked == 1) => t.copy(signInfo = t.signInfo.filter(_.checked == 1))
+        }
         complete(rs.toResult)
       }
     }
   }
 
+  /**
+    * 创建好友关系
+    * GET: /report/createSharedRelationShip/{reportid}/{from}
+    *
+    * @return
+    */
+  def handlerSharedRelationShip= get {
+    (path("createSharedRelationShip" / Segment / Segment) & openid) {
+      (reportId, fromOpenId, currentOpenId) => complete(createSharedRelationShip(fromOpenId = fromOpenId, toOpenId = currentOpenId, expId = reportId).toResult)
+    }
+  }
+
+
   //加载确认署名信息
-  def loadMakeSureReport= get {
+  def loadMakeSureReport = get {
     (path("makeSureReport") & openid & parameter("reportId".as[String]) & parameter("signInfoId".as[String])) {
       (openId, reportId, signInfoId) => {
-        val rs =findByIdAndOpenId(openId,reportId).map(report=>{
-          report.copy(signInfo=report.signInfo.filter(s=>s._id.toString.equals(signInfoId)).map(t=>t))
+        val rs = findByIdAndOpenId(openId, reportId).map(report => {
+          report.copy(signInfo = report.signInfo.filter(s => s._id.toString.equals(signInfoId)))
         })
         complete(rs.toResult)
       }
@@ -103,25 +85,25 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
     }
   }
 
-    //加载收藏体验报告
-    def loadCollectReport = get {
-      (path("loadCollectReport") & openid & parameter("category".as[String])) {
-        (openid, category) => complete(findCollectReport(openid, category).toResult)
-      }
+  //加载收藏体验报告
+  def loadCollectReport = get {
+    (path("loadCollectReport") & openid & parameter("category".as[String])) {
+      (openid, category) => complete(findCollectReport(openid, category).toResult)
     }
-
-    //添加到收藏
-    def addCollect = (path("addReportToCollect") & get & openid & parameter("reportId".as[String])) {
-      (openId, reportId) => complete(addReportToCollect(openId, reportId).toResult)
-    }
-
-    //移除收藏
-    def removeCollect = (path("removeCollectReport") & get & openid & parameter("reportId".as[String])) {
-      (openId, reportId) => complete(removeCollectReport(openId, reportId).toResult)
-    }
-
-
-    def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~ openShareReport ~ signReport ~ addComment ~ openReport ~ loadMakeSureReport ~ handlerMakeSureReport ~ addCollect ~ removeCollect
   }
+
+  //添加到收藏
+  def addCollect = (path("addReportToCollect") & get & openid & parameter("reportId".as[String])) {
+    (openId, reportId) => complete(addReportToCollect(openId, reportId).toResult)
+  }
+
+  //移除收藏
+  def removeCollect = (path("removeCollectReport") & get & openid & parameter("reportId".as[String])) {
+    (openId, reportId) => complete(removeCollectReport(openId, reportId).toResult)
+  }
+
+
+  def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~  signReport ~ addComment ~ openReport ~ loadMakeSureReport ~ handlerMakeSureReport ~ addCollect ~ removeCollect
+}
 
 
