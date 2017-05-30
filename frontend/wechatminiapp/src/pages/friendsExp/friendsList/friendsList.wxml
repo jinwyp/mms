@@ -37,7 +37,7 @@
                 </view>
                 <!--判断是否有人署名-->
                 <block wx:if="{{item.signInfo.length}}">
-                  <scroll-view scroll-y="true" style="height: 200rpx;">
+                  <scroll-view scroll-y="true" style="height: 240rpx;">
                     <block wx:for="{{item.signInfo}}"  wx:key="signInfo">
                       <view class="storeInfo">
                           <view class="storePic">

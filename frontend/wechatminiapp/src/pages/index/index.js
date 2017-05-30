@@ -70,32 +70,40 @@ Page({
   },
   onLoad: function () {
     var that = this;
-  
-    UserService.getWXUserInfo().then(function (result) {
-      if (!that.globalData.userInfo) {
-        that.globalData.userInfo = result
-      }
-      return UserService.signUp(result)
-    }).then(function (resultUserToken) {
-      if (typeof resultUserToken.error === 'undefined') {
-        that.globalData.accessToken = resultUserToken.data.openid
-        wx.setStorageSync('accessToken', resultUserToken.data.openid)
-      } else {
-        wx.clearStorageSync()
-      }
-    }).then(function(){
-      var openId = wx.getStorageSync('accessToken')
-      if (openId) {
-        CategoryService.getIndexList().then(function (res) {
-          console.log('getIndexList', res)
-          that.setData({
-            interest: res.data.categories
-          })
-        }).catch(Error.PromiseError)
-      }
-      return null;
-    }).catch(Error.PromiseError)
-    
+    var accessToken = wx.getStorageSync('accessToken')
+    if (!accessToken) {
+      UserService.getWXUserInfo().then(function (result) {
+        if (!that.globalData.userInfo) {
+          that.globalData.userInfo = result
+        }
+        return UserService.signUp(result)
+      }).then(function (resultUserToken) {
+        if (typeof resultUserToken.error === 'undefined') {
+          that.globalData.accessToken = resultUserToken.data.openid
+          wx.setStorageSync('accessToken', resultUserToken.data.openid)
+        } else {
+          wx.clearStorageSync()
+        }
+      }).then(function(){
+        that.login()
+        return null
+      }).catch(Error.PromiseError)
+    }else{
+      that.login()
+    }
+  },
+  login: function(){
+    var that = this
+    var openId = wx.getStorageSync('accessToken')
+    if (openId) {
+      CategoryService.getIndexList().then(function (res) {
+        console.log('getIndexList', res)
+        that.setData({
+          interest: res.data.categories
+        })
+      }).catch(Error.PromiseError)
+    }
+    return null;
   },
   globalData: {
     userInfo: null,
