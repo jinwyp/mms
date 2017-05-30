@@ -135,6 +135,11 @@ Page({
                 // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
                 var callBackName = JSON.parse(res.data).data;
                 console.log('0000', callBackName)
+                wx.showToast({
+                  title: '上传成功',
+                  icon:'success',
+                  duration:1000
+                })
                 that.setData({
                   'submitAll.wxQrCode': callBackName
                 })
@@ -270,18 +275,20 @@ Page({
             // nickName: res.data.nickName,
             // address: res.data.nickName,
           })
-          // 从署名页面来
-          if (reportJumpId != '') {
-            wx.navigateTo({
-              url: '/pages/craft/craftTitle?reportId=' + reportJumpId,
-            })
-
-          }
-          //从手艺人信息页面来
-          if (craftJumpId != ''){
-            wx.navigateTo({
-              url: '/pages/craftDetail/craftDetail?openid=' + craftJumpId
-            })
+          if(res.data){
+            // 从署名页面来
+            if (reportJumpId != '') {
+              wx.navigateTo({
+                url: '/pages/craft/craftTitle?reportId=' + reportJumpId
+              })
+            }
+            //从手艺人信息页面来
+            if (craftJumpId != ''){
+              wx.navigateTo({
+                url: '/pages/craftDetail/craftDetail?openid=' + craftJumpId
+              })
+              console.log('ssss')
+            }
           }
         }
       })
