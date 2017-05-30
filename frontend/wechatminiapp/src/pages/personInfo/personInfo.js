@@ -111,6 +111,9 @@ Page({
         })
       },
       complete: function (res) {
+            wx.showLoading({
+              title: '上传中',
+            })
             var tempFilePaths = res.tempFilePaths[0];
             // suffix = res.tempFilePaths[0].split('.')[1];
             // var fd = {
@@ -231,7 +234,7 @@ Page({
            }
          }
        })
-     } else if (all.wxQrCode === '') {
+     } else if (all.wxQrCode === '../../images/upload.png') {
        wx.showModal({
          title: '提示',
          content: '请上传个人微信二维码图片',
@@ -353,9 +356,13 @@ Page({
                 })
               }
             }
+            var myfilepath = res.data.wxQrCode.split('static/')[1]
+            // console.log('myfilepath',myfilepath)
             that.setData({
               submitAll: res.data,
-              wxQrCode: res.data.wxQrCode
+              wxQrCode: res.data.wxQrCode,
+              
+              'submitAll.wxQrCode': myfilepath
             })
           }
           
