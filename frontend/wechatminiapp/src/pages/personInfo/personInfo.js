@@ -3,8 +3,8 @@ var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
 var apiPath = require("../../service/apiPath.js");
-var reportJumpId, craftJumpId;
 var app = getApp() 
+var reportJumpId, craftJumpId;
 Page({
   data: {
   //  nickName:'',
@@ -293,7 +293,7 @@ Page({
     
     reportJumpId = option.reportId || '';
     craftJumpId = option.craftId || '';
-    
+    console.log(craftJumpId,'craftJumpId!')
 
     var openId = wx.getStorageSync('accessToken')
     UserService.getWXUserInfo().then(function (res) {

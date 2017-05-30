@@ -1,7 +1,7 @@
 var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
-
+var currentcraftDetailId
 Page({
   data:{
     day:[
@@ -34,10 +34,10 @@ Page({
       ]
   },
   onLoad:function(options){
-    var openid = options.openid;
+    currentcraftDetailId = options.openid;
     var that = this;
     var accessToken = wx.getStorageSync('accessToken')
-    CategoryService.addProcess(openid).then(function (res) {
+    CategoryService.craftDetail(currentcraftDetailId).then(function (res) {
       that.setData({
         userName:res.userName,
         categories: res.categories,
@@ -64,7 +64,7 @@ Page({
   },
   editBtn:function(){
     wx.navigateTo({
-      url: "/pages/personInfo/personInfo?craftId=" + openid
+      url: "/pages/personInfo/personInfo?craftId=" + currentcraftDetailId
     })
   }
 })
