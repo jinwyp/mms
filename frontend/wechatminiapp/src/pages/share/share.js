@@ -24,7 +24,7 @@ Page({
    address:'未选择',
    latitude:null,
    longitude:null,
-   price:'',
+   price:null,
    submitAll:[{
      category:'',
      pictures:[],
@@ -440,7 +440,7 @@ Page({
       'submitAll.lon':that.data.longitude,
       'submitAll.shopName':e.detail.value.shop,
       'submitAll.expTime':e.detail.value.day,
-      'submitAll.expPrice':Number(e.detail.value.price),
+      'submitAll.expPrice':(e.detail.value.price)*1,
       'submitAll.pricePrivacy':Number(that.data.pricePrivacy),
       'submitAll.privacy':Number(e.detail.value.whoCanSee),    
     })
@@ -548,7 +548,7 @@ Page({
     if(cents<10)  
     cents = "0" + cents;  
     for (var i = 0; i < Math.floor((price.length-(1+i))/3); i++)  
-    price = price.substring(0,price.length-(4*i+3))+','+  
+    // price = price.substring(0,price.length-(4*i+3))+','+  
     price.substring(price.length-(4*i+3)); 
     // console.log(((sign)?'':'-') + price + '.' + cents)
     this.setData({
