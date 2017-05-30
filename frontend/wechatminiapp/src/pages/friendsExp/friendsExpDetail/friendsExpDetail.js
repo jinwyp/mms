@@ -227,7 +227,7 @@ Page({
   },
   addProcess : function(){
     var that = this 
-    CategoryService.addProcess().then(function (res) {
+    CategoryService.addProcess('').then(function (res) {
       if(res.shopName == undefined){
         wx.navigateTo({
           url: '/pages/personInfo/personInfo?reportId=' + that.data.hrefId
