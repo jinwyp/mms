@@ -131,9 +131,9 @@ Page({
               // formData: fd,
               success: function (res) {
                 console.log('111', res)
-                var format = JSON.parse(res.data).data.split(".")[1];
-                var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
-                // var callBackName = JSON.parse(res.data).data;
+                // var format = JSON.parse(res.data).data.split(".")[1];
+                // var callBackName = generateUUID(JSON.parse(res.data).data) + '.' + format;
+                var callBackName = JSON.parse(res.data).data;
                 console.log('0000', callBackName)
                 that.setData({
                   'submitAll.wxQrCode': callBackName
