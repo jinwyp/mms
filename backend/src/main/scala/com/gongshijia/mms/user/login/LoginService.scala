@@ -75,12 +75,9 @@ trait LoginService extends ApiSupport with Core with HttpSupport with AppConfig 
 
   def findUserByOpenId(openid: String): Future[User] = {
     val collection: MongoCollection[User] = mongoDb.getCollection("userinfo")
-    collection.find(equal("openid", openid)).first().toFuture().map { t=>
-      t.copy(wxQrCode = t.wxQrCode match{
-        case Some(str) => Some(localossHost.concat(str))
-        case None=> None
-      })
-    }
+    collection.find(equal("openid", openid)).first().toFuture().map(t=>
+      t.copy(wxQrCode = Some(localossHost.concat(t.wxQrCode.getOrElse(""))))
+   )
   }
 
   //手艺人完善个人信息

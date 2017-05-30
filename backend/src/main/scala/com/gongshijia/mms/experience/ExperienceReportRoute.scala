@@ -5,10 +5,12 @@ import akka.http.scaladsl.server.Route
 import com.gongshijia.mms.core.{HttpSupport, Neo4jSupport}
 import com.gongshijia.mms.experience.ExperienceReportModels.{CommentsRequest, ExperienceReportRequest, SignInfoRequest}
 
+import scala.concurrent.Future
+
 /**
   * Created by xiangyang on 2017/5/13.
   */
-trait ExperienceReportRoute extends ExperienceReportController with HttpSupport with Neo4jSupport{
+trait ExperienceReportRoute extends ExperienceReportController with HttpSupport with Neo4jSupport {
 
 
   //发布体验报告
@@ -30,10 +32,14 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
   def loadFriendReport = get {
     (path("loadFriendReport") & openid & parameter("pageSize".as[Int]) & parameter("page".as[Int])) {
       (openid, pageSize, pageNum) => {
-        val rs = findFriendReport(openid = openid, pageSize = pageSize, pageNum = pageNum) map {
-          case t: ExperienceReport if (t.checked == 0 && t.openid == openid) => t
-          case t: ExperienceReport if (t.checked == 1) => t.copy(signInfo = t.signInfo.filter(_.checked==1))
-          case t:ExperienceReport  =>  t.copy(signInfo=Nil)
+        val rs  = findFriendReport(openid = openid, pageSize = pageSize, pageNum = pageNum).map{ reports=>
+          reports.map{ t=>
+            if(t.checked ==0 && t.openid == openid){
+              t
+            }else{
+              t.copy(signInfo = Nil)
+            }
+          }
         }
         complete(rs.toResult)
       }
@@ -44,9 +50,9 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
   def openReport = get {
     (path("report" / Segment) & openid) {
       (reportId, openId) => {
-        val rs = findById(reportId).map {
-          case t: ExperienceReport if (t.checked == 0) => t.copy(signInfo = Nil)
-          case t: ExperienceReport if (t.checked == 1) => t.copy(signInfo = t.signInfo.filter(_.checked == 1))
+        val rs = findById(reportId,openId).map {
+          case t: ExperienceReportResponse if (t.checked == 0) => t.copy(signInfo = Nil)
+          case t:ExperienceReportResponse  if (t.checked == 1) => t.copy(signInfo = t.signInfo.filter(_.checked == 1))
         }
         complete(rs.toResult)
       }
@@ -59,9 +65,11 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
     *
     * @return
     */
-  def handlerSharedRelationShip= get {
+  def handlerSharedRelationShip = get {
     (path("createSharedRelationShip" / Segment / Segment) & openid) {
-      (reportId, fromOpenId, currentOpenId) => complete(createSharedRelationShip(fromOpenId = fromOpenId, toOpenId = currentOpenId, expId = reportId).toResult)
+      (reportId, fromOpenId, currentOpenId) => {
+        complete(createFriendRelationShip(fromOpenId, currentOpenId, reportId).toResult)
+      }
     }
   }
 
@@ -103,7 +111,7 @@ trait ExperienceReportRoute extends ExperienceReportController with HttpSupport 
   }
 
 
-  def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~  signReport ~ addComment ~ openReport ~ loadMakeSureReport ~ handlerMakeSureReport ~ addCollect ~ removeCollect
+  def experienceReportRoute: Route = loadFriendReport ~ loadCollectReport ~ releaseReport ~ signReport ~ addComment ~ openReport ~ loadMakeSureReport ~ handlerMakeSureReport ~ addCollect ~ removeCollect ~ handlerSharedRelationShip
 }
 
 

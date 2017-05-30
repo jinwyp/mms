@@ -74,7 +74,7 @@ trait MongoSupport extends Core with DefaultJsonProtocol with HttpSupport {
                               nickName: String,
                               signInfo: List[SignInfo]=List(),
                               comments: List[Comments]=List(),
-                              checked:Int=0 )
+                              checked:Int=0)
 
   implicit val ExperienceReportFormat = jsonFormat19(ExperienceReport)
 

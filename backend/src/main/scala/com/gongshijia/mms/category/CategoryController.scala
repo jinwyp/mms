@@ -37,8 +37,7 @@ trait CategoryController extends CategoryService with LoginService with Neo4jSup
     val categories = defaultCategories.filter(a => categoriesStr.contains(a.name)).map(_.name)
     async {
       if (await(addCategoriesToUser(openid, categories))) {
-        val hasExport=await(findFriendReport(openid, 10, 0)).length > 0
-        if (loadMyFriend(openid).size > 0 && hasExport) {
+        if (await(findFriendReport(openid, 10, 0)).length > 0) {
           // 到好友页面
           CategoriesResponse(defaultCategories, Some(1))
         } else {

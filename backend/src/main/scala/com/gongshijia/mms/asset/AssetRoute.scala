@@ -1,6 +1,7 @@
 package com.gongshijia.mms.asset
 
 import java.io.{File, FileOutputStream}
+import java.util.UUID
 
 import akka.http.scaladsl.server.Directives.{complete, get, path, _}
 import akka.stream.IOResult
@@ -47,10 +48,11 @@ trait AssetRoute extends Core with HttpSupport with AssetController {
       implicit val materializer = ctx.materializer
       fileUpload("file") {
         case (metadata, src: Source[ByteString, Any]) =>
-          val file = new File(fileRoot + metadata.fileName)
+          val suffix = metadata.fileName.substring(metadata.fileName.indexOf("."))
+          val fileName =  UUID.randomUUID().toString.concat(suffix)
+          val file = new File(fileRoot + fileName)
           FileUtils.forceMkdir(file.getParentFile)
           val outpuStream: OutputStream = new FileOutputStream(file)
-
 
           val sink: Sink[ByteString, Future[IOResult]] =
             StreamConverters.fromOutputStream(() => outpuStream)
@@ -58,7 +60,7 @@ trait AssetRoute extends Core with HttpSupport with AssetController {
 
           val f = for {
             _ <- mat
-          } yield metadata.fileName
+          } yield  fileName
           complete(f.toResult)
       }
     }

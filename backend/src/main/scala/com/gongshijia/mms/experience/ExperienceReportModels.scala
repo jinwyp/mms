@@ -2,13 +2,14 @@ package com.gongshijia.mms.experience
 
 import java.util.Date
 
-import com.gongshijia.mms.core.{HttpSupport}
+import com.gongshijia.mms.core.{HttpSupport, MongoSupport}
+import org.mongodb.scala.bson.ObjectId
 import spray.json.DefaultJsonProtocol
 
 /**
   * Created by xiangyang on 2017/5/13.
   */
-object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
+object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport {
 
 
   /**
@@ -40,7 +41,7 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
     * @param openid
     * @param content
     */
-  case class CommentsRequest(reportid:String,openid: String, content: String)
+  case class CommentsRequest(reportid: String, openid: String, content: String)
 
   implicit val CommentsFormat = jsonFormat3(CommentsRequest)
 
@@ -53,24 +54,24 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
     * @param material    耗材
     * @param flows       工艺流程
     */
-  case class SignInfoRequest(reportid: String,  checked: Boolean=false,realPicture: List[String], material: List[MaterialRequest], flows: List[ArtFlowRequest],introd:String)
+  case class SignInfoRequest(reportid: String, checked: Boolean = false, realPicture: List[String], material: List[MaterialRequest], flows: List[ArtFlowRequest], introd: String)
 
   implicit val SignInfoRequestFormat = jsonFormat6(SignInfoRequest)
 
   /**
     *
-    * @param lon             体验位置纬度
-    * @param lat           体验位置经度
-    * @param locationName  体验位置名称
-    * @param shopName       体验时间
-    * @param expTime        体验价格
-    * @param expPrice       体验价格
-    * @param pictures       图片
-    * @param videos        视频
-    * @param feeling       个人感受
-    * @param category      类别
-    * @param privacy       权限:  私密， 好友可见， 公开
-    * @param pricePrivacy  价格权限
+    * @param lon          体验位置纬度
+    * @param lat          体验位置经度
+    * @param locationName 体验位置名称
+    * @param shopName     体验时间
+    * @param expTime      体验价格
+    * @param expPrice     体验价格
+    * @param pictures     图片
+    * @param videos       视频
+    * @param feeling      个人感受
+    * @param category     类别
+    * @param privacy      权限:  私密， 好友可见， 公开
+    * @param pricePrivacy 价格权限
     * @param signInfo
     * @param comments
     */
@@ -91,8 +92,6 @@ object ExperienceReportModels extends DefaultJsonProtocol with HttpSupport  {
 
   implicit val ExperienceReportRequestFormat = jsonFormat14(ExperienceReportRequest)
 
-  case  class CollectInfoRequest(openid:String,reportids:List[String])
 
-  implicit val CollectInfoRequestFormat= jsonFormat2(CollectInfoRequest)
 
 }

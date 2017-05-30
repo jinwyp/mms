@@ -15,12 +15,16 @@ trait UserRoute extends HttpSupport with LoginRoute with LoginService {
     loginRoute
   }
 
-  def loadUserInfo = (path("loadUserInfo") & get & openid) {
+  def loadCurrentUserInfo = (path("loadUserInfo") & get & openid) {
+    id => complete(findUserByOpenId(id))
+  }
+
+  def loadUserInfoByOpenId = (path("loadUserInfoByOpenId") & get & parameter("openid")) {
     id => complete(findUserByOpenId(id))
   }
 
   def improveInfo= (path("improveInfo") & post & openid & entity(as[UserUpdateRequest])) {
     (id,user) => complete(updateUserInfo(id,user).toResult)
   }
-  def userRoute: Route = login ~ loadUserInfo ~ improveInfo
+  def userRoute: Route = login ~ loadCurrentUserInfo ~ improveInfo ~loadUserInfoByOpenId
 }
