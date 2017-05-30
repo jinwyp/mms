@@ -3,7 +3,7 @@ var UserService = require('../../service/user.js');
 var CategoryService = require('../../service/category.js');
 var Error = require('../../service/error.js');
 var apiPath = require("../../service/apiPath.js");
-
+var reportJumpId, craftJumpId;
 var app = getApp() 
 Page({
   data: {
@@ -271,11 +271,17 @@ Page({
             // address: res.data.nickName,
           })
           // 从署名页面来
-          if (reportId != '' || reportId != undefined) {
+          if (reportJumpId != '') {
             wx.navigateTo({
-              url: '/pages/craft/craftTitle?reportId=' + reportId,
+              url: '/pages/craft/craftTitle?reportId=' + reportJumpId,
             })
 
+          }
+          //从手艺人信息页面来
+          if (craftJumpId != ''){
+            wx.navigateTo({
+              url: '/pages/craftDetail/craftDetail?openid=' + craftJumpId
+            })
           }
         }
       })
@@ -283,10 +289,12 @@ Page({
   },
 
   onLoad: function (option) {
-    var that = this;
-    if (option.reportId != undefined || option.reportId!='') {
-        reportId = option.reportId
-      }
+    var that = this; 
+    
+    reportJumpId = option.reportId || '';
+    craftJumpId = option.craftId || '';
+    
+
     var openId = wx.getStorageSync('accessToken')
     UserService.getWXUserInfo().then(function (res) {
       console.log(res)
