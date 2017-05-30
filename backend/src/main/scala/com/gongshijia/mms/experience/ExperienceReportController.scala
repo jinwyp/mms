@@ -23,7 +23,7 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
   private val collectCollection = "collectInfo"
 
 
-  def addReport(openid: String, reportRequest: ExperienceReportRequest): Future[Boolean] = {
+  def addReport(openid: String, reportRequest: ExperienceReportRequest): Future[String] = {
     findUserByOpenId(openid) flatMap { user =>
       val report = ExperienceReport(new ObjectId(), reportRequest.lon,
         reportRequest.lat,
@@ -39,7 +39,7 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
         reportRequest.pricePrivacy,
         openid, user.avatarUrl, user.nickName)
       val collection: MongoCollection[ExperienceReport] = mongoDb.getCollection(reportCollection)
-      collection.insertOne(report).toFuture().map(_ => true)
+      collection.insertOne(report).toFuture().map(_ => report._id.toString)
     }
   }
 
@@ -68,12 +68,12 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
 
   //添加体验报告署名
   def addSignReport(openid: String, signInfo: SignInfoRequest): Future[Boolean] = {
-    findUserByOpenId(openid) map { user =>
+    findUserByOpenId(openid) flatMap { user =>
       val collection: MongoCollection[ExperienceReport] = mongoDb.getCollection(reportCollection)
       val flows = signInfo.flows.map(f => ArtFlow(f.flow, f.duration))
       val material = signInfo.material.map(m => Material(m.name, m.count))
       val sign = SignInfo(new ObjectId(), openid, user.avatarUrl, user.userName.get, user.shopName.get, user.workAddress.get, new Date(), 0, signInfo.realPicture, material, flows, signInfo.introd)
-      collection.updateOne(equal("_id", new ObjectId(signInfo.reportid)), addEachToSet("signInfo", sign)).toFuture().isCompleted
+      collection.updateOne(equal("_id", new ObjectId(signInfo.reportid)), addEachToSet("signInfo", sign)).toFuture().map(_=>true)
     }
   }
 
@@ -86,22 +86,10 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
     }
   }
 
-
   def findById(id: String): Future[ExperienceReport] = {
     val collection: MongoCollection[ExperienceReport] = mongoDb.getCollection(reportCollection)
-    for {
-      r1 <- collection.find(equal("_id", new ObjectId(id))).first().toFuture().map { t => t.copy(pictures = t.pictures.map(localossHost.concat(_))) }
-    //      r2 <- r1
-    //      val signList = r1.signInfo.filter(_.checked == true)
-    //      val a = r1.copy(signInfo = signList.map(s => s.copy(realPicture = s.realPicture.map(localossHost.concat((_))))))
-    } yield r1
-  }
-
-  def findByIdAndOpenId(fromOpenId: String, currentOpenId: String, reportId: String): Future[ExperienceReport] = {
-    val collection: MongoCollection[ExperienceReport] = mongoDb.getCollection(reportCollection)
     async {
-      await(createFriendRelationShip(fromOpenId = fromOpenId, toOpenId = currentOpenId, expId = reportId))
-      replacePic(await(collection.find(and(equal("_id", new ObjectId(reportId)), equal("openid", fromOpenId))).first().toFuture()))
+      replacePic(await(collection.find(equal("_id", new ObjectId(id))).first().toFuture().map { t => t.copy(pictures = t.pictures.map(localossHost.concat(_))) }))
     }
   }
 
@@ -140,7 +128,6 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
     val collection: MongoCollection[CollectInfo] = mongoDb.getCollection(collectCollection)
     collection.updateOne(equal("openid", openid), pullByFilter(equal("reportList.reportId", reportid))).toFuture.map(_ => true)
   }
-
 
 
   def replacePic(experienceReport: ExperienceReport): ExperienceReport = {
