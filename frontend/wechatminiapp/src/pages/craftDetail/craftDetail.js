@@ -35,7 +35,8 @@ Page({
   },
   onLoad:function(options){
     var openid = options.openid;
-    var that = this
+    var that = this;
+    var accessToken = wx.getStorageSync('accessToken')
     CategoryService.addProcess('', openid).then(function (res) {
       that.setData({
         userName:res.userName,
@@ -47,7 +48,9 @@ Page({
         workBeg: res.workBeg,
         workEnd: res.workEnd,
         workDay:res.workDay,
-        avatarUrl: res.avatarUrl
+        avatarUrl: res.avatarUrl,
+        openId:res.openid,
+        loginOpenId: accessToken
       })
       
      for(var i =0; i<res.workDay.length; i++){
@@ -59,21 +62,9 @@ Page({
      }).catch(Error.PromiseError)
     
   },
-  onReady:function(){
-    // 页面渲染完成
-  },
-  onShow:function(){
-    // 页面显示
-  },
-  onHide:function(){
-    // 页面隐藏
-  },
-  onUnload:function(){
-    // 页面关闭
-  }, 
   editBtn:function(){
     wx.navigateTo({
-      url: "/pages/personInfo/personInfo"
+      url: "/pages/personInfo/personInfo?craftId=" + openid
     })
   }
 })

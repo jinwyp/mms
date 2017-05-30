@@ -38,6 +38,7 @@ Page({
 
     if (openId && id) {
         CategoryService.friendDetail('',id).then(function(res){
+          console.log(res.data)
           that.setData({
             videos: res.data.videos,
             avatarUrl: res.data.avatarUrl,
@@ -51,7 +52,7 @@ Page({
             checked:res.data.checked,
             shopName: res.data.shopName,
             locationName: res.data.locationName,
-            signId: res.data.signInfo[0]._id
+            signId: res.data.signInfo[0]
           })
         }).catch(Error.PromiseError)
     }
@@ -62,6 +63,7 @@ Page({
         signInfoId: pid
       }
       CategoryService.makeSureReport(mkdata).then(function (res) {
+        console.log(res.data)
         that.setData({
           videos: res.data.videos,
           avatarUrl: res.data.avatarUrl,
@@ -75,7 +77,7 @@ Page({
           checked: res.data.checked,
           shopName: res.data.shopName,
           locationName: res.data.locationName,
-          signId: res.data.signInfo[0]._id
+          signId: res.data.signInfo[0]
         })
       }).catch(Error.PromiseError)
     }
@@ -193,7 +195,7 @@ Page({
 
               var data = {
                 reportId: that.data.hrefId,
-                signInfoId: that.data.signId
+                signInfoId: that.data.signId._id
               }
               CategoryService.handlerMakeSureReport(data).then(function (res) {
                 console.log(res)
@@ -221,6 +223,7 @@ Page({
           url: '/pages/craft/craftTitle?reportId=' + that.data.hrefId
         })
       }
+      
     }).catch(Error.PromiseError)
   },
   craftDetail : function(e){

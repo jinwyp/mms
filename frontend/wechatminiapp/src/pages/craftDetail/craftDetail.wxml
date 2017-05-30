@@ -35,4 +35,5 @@
         </block>
     </view>
 </view>
-<button class="editBtn" bindtap="editBtn">编辑</button>
+
+<button class="editBtn" bindtap="editBtn" wx:if="{{openId==loginOpenId}}" >编辑</button>
