@@ -9,7 +9,7 @@ var app = getApp()
 Page({
   data: {
     interest:[],
-    whoCanSee:['私密','好友','公开'],
+    whoCanSee:['好友','公开'],
     ifChoose:'造型',
     // isClick:false,
     pricePrivacy:'0',
