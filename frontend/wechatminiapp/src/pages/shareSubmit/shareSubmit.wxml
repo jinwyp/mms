@@ -3,9 +3,9 @@
     <view class="submit">
         <icon type="success" size="70"/>
         <view class="tip"><text>已存入我们的收藏</text></view>
-        <navigator class="toCollection" url="../collection/collection">
+        <view class="toCollection" bindtap="redirect">
            进入收藏
-        </navigator>
+        </view>
         <image src="../../images/shareTip.png" class="shareTip"></image>
     </view>
     <view class="imgs">
