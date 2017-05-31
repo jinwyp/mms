@@ -28,6 +28,9 @@ swiper{
     width: 100%;
     box-sizing: border-box;
 }
+.collectCon{
+   height: 70vh;
+}
 .collectCon swiper-item{
     padding: 40rpx;
     box-sizing: border-box;
