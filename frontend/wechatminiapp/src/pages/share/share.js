@@ -86,16 +86,19 @@ Page({
               that.setData({
                 uploadImg:res.tempFilePaths.concat(that.data.uploadImg)
               })
-              console.log('sss',that.data.uploadImg)
-              
-            },
-            complete:function(res){
               wx.showLoading({
                 title: '上传中',
                 mask: true
               })
+              // console.log('sss',that.data.uploadImg)
+              
+            },
+            complete:function(res){
               var tempFilePaths = res.tempFilePaths;
-              console.log('sss1', tempFilePaths)
+              // console.log('sss1', tempFilePaths)
+              if (tempFilePaths === undefined) {
+                wx.hideLoading()
+              }
               for (var i = 0; i < tempFilePaths.length; i++) {
                 // console.log('tempFilePaths[i]', tempFilePaths[i])
                 // var format = tempFilePaths[i].split(".")[1];
@@ -164,17 +167,20 @@ Page({
               that.setData({
                   uploadVideo:res.tempFilePath
               })
+              wx.showLoading({
+                title: '上传中',
+                mask: true
+              })
             },
             fail: function(res) {
               // fail
             },
             complete: function(res) {
-              wx.showLoading({
-                title: '上传中',
-                mask: true
-              })
               var tempFilePaths = res.tempFilePath;
-              console.log('v', tempFilePaths);
+              // console.log('v', tempFilePaths);
+              if (tempFilePaths === undefined) {
+                wx.hideLoading()
+              }
               // suffix = res.tempFilePath.split('.')[1];
               //   var fd = {
               //     key: generateUUID() + '.' + suffix,
@@ -277,13 +283,16 @@ Page({
           that.setData({
             uploadImg:tempFilePaths.concat(that.data.uploadImg)
           })
-        },
-        complete:function(res){
           wx.showLoading({
             title: '上传中',
             mask: true
           })
+        },
+        complete:function(res){
           var tempFilePaths = res.tempFilePaths;
+          if (tempFilePaths === undefined) {
+            wx.hideLoading()
+          }
           if(that.data.uploadImg.length>9){
               wx.showModal({
               title: '提示',
@@ -299,7 +308,6 @@ Page({
               }
             })
           }else{
-            //999
             var tempFilePaths = res.tempFilePaths;
             for (var i = 0; i < tempFilePaths.length; i++) {
             //   suffix = res.tempFilePaths[i].split('.')[1];

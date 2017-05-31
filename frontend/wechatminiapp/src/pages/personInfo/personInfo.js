@@ -109,11 +109,12 @@ Page({
         that.setData({
           wxQrCode: res.tempFilePaths[0]
         })
+        wx.showLoading({
+          title: '上传中',
+          mask: true
+        })
       },
       complete: function (res) {
-            wx.showLoading({
-              title: '上传中',
-            })
             var tempFilePaths = res.tempFilePaths[0];
             // suffix = res.tempFilePaths[0].split('.')[1];
             // var fd = {
@@ -125,7 +126,10 @@ Page({
             //   OSSAccessKeyId: OssAccessKeyId,
             //   file: tempFilePaths[0]
             // }
-            console.log('tempFilePaths', tempFilePaths)
+            // console.log('tempFilePaths', tempFilePaths)
+            if (tempFilePaths === undefined) {
+              wx.hideLoading()
+            }
             wx.uploadFile({
               url: apiPath.ossUrl,
               filePath: tempFilePaths,
