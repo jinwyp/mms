@@ -16,7 +16,7 @@ var apiPath = {
     improveInfo: apiPrefix +'/user/improveInfo',
     addProcess: apiPrefix +'/user/loadUserInfo',
     craftDetail: apiPrefix + '/user/loadUserInfoByOpenId?openid=',
-    loadCollectReport: apiPrefix + '/report/loadCollectReport?category=茶艺',
+    loadCollectReport: apiPrefix + '/report/loadCollectReport?category=造型',
     getCollectReport: apiPrefix + '/report/loadCollectReport?category=',
     removeCollectReport: apiPrefix + '/report/removeCollectReport',
     addReportToCollect: apiPrefix + '/report/addReportToCollect',

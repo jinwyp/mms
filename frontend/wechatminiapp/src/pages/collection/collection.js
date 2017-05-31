@@ -58,7 +58,7 @@ Page({
         // console.log(res.data.data[0].category);
         that.setData({
           experience: res.data.data,
-          category: res.data.data[0].category,
+          // category: res.data.data[0].category,
         
         })
         
