@@ -36,7 +36,7 @@
                             <!--<video wx:else class="shareVideo"  src="{{item.video}}"></video>-->
                             
                         </view>
-                        <navigator url="../friendsExp/friendsExpDetail/friendsExpDetail?id={{exName._id}}">
+                        <navigator url="/pages/friendsExp/friendsExpDetail/friendsExpDetail?id={{exName._id}}">
                         <view class="shareTxt"><text>{{exName.feeling}}</text></view>
                         </navigator>
                     </view>
@@ -74,7 +74,7 @@
        
 
 
-        <navigator url="../share/share">
+        <navigator url="/pages/share/share">
             <button class="btn">分享我的经验</button>
         </navigator> 
 
