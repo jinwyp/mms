@@ -31,7 +31,7 @@ Page({
     
   },
   onLoad:function(options){
-
+console.log(this.data.hasCollect)
     var id = options.id,pid = options.pid,fromdata = options.from;
     var that = this;
     var openId = wx.getStorageSync('accessToken')
@@ -46,7 +46,6 @@ Page({
 
     if (openId && id) {
         CategoryService.friendDetail('',id).then(function(res){
-          console.log(res.data)
           that.setData({
             videos: res.data.videos,
             avatarUrl: res.data.avatarUrl,
@@ -62,9 +61,16 @@ Page({
             locationName: res.data.locationName,
             signId: res.data.signInfo[0],
             currentOpenId: res.data.openid,
-            selfId:wx.getStorageSync('accessToken')
+            collected: res.data.collected,
+            selfId:wx.getStorageSync('accessToken'),
+            hasCollect: res.data.collected == 1 ? true : false,
+            collectText: res.data.collected == 1 ? '已收藏' : '+ 收藏',
           })
+
+          console.log(that.data.hasCollect)
+          console.log('this.data.collected', res.data.collected)
         }).catch(Error.PromiseError)
+
     }
 
     if (openId && pid) {
@@ -73,7 +79,7 @@ Page({
         signInfoId: pid
       }
       CategoryService.makeSureReport(mkdata).then(function (res) {
-        console.log(res.data)
+        
         that.setData({
           videos: res.data.videos,
           avatarUrl: res.data.avatarUrl,
@@ -89,10 +95,15 @@ Page({
           locationName: res.data.locationName,
           signId: res.data.signInfo[0],
           currentOpenId: res.data.openid,
-          selfId: wx.getStorageSync('accessToken')
+          collected: res.data.collected,
+          selfId: wx.getStorageSync('accessToken'),
+          hasCollect: res.data.collected == 1 ? true : false,
+          collectText: res.data.collected == 1 ? '已收藏' : '+ 收藏',
         })
       }).catch(Error.PromiseError)
     }
+
+    
   },
   oncollect:function(){
     var data = {
