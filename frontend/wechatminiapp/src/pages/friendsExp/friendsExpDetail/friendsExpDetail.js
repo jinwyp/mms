@@ -66,9 +66,6 @@ console.log(this.data.hasCollect)
             hasCollect: res.data.collected == 1 ? true : false,
             collectText: res.data.collected == 1 ? '已收藏' : '+ 收藏',
           })
-
-          console.log(that.data.hasCollect)
-          console.log('this.data.collected', res.data.collected)
         }).catch(Error.PromiseError)
 
     }
