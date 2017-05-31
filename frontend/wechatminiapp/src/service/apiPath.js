@@ -1,6 +1,7 @@
 
- var apiPrefix = 'http://zxy.gongshijia.com'
-// var apiPrefix = 'http://gongshijia.com.ngrok.io'
+var apiPrefix = 'http://zxy.gongshijia.com'
+//  var apiPrefix = 'http://gongshijia.com.ngrok.io'
+
 
 var apiPath = {
     ossUrl: apiPrefix+'/asset/upload',
