@@ -159,7 +159,7 @@ video{
 }
 .tpList scroll-view{
     white-space: nowrap;
-    display: flex;
+    /*display: flex;*/
 }
 .materialWrap .material{
     display: flex;
