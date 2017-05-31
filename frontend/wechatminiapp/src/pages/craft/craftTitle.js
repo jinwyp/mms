@@ -348,7 +348,7 @@ Page({
       // path: '/report/shareReport/' + rpiId+ '/'+openId,
       path:'/pages/friendsExp/friendsList/friendsList',
       success: function(res) {
-        wx.navigateTo({
+        wx.redirectTo({
           url: '/pages/friendsExp/friendsList/friendsList'
         })
       },

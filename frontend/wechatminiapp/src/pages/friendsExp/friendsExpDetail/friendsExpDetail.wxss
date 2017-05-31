@@ -324,7 +324,7 @@ video{
     margin-right: 10rpx;
 }
 .inputWrap button{
-    width: 120rpx;
+    width: 200rpx;
     height: 64rpx;
     line-height: 64rpx;
     font-size: 32rpx;
