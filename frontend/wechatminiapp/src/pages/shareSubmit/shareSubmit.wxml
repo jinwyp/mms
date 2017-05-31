@@ -3,8 +3,8 @@
     <view class="submit">
         <icon type="success" size="70"/>
         <view class="tip"><text>已存入我们的收藏</text></view>
-        <navigator url="../collection/collection">
-            <view class="toCollection">进入收藏</view>
+        <navigator class="toCollection" url="../collection/collection">
+           进入收藏
         </navigator>
         <image src="../../images/shareTip.png" class="shareTip"></image>
     </view>
