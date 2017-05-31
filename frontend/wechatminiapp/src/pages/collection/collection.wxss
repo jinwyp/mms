@@ -21,7 +21,7 @@
     background-color: #f9b552;
 }
 swiper{
-    height: 70vh;
+    height: 100vh;
 }
 /*板块*/
 .collection{   
@@ -122,13 +122,14 @@ swiper{
 }
 .slideshow .slideWrap{
     text-align: center;
+    height: 100vh;
 }
 .slideshow .slideWrap swiper-item{
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
+     height: 100vh;
 }
 .slideshow image{
     width: 100%;
