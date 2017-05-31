@@ -45,11 +45,11 @@ Page({
       // console.log('res', res.data.redirect)
           if(res.data.redirect === 0){
             wx.navigateTo({
-              url: '../collection/collection'
+              url: '/pages/collection/collection'
             })
           }else if(res.data.redirect === 1){
             wx.navigateTo({
-              url: '../friendsExp/friendsList/friendsList',
+              url: '/pages/friendsExp/friendsList/friendsList',
             })
           }else{
             console.log('categories',res)
