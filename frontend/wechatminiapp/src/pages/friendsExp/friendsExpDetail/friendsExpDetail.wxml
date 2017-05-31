@@ -74,7 +74,6 @@
     </block>
     <view class="title gyprocessWrap">
         <text class="gytitle">工艺流程</text>
-        
     </view>
     <view class="gyprocess" wx:if="{{signInfo.length>0}}">
         <view class="flows" wx:for="{{signInfo[0].flows}}" wx:key="flows">
