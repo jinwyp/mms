@@ -57,9 +57,9 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
 
   //加载收藏
   def findCollectReport(openid: String, category: String): Future[Seq[ExperienceReport]] = {
-    def loadCollectionList: Future[Seq[CollectInfo]] = {
+    def loadCollection: Future[CollectInfo] = {
       val collectInfo: MongoCollection[CollectInfo] = mongoDb.getCollection(collectCollection)
-      collectInfo.find(and(equal("openid", openid), equal("reportList.category", category))).toFuture()
+      collectInfo.find(equal("openid", openid)).first().toFuture()
     }
 
     def loadReport(ids: Seq[ObjectId]): Future[Seq[ExperienceReport]] = {
@@ -68,7 +68,7 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
     }
 
     async {
-      val objectIds = await(loadCollectionList).flatMap(t => t.reportList).map(r => new ObjectId(r.reportId))
+      val objectIds: Seq[ObjectId] = await(loadCollection).reportList.filter( _.category == category).map(r=>new ObjectId(r.reportId))
       if (objectIds.length == 0) {
         Seq()
       } else {
