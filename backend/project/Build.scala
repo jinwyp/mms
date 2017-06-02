@@ -120,7 +120,7 @@ object Dependencies {
 
     // neo4j
     // "org.neo4j" % "neo4j" % neo4j,
-    "org.anormcypher" %% "anormcypher" % "0.10.0",
+    "org.anormcypher" %% "anormcypher" % "0.9.1",
 
     // mongodb
     "org.mongodb.scala" %% "mongo-scala-driver" % mongodbScala,
@@ -211,8 +211,7 @@ object PublishSettings {
       <developers>
         <developer>
           <id>hary</id>
-          <name>hary</name>
-          <url>http://github.com/epiphyllum</url>
+          <name>hary</name> <url>http://github.com/epiphyllum</url>
         </developer>
       </developers>
   }
@@ -222,26 +221,38 @@ object PublishSettings {
 object AssemblySettings {
   import sbtassembly.AssemblyKeys._
 
+  mainClass in assembly := Some("com.gongshijia.mms.MmsApp")
+
   val mergeSetting = assemblyMergeStrategy in assembly := {
-    case PathList(ps @ _*) if ps.last endsWith "StaticLoggerBinder.class" => MergeStrategy.discard
-    case PathList(ps @ _*) if ps.last endsWith "StaticMDCBinder.class" => MergeStrategy.discard
-    case PathList(ps @ _*) if ps.last endsWith "StaticMarkerBinder.class" => MergeStrategy.discard
-    case PathList(ps @ _*) if Assembly.isReadme(ps.last) || Assembly.isLicenseFile(ps.last) =>  MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "MANIFEST.MF" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "DEPENDENCIES" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "INDEX.LIST" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "LICENSES.txt" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "pom.properties" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "reference.conf" => MergeStrategy.concat
-    case PathList(ps @ _*) if ps.last endsWith "pom.xml" => MergeStrategy.concat
-    case PathList(ps @ _*) if ps.last endsWith "component.properties" => MergeStrategy.concat
-    case PathList(ps @ _*) if ps.last endsWith "com.fasterxml.jackson.databind.Module" => MergeStrategy.concat
-    case PathList(ps @ _*) if ps.last endsWith "org.neo4j.kernel.Version" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "org.neo4j.kernel.extension.KernelExtensionFactory" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "TypeConverter" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "rootdoc.txt" => MergeStrategy.rename
-    case PathList(ps @ _*) if ps.last endsWith "com.fasterxml.jackson.core.JsonFactory" => MergeStrategy.concat
-    case PathList(ps @ _*) if ps.last endsWith "com.fasterxml.jackson.core.ObjectCodec" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "StaticLoggerBinder.class" => MergeStrategy.deduplicate
+    case PathList(ps@_*) if ps.last endsWith "StaticMDCBinder.class" => MergeStrategy.deduplicate
+    case PathList(ps@_*) if ps.last endsWith "StaticMarkerBinder.class" => MergeStrategy.deduplicate
+    case PathList(ps@_*) if Assembly.isReadme(ps.last) || Assembly.isLicenseFile(ps.last) => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "MANIFEST.MF" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "DEPENDENCIES" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "INDEX.LIST" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "LICENSES.txt" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "BCKEY.DSA"     => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "BCKEY.SF"     => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "pom.properties" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "reference.conf" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "pom.xml" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "component.properties" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "com.fasterxml.jackson.databind.Module" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "org.neo4j.kernel.Version" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "org.neo4j.kernel.extension.KernelExtensionFactory" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "TypeConverter" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "rootdoc.txt" => MergeStrategy.rename
+    case PathList(ps@_*) if ps.last endsWith "com.fasterxml.jackson.core.JsonFactory" => MergeStrategy.concat
+    case PathList(ps@_*) if ps.last endsWith "com.fasterxml.jackson.core.ObjectCodec" => MergeStrategy.concat
+
+    case PathList(ps@_*) if ps.last endsWith "Log.class"  => MergeStrategy.last
+    case PathList(ps@_*) if ps.last endsWith "LogConfigurationException.class"     => MergeStrategy.last
+    case PathList(ps@_*) if ps.last endsWith "LogFactory.class" => MergeStrategy.last
+    case PathList(ps@_*) if ps.last endsWith "NoOpLog.class" => MergeStrategy.last
+    case PathList(ps@_*) if ps.last endsWith "SimpleLog$1.class" => MergeStrategy.last
+    case PathList(ps@_*) if ps.last endsWith "SimpleLog.class" => MergeStrategy.last
+
     case "application.conf" => MergeStrategy.last
     case _ => MergeStrategy.deduplicate
   }
