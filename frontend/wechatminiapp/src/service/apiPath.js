@@ -1,6 +1,5 @@
 
-var apiPrefix = 'http://zxy.gongshijia.com'
-//  var apiPrefix = 'http://gongshijia.com.ngrok.io'
+var apiPrefix = 'https://zxy.gongshijia.com'
 
 
 var apiPath = {
