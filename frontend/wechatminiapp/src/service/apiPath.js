@@ -1,7 +1,6 @@
 
 var apiPrefix = 'https://zxy.gongshijia.com'
 
-
 var apiPath = {
     ossUrl: apiPrefix+'/asset/upload',
     signUpWechat : apiPrefix + '/user/login/login',
