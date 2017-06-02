@@ -85,7 +85,13 @@ Page({
           wx.clearStorageSync()
         }
       }).then(function(){
-        that.login()
+        wx.showLoading({
+          title: '请稍等',
+        })
+        setTimeout(function(){
+          wx.hideLoading();
+          that.login()
+        },3000)
         return null;
       }).catch(Error.PromiseError)
     }else{
