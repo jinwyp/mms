@@ -13,6 +13,7 @@ import org.mongodb.scala.model.Updates._
 
 import scala.async.Async.{async, await}
 import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 /**
   * Created by xiangyang on 2017/5/13.
@@ -55,11 +56,16 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
   }
 
 
+  type Recovery[T] = PartialFunction[Throwable,T]
+  // recover with empty sequence
+  def withEmptyList[T]: Recovery[List[T]] = { case NonFatal(e) => List() }
+
+
   //加载收藏
   def findCollectReport(openid: String, category: String): Future[Seq[ExperienceReport]] = {
-    def loadCollection: Future[CollectInfo] = {
+    def loadCollection: Future[List[CollectReport]] = {
       val collectInfo: MongoCollection[CollectInfo] = mongoDb.getCollection(collectCollection)
-      collectInfo.find(equal("openid", openid)).first().toFuture()
+      collectInfo.find(equal("openid", openid)).first().toFuture().map(t=>t.reportList).recover(withEmptyList)
     }
 
     def loadReport(ids: Seq[ObjectId]): Future[Seq[ExperienceReport]] = {
@@ -68,7 +74,7 @@ trait ExperienceReportController extends Core with MongoSupport with Neo4jSuppor
     }
 
     async {
-      val objectIds: Seq[ObjectId] = await(loadCollection).reportList.filter( _.category == category).map(r=>new ObjectId(r.reportId))
+      val objectIds: Seq[ObjectId] = await(loadCollection).filter( _.category == category).map(r=>new ObjectId(r.reportId))
       if (objectIds.length == 0) {
         Seq()
       } else {

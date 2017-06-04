@@ -16,7 +16,7 @@ trait CategoryController extends CategoryService with LoginService with Neo4jSup
 
   def handlerUserCategoriesGet(openid: String)(implicit ec: ExecutionContext): Future[CategoriesResponse] = {
 
-    findUserByOpenId(openid) map { u =>
+    findUserByOpenId(openid).map { u =>
       if (u.categories == Nil) {
         CategoriesResponse(defaultCategories)
       } else {
@@ -29,7 +29,7 @@ trait CategoryController extends CategoryService with LoginService with Neo4jSup
         )
         CategoriesResponse(arts)
       }
-    }
+    }.recover{case _=>CategoriesResponse(defaultCategories)}
   }
 
   //添加关注的类目
