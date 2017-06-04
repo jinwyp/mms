@@ -120,7 +120,7 @@ object Dependencies {
 
     // neo4j
     // "org.neo4j" % "neo4j" % neo4j,
-    "org.anormcypher" %% "anormcypher" % "0.9.1",
+    "org.anormcypher" %% "anormcypher" % "0.10.0",
 
     // mongodb
     "org.mongodb.scala" %% "mongo-scala-driver" % mongodbScala,
@@ -252,6 +252,9 @@ object AssemblySettings {
     case PathList(ps@_*) if ps.last endsWith "NoOpLog.class" => MergeStrategy.last
     case PathList(ps@_*) if ps.last endsWith "SimpleLog$1.class" => MergeStrategy.last
     case PathList(ps@_*) if ps.last endsWith "SimpleLog.class" => MergeStrategy.last
+
+	case PathList(ps@_*) if ps.last endsWith "io.netty.versions.properties" => MergeStrategy.last
+
 
     case "application.conf" => MergeStrategy.last
     case _ => MergeStrategy.deduplicate
